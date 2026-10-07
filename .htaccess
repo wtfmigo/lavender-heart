@@ -1,0 +1,2 @@
+# Development uses Vite and artisan serve. Protect private files inside XAMPP htdocs.
+Require all denied

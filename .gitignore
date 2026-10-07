@@ -21,3 +21,11 @@
 /backend/public/storage
 /backend/.phpunit.cache/
 /backend/.phpunit.result.cache
+
+# Machine-local agent configuration and downloaded tooling binaries.
+/.codex/config.toml
+/backend/.codex/config.toml
+/.agents/skills/impeccable/scripts/bin/
+/.impeccable/config.local.json
+/.impeccable/cache/
+/.impeccable/critique/

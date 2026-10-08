@@ -2,24 +2,23 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Enums\SectionKey;
+use App\Models\Section;
+use App\Models\SiteSettings;
+use App\Support\SectionContent;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        SiteSettings::firstOrCreate(['id' => 1]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        foreach (SectionKey::cases() as $key) {
+            Section::firstOrCreate(['key' => $key], ['content' => SectionContent::defaults($key)]);
+        }
     }
 }

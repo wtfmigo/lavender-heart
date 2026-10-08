@@ -7,13 +7,12 @@ gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 export function useExperienceAnimation(
   container: RefObject<HTMLDivElement | null>,
-  progressRef: RefObject<number>,
+  _progressRef: RefObject<number>,
   reducedMotion: boolean,
   onReveal: () => void,
 ) {
   useGSAP(
     () => {
-      progressRef.current = 0
       if (reducedMotion) {
         gsap.set('.opening', { display: 'none' })
         onReveal()
@@ -77,9 +76,6 @@ export function useExperienceAnimation(
               start: 'top top',
               end: desktop ? 'bottom top' : 'bottom 25%',
               scrub: 0.65,
-              onUpdate: (self) => {
-                progressRef.current = self.progress
-              },
             },
           })
           travel
@@ -104,17 +100,6 @@ export function useExperienceAnimation(
               0,
             )
             .to(
-              '.heart-travel',
-              {
-                yPercent: -22,
-                scale: 0.84,
-                opacity: 0,
-                ease: 'none',
-                duration: 0.65,
-              },
-              0.12,
-            )
-            .to(
               '.hero-love, .hero-footnote',
               { opacity: 0, ease: 'none', duration: 0.3 },
               0,
@@ -133,16 +118,17 @@ export function useExperienceAnimation(
               0.1,
             )
           }
-          gsap.from('.intro-message-wrap', {
-            y: 55,
-            clipPath: 'inset(0 0 100% 0)',
-            duration: 1.1,
-            scrollTrigger: {
-              trigger: '.intro',
-              start: 'top 70%',
-              toggleActions: 'play none none reverse',
-            },
-          })
+          if (container.current?.querySelector('.intro-message-wrap'))
+            gsap.from('.intro-message-wrap', {
+              y: 55,
+              clipPath: 'inset(0 0 100% 0)',
+              duration: 1.1,
+              scrollTrigger: {
+                trigger: '.intro',
+                start: 'top 70%',
+                toggleActions: 'play none none reverse',
+              },
+            })
           const drift = gsap.to('.cloud-drift', {
             x: (index) => (index + 1) * 10,
             duration: 30,
@@ -176,7 +162,6 @@ export function useExperienceAnimation(
         window.clearTimeout(openingLimit)
         disposed = true
         match.revert()
-        progressRef.current = 0
       }
     },
     {

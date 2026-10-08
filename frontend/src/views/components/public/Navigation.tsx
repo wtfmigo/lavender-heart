@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import type { SectionKey } from '@/models/types/experience'
 
 export function Navigation({
   paused,
   onToggleMotion,
+  chapters = ['hero', 'intro'],
 }: {
   paused: boolean
   onToggleMotion: () => void
+  chapters?: SectionKey[]
 }) {
   const nav = useRef<HTMLElement>(null)
   const [hidden, setHidden] = useState(false)
@@ -29,6 +32,7 @@ export function Navigation({
       ref={nav}
       aria-label="Main"
       className="navigation"
+      data-complete={chapters.length > 2}
       data-hidden={hidden}
       onFocusCapture={() => setHidden(false)}
     >
@@ -37,7 +41,9 @@ export function Navigation({
       </a>
       <div className="nav-links">
         <a href="#home">Home</a>
-        <a href="#intro">Intro</a>
+        {chapters.includes('intro') && <a href="#intro">Intro</a>}
+        {chapters.includes('gallery') && <a href="#gallery">Photos</a>}
+        {chapters.includes('birthday_letter') && <a href="#letter">Letter</a>}
       </div>
       <button
         type="button"

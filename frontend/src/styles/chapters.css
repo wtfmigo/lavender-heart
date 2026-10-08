@@ -1,0 +1,468 @@
+/* Hallmark · long-form editorial spreads · approved Lavender Mist day-to-night */
+.story-chapter,
+.love-chapter,
+.timeline-chapter,
+.letter-chapter,
+.finale,
+.full-memory {
+  position: relative;
+  scroll-margin-top: 80px;
+}
+.chapter-heading {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 10vw, 10rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  margin: 0;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.story-chapter {
+  background: linear-gradient(var(--surface-soft), var(--surface-middle));
+  overflow: clip;
+}
+.story-heading {
+  padding: 16svh var(--gutter) 12svh;
+  max-width: 12ch;
+}
+.story-track {
+  display: flex;
+  width: max-content;
+}
+.story-stage {
+  overflow: clip;
+}
+.journey-content {
+  margin-right: min(12vw, 144px);
+}
+.story-spread {
+  width: 100vw;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 40% 50%;
+  align-items: center;
+  gap: 5%;
+  padding: 7svh 8vw 10svh;
+  flex-shrink: 0;
+}
+.story-copy {
+  align-self: center;
+  max-width: 36ch;
+}
+.chapter-index {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 12vw, 12rem);
+  line-height: 1;
+  color: var(--color-purple-dusty);
+}
+.story-copy time,
+.timeline-date time {
+  display: block;
+  font-size: 0.8rem;
+  margin: var(--space-4) 0 var(--space-6);
+}
+.story-copy h3,
+.timeline-copy h3 {
+  font-family: var(--font-display);
+  font-size: clamp(2.7rem, 4.3vw, 5rem);
+  font-weight: 400;
+  line-height: 1;
+  margin: var(--space-6) 0;
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+}
+.memory-message,
+.timeline-copy {
+  max-width: 36ch;
+}
+.chapter-photo {
+  margin: 0;
+  min-width: 0;
+}
+.chapter-photo img {
+  display: block;
+  width: 100%;
+  max-height: 75svh;
+  object-fit: cover;
+}
+.photo-portrait img {
+  aspect-ratio: 3/4;
+}
+.photo-landscape img {
+  aspect-ratio: 4/3;
+}
+.chapter-photo figcaption {
+  margin-top: var(--space-3);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+.story-spread--1 {
+  grid-template-columns: 55% 32%;
+  gap: 8%;
+}
+.story-spread--1 .story-copy {
+  grid-column: 2;
+  grid-row: 1;
+}
+.story-spread--1 .chapter-photo {
+  grid-column: 1;
+  grid-row: 1;
+}
+.story-spread--2 {
+  grid-template-columns: 34% 56%;
+  gap: 6%;
+  padding-top: 14svh;
+}
+.story-spread--2 .chapter-photo {
+  align-self: start;
+}
+.full-memory {
+  min-height: 110svh;
+  overflow: clip;
+  background: var(--color-purple-dusty);
+  color: var(--color-pearl);
+  isolation: isolate;
+}
+.memory-image {
+  position: absolute;
+  inset: -8% 0;
+  height: 116%;
+  width: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+.full-memory::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(transparent 35%, var(--color-plum-night));
+  opacity: 0.7;
+}
+.full-memory-copy {
+  position: absolute;
+  bottom: 12svh;
+  left: var(--gutter);
+  right: var(--gutter);
+  max-width: 800px;
+}
+.full-memory-copy time {
+  display: block;
+  margin-bottom: var(--space-6);
+  font-size: 0.8rem;
+}
+.full-memory-copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 7rem);
+  line-height: 1;
+  font-weight: 400;
+  margin: 0;
+  text-wrap: balance;
+}
+.love-chapter {
+  background: linear-gradient(var(--surface-middle), var(--color-lilac));
+  padding: 16svh 12vw 10svh;
+}
+.love-chapter > h2 {
+  max-width: 10ch;
+}
+.love-sequence {
+  list-style: none;
+  padding: 0;
+  margin-top: 12svh;
+  margin-bottom: 0;
+  margin-left: 0;
+}
+.love-entry {
+  display: grid;
+  grid-template-columns: 18% 1fr;
+  gap: 7%;
+  min-height: 55svh;
+  align-items: center;
+  padding: var(--space-16) 0;
+}
+.love-number {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 10vw, 10rem);
+  line-height: 1;
+  color: var(--color-plum-deep);
+}
+.love-entry h3 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5.4vw, 6rem);
+  font-weight: 400;
+  line-height: 1.05;
+  margin: 0;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.love-entry p {
+  max-width: 34ch;
+  margin: var(--space-6) 0 0;
+}
+.timeline-chapter {
+  padding: 16svh var(--gutter) 12svh;
+  background: linear-gradient(var(--color-lilac), var(--color-purple-dusty));
+}
+.timeline-chapter > h2 {
+  max-width: 11ch;
+  margin-left: 4vw;
+}
+.timeline-moments {
+  margin-top: 16svh;
+}
+.timeline-moment {
+  min-height: 105svh;
+  padding: 8svh 5vw;
+}
+.timeline-date {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+.timeline-date > span {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 12vw, 13rem);
+  line-height: 0.9;
+  color: var(--color-plum-deep);
+}
+.timeline-date time {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.8vw, 4rem);
+}
+.timeline-content {
+  display: grid;
+  grid-template-columns: 48% 37%;
+  align-items: center;
+  gap: 10%;
+}
+.timeline-content .chapter-photo img {
+  max-height: 68svh;
+}
+.timeline-moment:nth-child(even) .timeline-date {
+  justify-content: end;
+}
+.timeline-moment:nth-child(even) .timeline-content {
+  grid-template-columns: 37% 48%;
+}
+.timeline-moment:nth-child(even) .chapter-photo {
+  grid-column: 2;
+  grid-row: 1;
+}
+.timeline-moment:nth-child(even) .timeline-copy {
+  grid-column: 1;
+  grid-row: 1;
+}
+.letter-chapter {
+  padding: 20svh var(--gutter);
+  background: linear-gradient(
+    var(--color-purple-dusty),
+    var(--color-ivory) 15%,
+    var(--color-ivory) 85%,
+    var(--color-plum-deep)
+  );
+}
+.letter-reading {
+  max-width: 680px;
+  margin: auto;
+}
+.letter-reading h2 {
+  font-size: clamp(4rem, 8vw, 8rem);
+  margin-bottom: var(--space-16);
+}
+.letter-opening {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  line-height: 1.12;
+  margin: 0 0 var(--space-8);
+}
+.letter-body {
+  font-size: 1.1rem;
+  line-height: 1.9;
+}
+.letter-body p,
+.letter-body blockquote {
+  margin: 0 0 var(--space-8);
+}
+.letter-signature {
+  margin-top: var(--space-16);
+}
+.letter-signature p {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: var(--space-3);
+}
+.letter-signature time {
+  font-size: 0.8rem;
+}
+.finale {
+  min-height: 130svh;
+  padding: 12svh var(--gutter) 10svh;
+  background: linear-gradient(var(--color-plum-deep), var(--color-plum-night));
+  color: var(--color-pearl);
+  text-align: center;
+  overflow: clip;
+  isolation: isolate;
+}
+.finale h2 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 400;
+  line-height: 1;
+  margin: 0;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+.finale-heart-space {
+  min-height: 60svh;
+}
+.finale-message {
+  max-width: 16ch;
+  margin: auto;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 6rem);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.finale-message p {
+  margin: 0 0 var(--space-6);
+}
+.finale-signature {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin: var(--space-8) 0 var(--space-4);
+}
+.finale > time,
+.relationship-counter {
+  font-size: 0.8rem;
+}
+.finale-haze {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: url('/atmosphere/cloud-bank.webp') center 20% / 110vw auto
+    no-repeat;
+  opacity: 0.12;
+  mask-image: linear-gradient(transparent, black 40%, transparent 85%);
+}
+@media (max-width: 1023px) {
+  .journey-content {
+    margin-right: 0;
+  }
+  .story-track {
+    width: 100%;
+    display: block;
+  }
+  .story-heading {
+    padding: 12svh var(--space-6) 7svh;
+  }
+  .story-spread,
+  .story-spread--1,
+  .story-spread--2 {
+    width: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-8);
+    padding: 8svh var(--space-6) 12svh;
+  }
+  .story-copy {
+    align-self: stretch;
+    max-width: none;
+  }
+  .story-spread--1 .chapter-photo {
+    order: -1;
+  }
+  .chapter-photo img {
+    max-height: 70svh;
+  }
+  .love-chapter {
+    padding: 12svh var(--space-6);
+  }
+  .love-entry {
+    grid-template-columns: 15% 1fr;
+    gap: 8%;
+    min-height: 40svh;
+    padding: var(--space-8) 0;
+  }
+  .love-number {
+    font-size: 3.5rem;
+  }
+  .timeline-chapter {
+    padding: 12svh var(--space-6);
+  }
+  .timeline-chapter > h2 {
+    margin-left: 0;
+  }
+  .timeline-moments {
+    margin-top: 10svh;
+  }
+  .timeline-moment {
+    min-height: 0;
+    padding: 7svh 0;
+  }
+  .timeline-date {
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .timeline-date > span {
+    font-size: 6rem;
+  }
+  .timeline-content,
+  .timeline-moment:nth-child(even) .timeline-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-8);
+  }
+  .timeline-copy {
+    max-width: none;
+  }
+  .letter-chapter {
+    padding: 16svh var(--space-6);
+  }
+  .letter-reading h2 {
+    margin-bottom: var(--space-12);
+  }
+  .letter-body {
+    font-size: 1rem;
+  }
+  .full-memory-copy {
+    left: var(--space-6);
+    right: var(--space-6);
+  }
+  .finale {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+  .finale-haze {
+    background-image: url('/atmosphere/cloud-bank-small.webp');
+    background-size: 200vw auto;
+  }
+}
+.experience[data-motion='reduced'] .story-track {
+  display: block;
+  width: 100%;
+}
+@media (min-width: 1024px) {
+  .story-spread {
+    padding-inline: max(8vw, 160px);
+  }
+}
+.experience[data-motion='reduced'] .story-spread {
+  width: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-track {
+    display: block;
+    width: 100%;
+  }
+  .story-spread {
+    width: 100%;
+  }
+}

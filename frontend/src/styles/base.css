@@ -1,3 +1,5 @@
 @import 'tailwindcss';
 @import './tokens.css';
 @import './experience.css';
+@import './chapters.css';
+@import './journey.css';

@@ -3,9 +3,7 @@ import { createBrowserRouter } from 'react-router'
 export const router = createBrowserRouter([
   {
     path: '/',
-    lazy: import.meta.env.DEV
-      ? () => import('@/features/public/DemoExperienceRoute')
-      : () => import('@/views/pages/ExperienceUnavailablePage'),
+    lazy: () => import('@/features/public/PublicExperienceRoute'),
     hydrateFallbackElement: <p className="route-loading">Lavender Heart</p>,
   },
   ...(import.meta.env.DEV

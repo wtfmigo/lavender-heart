@@ -1,31 +1,5 @@
-import type { ExperienceSlice } from './experience'
+import content from '../../../public/content/experience.json'
+import { publicExperienceSchema } from './publicExperienceSchema'
 
-// ponytail: development slice only; replace this route's source when /api/experience exists.
-export const demoExperience: ExperienceSlice = {
-  settings: {
-    recipientName: 'Recipient Name',
-    nickname: '',
-    birthdayDate: null,
-    relationshipStartDate: null,
-    relationshipCounterVisible: false,
-    closingSignature: '',
-    themePreset: 'lavender_mist',
-  },
-  hero: { title: 'FOR', subtitle: 'WITH LOVE' },
-  intro: {
-    message: {
-      blocks: [
-        {
-          type: 'paragraph',
-          children: [
-            {
-              type: 'text',
-              text: 'A little place for the moments that matter.',
-            },
-          ],
-        },
-      ],
-    },
-    supportingText: '',
-  },
-}
+// The removable development fixture and public local adapter share one content source.
+export const demoExperience = publicExperienceSchema.parse(content)

@@ -1,18 +1,16 @@
 import type { RefObject } from 'react'
 import type { ExperienceSlice } from '@/features/public/experience'
-import { CrystalHeart } from '@/three/components/CrystalHeart'
 import { CloudAtmosphere } from './CloudAtmosphere'
 
 export function Hero({
   data,
-  reducedMotion,
-  progress,
-  canvasEnabled = true,
+  nextAnchor = '#intro',
 }: {
   data: ExperienceSlice
   reducedMotion: boolean
   progress: RefObject<number>
   canvasEnabled?: boolean
+  nextAnchor?: string
 }) {
   const [first, ...rest] = data.settings.recipientName.split(' ')
   return (
@@ -34,18 +32,9 @@ export function Hero({
             </h1>
           </div>
         </div>
-        <div className="heart-travel">
-          <div className="heart-reveal">
-            <CrystalHeart
-              reducedMotion={reducedMotion}
-              progress={progress}
-              enabled={canvasEnabled}
-            />
-          </div>
-        </div>
         <p className="hero-love editorial-label">{data.hero.subtitle}</p>
         <div className="hero-footnote">
-          <a href="#intro" className="scroll-cue">
+          <a href={nextAnchor} className="scroll-cue">
             Scroll to begin <span aria-hidden="true">↓</span>
           </a>
         </div>

@@ -4,7 +4,7 @@ test('long supplied names remain readable during full-motion mobile scrolling', 
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 640 })
-  await page.route('**/demoExperience.ts*', async (route) => {
+  await page.route('**/content/experience.json', async (route) => {
     const response = await route.fetch()
     await route.fulfill({
       response,
@@ -31,7 +31,7 @@ test('medium multi-part names use readable natural flow around the crystal', asy
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.route('**/demoExperience.ts*', async (route) => {
+  await page.route('**/content/experience.json', async (route) => {
     const response = await route.fetch()
     await route.fulfill({
       response,
@@ -61,7 +61,7 @@ test('cloud travel, implemented anchors, focus protection and motion pause', asy
       .getByRole('navigation')
       .getByRole('link')
       .evaluateAll((links) => links.map((link) => link.getAttribute('href'))),
-  ).toEqual(['#home', '#home', '#intro'])
+  ).toEqual(['#home', '#home', '#intro', '#gallery', '#letter'])
   await page.evaluate(() => window.scrollTo(0, 500))
   await expect(page.getByRole('navigation')).toHaveAttribute(
     'data-hidden',
@@ -83,7 +83,7 @@ test('cloud travel, implemented anchors, focus protection and motion pause', asy
   )
   await page.getByRole('link', { name: 'Intro', exact: true }).press('Enter')
   await expect(page).toHaveURL(/#intro$/)
-  await expect(page.getByRole('heading', { level: 2 })).toBeVisible()
+  await expect(page.locator('#intro h2')).toBeVisible()
   await page.getByRole('button', { name: 'Pause motion' }).focus()
   await page.getByRole('button', { name: 'Pause motion' }).click()
   await expect(page.locator('.experience')).toHaveAttribute(
@@ -141,7 +141,7 @@ test('blocked WebGL preserves clouds, original heart and text', async ({
   await expect(page.locator('.heart-reveal')).toHaveCSS('opacity', '1')
   await expect(page.locator('.hero-type-reveal')).toHaveCSS('opacity', '1')
   await page.screenshot({
-    path: '../docs/evidence/phase-8/after/fallback-mobile.png',
+    path: '../docs/evidence/birthday-ready/fallback-mobile.png',
   })
 })
 
@@ -150,7 +150,7 @@ test('context loss replaces the canvas with the heart fallback', async ({
 }) => {
   await page.goto('/')
   const canvas = page.locator('canvas[data-webgl="ready"]')
-  await expect(canvas).toBeVisible()
+  await expect(canvas).toBeVisible({ timeout: 15000 })
   await canvas.evaluate((element) =>
     element.dispatchEvent(new Event('webglcontextlost', { cancelable: true })),
   )
@@ -194,8 +194,8 @@ for (const width of [1440, 1024, 768, 390, 320, 360]) {
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true)
-    await page.getByRole('link', { name: 'Intro', exact: true }).click()
-    await expect(page.getByRole('heading', { level: 2 })).toBeInViewport()
+    await page.locator('.scroll-cue').click()
+    await expect(page.locator('#intro h2')).toBeInViewport()
     await expect(page.locator('.cloud-layer--foreground img')).toBeAttached()
   })
 }

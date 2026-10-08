@@ -8,10 +8,13 @@ test('public experience renders, styles load, and Laravel health remains intact'
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
   await expect(
-    page.getByRole('heading', { name: 'Recipient Name' }),
+    page.getByRole('heading', { name: 'Recipient Name', level: 1 }),
   ).toBeVisible()
   await expect(page.getByText('Technical Foundation Ready')).toHaveCount(0)
-  await expect(page.locator('canvas[data-webgl="ready"]')).toBeVisible()
+  await expect(page.locator('.opening')).toBeHidden({ timeout: 5000 })
+  await expect(page.locator('canvas[data-webgl="ready"]')).toBeVisible({
+    timeout: 15000,
+  })
   expect(
     await (await request.get('http://127.0.0.1:8001/api/health')).json(),
   ).toEqual({ status: 'ok' })

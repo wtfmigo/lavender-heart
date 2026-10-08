@@ -1,0 +1,102 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "chapters": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "overflow": false,
+    "pageHeight": 34569,
+    "failedImages": [],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "chapters": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "overflow": false,
+    "pageHeight": 26681,
+    "failedImages": [],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "chapters": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "overflow": false,
+    "pageHeight": 24003,
+    "failedImages": [],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 320,
+    "height": 844,
+    "chapters": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "overflow": false,
+    "pageHeight": 22550,
+    "failedImages": [],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 360,
+    "height": 844,
+    "chapters": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "overflow": false,
+    "pageHeight": 23303,
+    "failedImages": [],
+    "canvasCount": 1,
+    "errors": []
+  }
+]

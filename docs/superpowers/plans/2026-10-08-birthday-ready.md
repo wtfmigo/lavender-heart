@@ -1,0 +1,12 @@
+# Birthday-ready public experience plan
+
+Latest emergency brief authorizes continuous execution without phase approval gates and overrides the old heart-disappearance rule with persistent sculptural continuity. Keep feature worktree/history, all nine fixed chapters and domain contracts. No deployment or merge is needed.
+
+- [x] Build the complete public presentation first: typed data props, eight story memories, cinematic full-width memory, sixteen gallery slots/lightbox, six love entries, six timeline moments, calm letter and night finale. Neutral missing content only; real image replacements remain data-driven. Separate visual components, GSAP/R3F and local data. Reuse installed dependencies.
+- [x] Keep a single persistent heart Canvas, progress smoothly through non-obstructive edge positions and return for Finale. Desktop horizontal story pinning; mobile/reduced motion natural vertical flow. One Lenis owner, clean GSAP lifecycle; Motion handles lightbox. Hidden chapters/nav gaps must disappear together.
+- [x] Run public rendered QA and tests for fixed order, hidden sections, owner position, supplied content, lightbox keyboard/focus/touch, all-chapter reduced motion and WebGL failure. Capture every chapter plus mobile and mid-scroll heart; review Hallmark and fix real defects.
+- [x] Once public is stable, connect a minimum public API to existing persistence and validate incoming content. If incomplete configuration is risky, preserve the working typed local adapter and provide a content-authoring path without exposing an unauthenticated write endpoint.
+- [x] After integration, assess minimum secure owner editing; prioritize explicit Save and keep public journey working. Defer backup/recovery polish and document precisely what is incomplete. Never invent credentials or ship open writes.
+- [x] Final typecheck/lint/format/test/build, backend tests if changed, production preview and full desktop/mobile traversal. Logical local commits; final A–N report with personal-content placeholders and operational limitations clearly stated.
+
+Affected files: `features/public/experience.ts`, isolated content/data route adapter; `views/components/public/StoryChapters.tsx`, `Gallery.tsx`, `PersistentHeart.tsx`; dedicated chapter/gallery styles; scoped animation hooks; public composition/navigation; connected API service/schema and backend public controller only after visitor presentation is stable. Preserve original cloud/heart assets and resource ownership.

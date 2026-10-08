@@ -1,8 +1,13 @@
 import { createBrowserRouter } from 'react-router'
-import { SetupPage } from '@/views/pages/SetupPage'
 
 export const router = createBrowserRouter([
-  { path: '/', Component: SetupPage },
+  {
+    path: '/',
+    lazy: import.meta.env.DEV
+      ? () => import('@/features/public/DemoExperienceRoute')
+      : () => import('@/views/pages/ExperienceUnavailablePage'),
+    hydrateFallbackElement: <p className="route-loading">Lavender Heart</p>,
+  },
   ...(import.meta.env.DEV
     ? [
         {

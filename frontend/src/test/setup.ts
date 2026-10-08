@@ -3,3 +3,26 @@ import { cleanup } from '@testing-library/react'
 import { afterEach } from 'vitest'
 
 afterEach(cleanup)
+
+if (typeof window !== 'undefined')
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query: string) => ({
+      matches: query.includes('reduced-motion'),
+      media: query,
+      addEventListener() {},
+      removeEventListener() {},
+      addListener() {},
+      removeListener() {},
+    }),
+  })
+
+if (typeof window !== 'undefined')
+  Object.defineProperty(window, 'IntersectionObserver', {
+    writable: true,
+    value: class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  })

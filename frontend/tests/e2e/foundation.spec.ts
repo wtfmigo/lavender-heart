@@ -1,20 +1,23 @@
 import { expect, test } from '@playwright/test'
 
-test('frontend renders, styles load, and Laravel is reachable', async ({
+test('public experience renders, styles load, and Laravel health remains intact', async ({
   page,
+  request,
 }) => {
   const errors: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
   await expect(
-    page.getByRole('heading', { name: 'Lavender Heart' }),
+    page.getByRole('heading', { name: 'Recipient Name' }),
   ).toBeVisible()
-  await expect(page.getByText('Technical Foundation Ready')).toBeVisible()
-  await expect(page.getByRole('status')).toHaveText('API: OK')
-  await expect(page.locator('main')).toHaveCSS('padding-top', '24px')
+  await expect(page.getByText('Technical Foundation Ready')).toHaveCount(0)
+  await expect(page.locator('canvas[data-webgl="ready"]')).toBeVisible()
+  expect(
+    await (await request.get('http://127.0.0.1:8001/api/health')).json(),
+  ).toEqual({ status: 'ok' })
   await expect(page.locator('body')).toHaveCSS(
     'font-family',
-    'system-ui, sans-serif',
+    'Inter, system-ui, sans-serif',
   )
   expect(errors).toEqual([])
 })

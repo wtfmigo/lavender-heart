@@ -2,8 +2,13 @@ import { render, screen } from '@testing-library/react'
 import { expect, test } from 'vitest'
 import App from '@/app/App'
 
-test('renders the technical foundation placeholder', () => {
+test('public route shows the experience instead of technical status', async () => {
   render(<App />)
-  expect(screen.getByRole('heading', { name: 'Lavender Heart' })).toBeVisible()
-  expect(screen.getByText('Technical Foundation Ready')).toBeVisible()
+  expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(
+    'Recipient Name',
+  )
+  expect(
+    screen.queryByText('Technical Foundation Ready'),
+  ).not.toBeInTheDocument()
+  expect(screen.queryByText('API: OK')).not.toBeInTheDocument()
 })

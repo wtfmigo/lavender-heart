@@ -13,6 +13,7 @@ export default defineConfig({
       command: 'php artisan serve --host=127.0.0.1 --port=8001',
       cwd: fileURLToPath(new URL('../backend', import.meta.url)),
       url: `${backendUrl}/api/health`,
+      reuseExistingServer: !process.env.CI,
       env: {
         APP_URL: backendUrl,
         FRONTEND_URL: frontendUrl,
@@ -22,6 +23,7 @@ export default defineConfig({
     {
       command: 'npm run dev -- --host=127.0.0.1 --port=5174 --strictPort',
       url: frontendUrl,
+      reuseExistingServer: !process.env.CI,
       env: { VITE_API_BASE_URL: `${backendUrl}/api/` },
     },
   ],

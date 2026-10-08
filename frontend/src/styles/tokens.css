@@ -1,0 +1,55 @@
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/cormorant-garamond-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --color-ivory: #f8f5fb;
+  --color-pearl: #fcfafd;
+  --color-lavender-pale: #eee7f8;
+  --color-lavender-mist: #d9c8f2;
+  --color-lilac: #cbb4e8;
+  --color-purple-dusty: #a78bc7;
+  --color-plum-deep: #5e4b73;
+  --color-violet-charcoal: #2d2434;
+  --color-plum-night: #1f1728;
+  --surface-start: var(--color-ivory);
+  --surface-soft: var(--color-lavender-pale);
+  --surface-middle: var(--color-lavender-mist);
+  --text-on-light: var(--color-violet-charcoal);
+  --text-secondary: var(--color-plum-deep);
+  --accent-atmosphere: var(--color-lilac);
+  --focus-on-light: var(--color-violet-charcoal);
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --gutter: clamp(var(--space-6), 4vw, var(--space-16));
+  --layer-background: 0;
+  --layer-media: 10;
+  --layer-copy: 20;
+  --layer-sculpture: 30;
+  --layer-foreground: 35;
+  --layer-navigation: 40;
+  --layer-opening: 50;
+  --motion-fast: 160ms;
+}

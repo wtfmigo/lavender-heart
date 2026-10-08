@@ -17,7 +17,7 @@
   top: 49svh;
 }
 .journey-heart-edge {
-  width: 144px;
+  width: 180px;
   pointer-events: none;
 }
 .finale-wrap {
@@ -25,24 +25,33 @@
 }
 .finale-static-heart {
   position: absolute;
-  top: 18svh;
+  top: 2svh;
   left: 50%;
-  width: min(52vw, 700px);
-  height: 45svh;
+  width: min(70vw, 940px);
+  height: 72svh;
   transform: translateX(-50%);
   z-index: var(--layer-sculpture);
   pointer-events: none;
 }
 @media (max-width: 768px) {
   .finale-static-heart {
-    width: 88%;
+    top: 7svh;
+    width: 92%;
+    height: 62svh;
   }
 }
 @media (min-width: 1024px) {
   .journey-content {
-    max-width: min(1100px, calc(100% - 288px));
+    max-width: min(1100px, calc(100% - 360px));
     margin-inline: auto;
   }
+}
+.story-stage[data-story-flow='vertical'] .story-track {
+  display: block;
+  width: 100%;
+}
+.story-stage[data-story-flow='vertical'] .story-spread {
+  width: 100%;
 }
 @media (max-width: 1023px) {
   .persistent-heart.heart-travel {

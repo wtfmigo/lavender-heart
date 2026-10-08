@@ -1,16 +1,47 @@
 import type { ExperiencePhoto } from './experience'
 
-// Neutral reusable development imagery; replace with owner photographs through the adapter.
+// Licensed stock for development composition; replace with owner photographs through the adapter.
 export const developmentPhotos: ExperiencePhoto[] = (
   [
-    ['A quiet road winding between red sandstone cliffs', 800, 1067],
+    ['A paved road between red sandstone cliffs', 800, 1067],
     ['A wooden boathouse beside a still mountain lake', 1200, 800],
-    ['Morning sunlight above a misty meadow and fir trees', 1200, 800],
+    ['Sunrise above a misty meadow with scattered trees', 1200, 800],
     ['Snow-covered mountains beyond a green alpine valley', 800, 1067],
     ['A sunlit woodland path between tall trees', 1200, 800],
-    ['A star-filled violet sky above snow-covered mountains', 800, 1067],
-    ['A small wooden boat on a clear turquoise mountain lake', 1200, 800],
-    ['Warm evening light falling across a rugged mountain valley', 1200, 800],
+    ['A violet star-filled sky above snow-covered mountains', 800, 1067],
+    ['A wooden boat on a clear turquoise mountain lake', 1200, 800],
+    ['Warm evening light across a rugged mountain valley', 1200, 800],
+    ['A smiling woman in a red sweater', 800, 1067],
+    ['A woman in a black top under blue studio light', 800, 1067],
+    [
+      'A woman looking back over her shoulder against a dark backdrop',
+      800,
+      1067,
+    ],
+    ['A man in a textured sweater against a black backdrop', 800, 1067],
+    [
+      'A woman wearing glasses and a denim jacket beside a blue wall',
+      800,
+      1067,
+    ],
+    ['A smiling man in a white shirt', 800, 1067],
+    ['A woman in a yellow shirt outdoors in sunlight', 800, 1067],
+    ['A woman in a striped shirt outdoors', 800, 1067],
+    ['Rolling green hills seen from above', 1200, 800],
+    ['A close view of blue ocean waves', 1200, 800],
+    ['Low clouds over a grassy mountain ridge at sunset', 1200, 800],
+    ['Overlapping green fern leaves', 800, 1067],
+    ['Yellow flowers against a blue sky', 800, 1067],
+    ['A fountain pen resting on handwritten paper', 800, 1067],
+    ['Hands holding cups of coffee with latte art', 1200, 800],
+    ['Framed artwork and small plants arranged on a white wall', 800, 1067],
+    ['Glass office towers beneath a cloudy sky', 1200, 800],
+    ['Traffic between tall city buildings at dusk', 1200, 800],
+    ['A woman in sunglasses holding shopping bags', 800, 1067],
+    ['The bow of a wooden boat on a lake beneath rocky mountains', 1200, 800],
+    ['Gentle waves on a sandy beach at sunset', 1200, 800],
+    ['Sunlight through the spreading branches of a large tree', 800, 1067],
+    ['A smiling woman wearing a black knit hat and a scarf', 800, 1067],
   ] as const
 ).map(([alt, width, height], index) => ({
   id: `photo${String(index + 1).padStart(2, '0')}`,
@@ -19,7 +50,7 @@ export const developmentPhotos: ExperiencePhoto[] = (
   alt,
   width,
   height,
-  caption: 'Photo caption',
+  caption: '',
   focalX: 0.5,
   focalY: 0.5,
 }))

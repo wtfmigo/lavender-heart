@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import { motion } from 'motion/react'
 import type { ExperiencePhoto } from '@/features/public/experience'
 import { useReducedMotion } from '@/controllers/hooks/useReducedMotion'
 import '@/styles/gallery.css'
+import { ChapterScene } from './ChapterScene'
 
 export function Gallery({
   heading,
@@ -32,12 +34,24 @@ export function Gallery({
       className="gallery-chapter"
       aria-labelledby="gallery-heading"
     >
-      <h2 id="gallery-heading">{heading}</h2>
+      <ChapterScene
+        heading={heading}
+        headingId="gallery-heading"
+        label="Photographs"
+        variant="gallery"
+      />
       <div className="gallery-composition">
         {photos.map((photo, index) => (
           <figure
             key={photo.id}
             className={`gallery-photo gallery-photo-${index % 8}`}
+            style={
+              {
+                '--gallery-row':
+                  Math.floor(index / 8) * 5 +
+                  [1, 1, 2, 2, 3, 4, 4, 5][index % 8],
+              } as CSSProperties
+            }
           >
             <button
               type="button"

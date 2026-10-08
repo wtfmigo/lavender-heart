@@ -98,7 +98,10 @@ try {
     results.push({
       mode,
       motion: await page.locator('.experience').getAttribute('data-motion'),
-      fallbackVisible: await page.locator('.heart-fallback').last().isVisible(),
+      fallbackVisible: await page
+        .locator('.persistent-heart .heart-fallback')
+        .last()
+        .isVisible(),
     })
     await page.close()
   }

@@ -352,7 +352,8 @@ a:hover {
 }
 .intro-reading {
   position: relative;
-  max-width: 1000px;
+  width: 55%;
+  max-width: 38rem;
 }
 .intro-haze {
   position: absolute;
@@ -633,6 +634,16 @@ a:hover {
 }
 .experience[data-motion='reduced'] .opening {
   display: none;
+}
+@media (max-width: 1023px) {
+  .intro {
+    padding: 48svh var(--space-6) 12svh;
+    min-height: 100svh;
+  }
+  .intro-reading {
+    width: 100%;
+    max-width: none;
+  }
 }
 
 @media (max-height: 600px) and (min-width: 769px) {

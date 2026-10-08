@@ -1,0 +1,602 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "reduced": false,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 37102,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "chapterHeights": [
+      {
+        "id": "home",
+        "height": 1530
+      },
+      {
+        "id": "intro",
+        "height": 990
+      },
+      {
+        "id": "story",
+        "height": 10440
+      },
+      {
+        "id": "memory",
+        "height": 900
+      },
+      {
+        "id": "gallery",
+        "height": 8262.453125
+      },
+      {
+        "id": "love",
+        "height": 6300
+      },
+      {
+        "id": "timeline",
+        "height": 7060.421875
+      },
+      {
+        "id": "letter",
+        "height": 709.5
+      },
+      {
+        "id": "finale",
+        "height": 909.296875
+      }
+    ],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "reduced": true,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 33322,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "chapterHeights": [
+      {
+        "id": "home",
+        "height": 900
+      },
+      {
+        "id": "intro",
+        "height": 990
+      },
+      {
+        "id": "story",
+        "height": 7200
+      },
+      {
+        "id": "memory",
+        "height": 900
+      },
+      {
+        "id": "gallery",
+        "height": 8262.453125
+      },
+      {
+        "id": "love",
+        "height": 6390
+      },
+      {
+        "id": "timeline",
+        "height": 7060.421875
+      },
+      {
+        "id": "letter",
+        "height": 709.5
+      },
+      {
+        "id": "finale",
+        "height": 909.296875
+      }
+    ],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "reduced": false,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 28918,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "chapterHeights": [
+      {
+        "id": "home",
+        "height": 1305.59375
+      },
+      {
+        "id": "intro",
+        "height": 844.796875
+      },
+      {
+        "id": "story",
+        "height": 7680
+      },
+      {
+        "id": "memory",
+        "height": 768
+      },
+      {
+        "id": "gallery",
+        "height": 5698.625
+      },
+      {
+        "id": "love",
+        "height": 5376
+      },
+      {
+        "id": "timeline",
+        "height": 5859.15625
+      },
+      {
+        "id": "letter",
+        "height": 617.984375
+      },
+      {
+        "id": "finale",
+        "height": 768
+      }
+    ],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "reduced": true,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 26921,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "chapterHeights": [
+      {
+        "id": "home",
+        "height": 768
+      },
+      {
+        "id": "intro",
+        "height": 844.796875
+      },
+      {
+        "id": "story",
+        "height": 6144
+      },
+      {
+        "id": "memory",
+        "height": 768
+      },
+      {
+        "id": "gallery",
+        "height": 5698.625
+      },
+      {
+        "id": "love",
+        "height": 5452.796875
+      },
+      {
+        "id": "timeline",
+        "height": 5859.15625
+      },
+      {
+        "id": "letter",
+        "height": 617.984375
+      },
+      {
+        "id": "finale",
+        "height": 768
+      }
+    ],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "reduced": false,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 27246,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "chapterHeights": [
+      {
+        "id": "home",
+        "height": 1139.390625
+      },
+      {
+        "id": "intro",
+        "height": 844
+      },
+      {
+        "id": "story",
+        "height": 6436.453125
+      },
+      {
+        "id": "memory",
+        "height": 844
+      },
+      {
+        "id": "gallery",
+        "height": 6038.59375
+      },
+      {
+        "id": "love",
+        "height": 2565.703125
+      },
+      {
+        "id": "timeline",
+        "height": 7979.890625
+      },
+      {
+        "id": "letter",
+        "height": 554.1875
+      },
+      {
+        "id": "finale",
+        "height": 844
+      }
+    ],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "reduced": true,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 25128,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "chapterHeights": [
+      {
+        "id": "home",
+        "height": 844
+      },
+      {
+        "id": "intro",
+        "height": 844
+      },
+      {
+        "id": "story",
+        "height": 6436.453125
+      },
+      {
+        "id": "memory",
+        "height": 844
+      },
+      {
+        "id": "gallery",
+        "height": 6038.59375
+      },
+      {
+        "id": "love",
+        "height": 2565.703125
+      },
+      {
+        "id": "timeline",
+        "height": 6156.828125
+      },
+      {
+        "id": "letter",
+        "height": 554.1875
+      },
+      {
+        "id": "finale",
+        "height": 844
+      }
+    ],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 320,
+    "height": 844,
+    "reduced": false,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 25893,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "chapterHeights": [
+      {
+        "id": "home",
+        "height": 1139.390625
+      },
+      {
+        "id": "intro",
+        "height": 844
+      },
+      {
+        "id": "story",
+        "height": 6149.890625
+      },
+      {
+        "id": "memory",
+        "height": 844
+      },
+      {
+        "id": "gallery",
+        "height": 5139.21875
+      },
+      {
+        "id": "love",
+        "height": 2565.703125
+      },
+      {
+        "id": "timeline",
+        "height": 7812.515625
+      },
+      {
+        "id": "letter",
+        "height": 554.1875
+      },
+      {
+        "id": "finale",
+        "height": 844
+      }
+    ],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 320,
+    "height": 844,
+    "reduced": true,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 23774,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "chapterHeights": [
+      {
+        "id": "home",
+        "height": 844
+      },
+      {
+        "id": "intro",
+        "height": 844
+      },
+      {
+        "id": "story",
+        "height": 6149.890625
+      },
+      {
+        "id": "memory",
+        "height": 844
+      },
+      {
+        "id": "gallery",
+        "height": 5139.21875
+      },
+      {
+        "id": "love",
+        "height": 2565.703125
+      },
+      {
+        "id": "timeline",
+        "height": 5989.453125
+      },
+      {
+        "id": "letter",
+        "height": 554.1875
+      },
+      {
+        "id": "finale",
+        "height": 844
+      }
+    ],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 360,
+    "height": 844,
+    "reduced": false,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 26553,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "chapterHeights": [
+      {
+        "id": "home",
+        "height": 1139.390625
+      },
+      {
+        "id": "intro",
+        "height": 844
+      },
+      {
+        "id": "story",
+        "height": 6313.640625
+      },
+      {
+        "id": "memory",
+        "height": 844
+      },
+      {
+        "id": "gallery",
+        "height": 5653.15625
+      },
+      {
+        "id": "love",
+        "height": 2565.703125
+      },
+      {
+        "id": "timeline",
+        "height": 7795.328125
+      },
+      {
+        "id": "letter",
+        "height": 554.1875
+      },
+      {
+        "id": "finale",
+        "height": 844
+      }
+    ],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 360,
+    "height": 844,
+    "reduced": true,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 24435,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "chapterHeights": [
+      {
+        "id": "home",
+        "height": 844
+      },
+      {
+        "id": "intro",
+        "height": 844
+      },
+      {
+        "id": "story",
+        "height": 6313.640625
+      },
+      {
+        "id": "memory",
+        "height": 844
+      },
+      {
+        "id": "gallery",
+        "height": 5653.15625
+      },
+      {
+        "id": "love",
+        "height": 2565.703125
+      },
+      {
+        "id": "timeline",
+        "height": 5972.265625
+      },
+      {
+        "id": "letter",
+        "height": 554.1875
+      },
+      {
+        "id": "finale",
+        "height": 844
+      }
+    ],
+    "canvasCount": 1,
+    "errors": []
+  }
+]

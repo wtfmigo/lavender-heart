@@ -72,6 +72,52 @@ test('story preserves supplied owner order and lazy photo metadata', () => {
   expect(screen.getByText('Supplied caption')).toBeVisible()
 })
 
+test('story pairs two memories without losing or repeating supplied content', () => {
+  const memories = Array.from({ length: 8 }, (_, index) => ({
+    ...items[index % items.length],
+    id: `memory-${index}`,
+    title: `Memory ${index + 1}`,
+    message: {
+      blocks: [
+        {
+          type: 'paragraph' as const,
+          children: [{ type: 'text' as const, text: `Words ${index + 1}` }],
+        },
+      ],
+    },
+  }))
+  const { container } = render(
+    <StoryChapter heading="Our moments" items={memories} />,
+  )
+  expect(
+    screen
+      .getAllByRole('heading', { level: 3 })
+      .map((heading) => heading.textContent),
+  ).toEqual(memories.map((memory) => memory.title))
+  expect(container.querySelectorAll('.story-spread')).toHaveLength(7)
+  expect(
+    container.querySelectorAll('.story-spread--paired .story-copy h3'),
+  ).toHaveLength(2)
+  memories.forEach((_, index) =>
+    expect(screen.getAllByText(`Words ${index + 1}`)).toHaveLength(1),
+  )
+})
+
+test('timeline makes genuine dates dominant and labels missing dates without inventing metadata', () => {
+  const { container } = render(
+    <TimelineChapter
+      heading="Our dates"
+      items={[items[0], { ...items[1], date: null, dateLabel: 'YOUR YEAR' }]}
+    />,
+  )
+  expect(
+    container.querySelector('time[datetime="2026-10-08"] strong'),
+  ).toHaveTextContent('2026')
+  expect(screen.getByText('YOUR YEAR')).toBeVisible()
+  expect(container.querySelectorAll('time')).toHaveLength(1)
+  expect(container.querySelector('.timeline-date .chapter-index')).toBeNull()
+})
+
 test('timeline uses owner order and omits unavailable date metadata', () => {
   const { container } = render(
     <TimelineChapter

@@ -1,0 +1,73 @@
+.chapter-scene {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 17svh 12vw 12svh;
+  isolation: isolate;
+}
+.chapter-scene-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.chapter-scene > .chapter-scene-label {
+  position: absolute;
+  top: 17svh;
+  left: 12vw;
+}
+.chapter-scene .chapter-heading {
+  font-size: clamp(5rem, 12vw, 12rem);
+  line-height: 0.83;
+  max-width: 9ch;
+  z-index: 1;
+}
+.chapter-heart {
+  position: absolute;
+  top: 21svh;
+  right: 14vw;
+  width: clamp(150px, 18vw, 240px);
+  height: 25svh;
+  pointer-events: none;
+}
+.chapter-heart .heart-fallback svg {
+  width: 92%;
+  max-height: 100%;
+}
+.chapter-scene--love .chapter-heading {
+  margin-left: auto;
+}
+.chapter-scene--love .chapter-heart {
+  right: auto;
+  left: 12vw;
+}
+.experience[data-motion='full'] section[data-live-heart='true'] .chapter-heart {
+  opacity: 0;
+}
+@media (max-width: 1023px) {
+  .chapter-scene {
+    min-height: 90svh;
+    padding: 15svh var(--gutter) 10svh;
+  }
+  .chapter-scene > .chapter-scene-label {
+    top: 15svh;
+    left: var(--gutter);
+  }
+  .chapter-scene .chapter-heading {
+    font-size: clamp(4.6rem, 14vw, 8rem);
+    max-width: 9ch;
+    line-height: 0.9;
+  }
+  .chapter-heart,
+  .chapter-scene--love .chapter-heart {
+    top: 25svh;
+    left: auto;
+    right: var(--gutter);
+    width: clamp(100px, 29vw, 180px);
+    height: 20svh;
+  }
+  .chapter-scene--love .chapter-heading {
+    margin-left: 0;
+  }
+}

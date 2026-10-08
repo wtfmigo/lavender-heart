@@ -132,7 +132,9 @@ test('blocked WebGL preserves clouds, original heart and text', async ({
   await page.goto('/')
   await expect(page.locator('.experience')).toBeVisible()
   await expect(page.locator('.opening')).toBeHidden({ timeout: 5000 })
-  await expect(page.getByTestId('heart-fallback').last()).toBeVisible()
+  await expect(
+    page.locator('.persistent-heart').getByTestId('heart-fallback').last(),
+  ).toBeVisible()
   await expect(page.locator('.cloud-layer--foreground img')).toBeVisible()
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Recipient Name',
@@ -141,7 +143,7 @@ test('blocked WebGL preserves clouds, original heart and text', async ({
   await expect(page.locator('.heart-reveal')).toHaveCSS('opacity', '1')
   await expect(page.locator('.hero-type-reveal')).toHaveCSS('opacity', '1')
   await page.screenshot({
-    path: '../docs/evidence/birthday-ready/fallback-mobile.png',
+    path: '../docs/evidence/recomposition/after/fallback-mobile.png',
   })
 })
 
@@ -155,7 +157,9 @@ test('context loss replaces the canvas with the heart fallback', async ({
     element.dispatchEvent(new Event('webglcontextlost', { cancelable: true })),
   )
   await expect(page.locator('canvas')).toHaveCount(0)
-  await expect(page.getByTestId('heart-fallback')).toBeVisible()
+  await expect(
+    page.locator('.persistent-heart').getByTestId('heart-fallback').last(),
+  ).toBeVisible()
 })
 
 test('failed crystal backdrop preserves the static heart and supplied name', async ({
@@ -174,7 +178,9 @@ test('failed crystal backdrop preserves the static heart and supplied name', asy
   await page.goto('/')
   await expect(page.locator('.experience')).toBeVisible()
   await expect(page.locator('.opening')).toBeHidden({ timeout: 5000 })
-  await expect(page.getByTestId('heart-fallback').last()).toBeVisible()
+  await expect(
+    page.locator('.persistent-heart').getByTestId('heart-fallback').last(),
+  ).toBeVisible()
   await expect(page.locator('canvas')).toHaveCount(0)
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Recipient Name',

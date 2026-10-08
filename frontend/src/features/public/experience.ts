@@ -24,6 +24,7 @@ export type ExperienceMemory = {
   id: string
   title: string
   date: string | null
+  dateLabel?: string
   message: import('@/models/types/experience').LimitedRichTextDocument
   photo: ExperiencePhoto | null
   position: number

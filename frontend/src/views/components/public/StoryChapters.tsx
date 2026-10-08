@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ChapterScene } from './ChapterScene'
 import type {
   ExperienceMemory,
   ExperiencePhoto,
@@ -87,6 +88,63 @@ function MemoryPhoto({
   )
 }
 
+function StoryMemory({
+  item,
+  index,
+}: {
+  item: ExperienceMemory
+  index: number
+}) {
+  return (
+    <div className="story-memory">
+      <div className="story-copy">
+        <span className="chapter-index" aria-hidden="true">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        {item.date || item.dateLabel ? (
+          <div className="story-date">
+            <MemoryDate item={item} />
+          </div>
+        ) : null}
+        <h3>{item.title}</h3>
+        <div className="memory-message">
+          <RichText document={item.message} />
+        </div>
+      </div>
+      {item.photo && (
+        <MemoryPhoto
+          photo={item.photo}
+          className={
+            item.photo.height > item.photo.width
+              ? 'photo-portrait'
+              : 'photo-landscape'
+          }
+        />
+      )}
+    </div>
+  )
+}
+
+function MemoryDate({ item }: { item: ExperienceMemory }) {
+  if (!item.date)
+    return item.dateLabel ? (
+      <strong className="date-presentation">{item.dateLabel}</strong>
+    ) : null
+  const date = new Date(`${item.date}T12:00:00Z`)
+  return (
+    <time dateTime={item.date}>
+      <strong>{date.getUTCFullYear()}</strong>
+      <span>
+        {new Intl.DateTimeFormat('en', {
+          month: 'long',
+          day: 'numeric',
+          timeZone: 'UTC',
+        }).format(date)}
+      </span>
+    </time>
+  )
+}
+
 export function StoryChapter({
   heading,
   items,
@@ -94,42 +152,41 @@ export function StoryChapter({
   heading: string
   items: ExperienceMemory[]
 }) {
+  const spreads: {
+    index: number
+    variant: string
+    memories: ExperienceMemory[]
+  }[] = []
+  const variants = ['portrait', 'wide', 'date', 'paired', 'float', 'cinematic']
+  for (let index = 0; index < items.length; index += index === 3 ? 2 : 1) {
+    spreads.push({
+      index,
+      variant: variants[Math.min(spreads.length, variants.length - 1)],
+      memories: items.slice(index, index + (index === 3 ? 2 : 1)),
+    })
+  }
   return (
     <section
       id="story"
       className="story-chapter"
       aria-labelledby="story-heading"
     >
-      <h2 id="story-heading" className="chapter-heading story-heading">
-        {heading}
-      </h2>
+      <ChapterScene
+        heading={heading}
+        headingId="story-heading"
+        label="Story"
+        variant="story"
+      />
       <div className="story-stage">
         <div className="story-track">
-          {items.map((item, index) => (
+          {spreads.map(({ memories, index, variant }) => (
             <article
-              className={`story-spread story-spread--${index % 3}`}
-              key={item.id}
+              className={`story-spread story-spread--${variant}`}
+              key={memories[0].id}
             >
-              <div className="story-copy">
-                <span className="chapter-index" aria-hidden="true">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <DateLabel date={item.date} />
-                <h3>{item.title}</h3>
-                <div className="memory-message">
-                  <RichText document={item.message} />
-                </div>
-              </div>
-              {item.photo && (
-                <MemoryPhoto
-                  photo={item.photo}
-                  className={
-                    item.photo.height > item.photo.width
-                      ? 'photo-portrait'
-                      : 'photo-landscape'
-                  }
-                />
-              )}
+              {memories.map((item, offset) => (
+                <StoryMemory key={item.id} item={item} index={index + offset} />
+              ))}
             </article>
           ))}
         </div>
@@ -182,22 +239,27 @@ export function LoveChapter({
 }) {
   return (
     <section id="love" className="love-chapter" aria-labelledby="love-heading">
-      <h2 id="love-heading" className="chapter-heading">
-        {heading}
-      </h2>
-      <ol className="love-sequence journey-content">
-        {items.map((item, index) => (
-          <li className="love-entry" key={item.id}>
-            <span className="love-number" aria-hidden="true">
-              {String(index + 1).padStart(2, '0')}
-            </span>
-            <div>
-              <h3>{item.statement}</h3>
-              {item.supportingText && <p>{item.supportingText}</p>}
-            </div>
-          </li>
-        ))}
-      </ol>
+      <ChapterScene
+        heading={heading}
+        headingId="love-heading"
+        label="Things I Love"
+        variant="love"
+      />
+      <div className="love-stage">
+        <ol className="love-sequence journey-content">
+          {items.map((item, index) => (
+            <li className="love-entry" key={item.id}>
+              <span className="love-number" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <div>
+                <h3>{item.statement}</h3>
+                {item.supportingText && <p>{item.supportingText}</p>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
     </section>
   )
 }
@@ -215,17 +277,17 @@ export function TimelineChapter({
       className="timeline-chapter"
       aria-labelledby="timeline-heading"
     >
-      <h2 id="timeline-heading" className="chapter-heading">
-        {heading}
-      </h2>
+      <ChapterScene
+        heading={heading}
+        headingId="timeline-heading"
+        label="Timeline"
+        variant="timeline"
+      />
       <div className="timeline-moments journey-content">
-        {items.map((item, index) => (
+        {items.map((item) => (
           <article className="timeline-moment" key={item.id}>
             <div className="timeline-date">
-              <span aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <DateLabel date={item.date} />
+              <MemoryDate item={item} />
             </div>
             <div className="timeline-content">
               {item.photo && <MemoryPhoto photo={item.photo} />}
@@ -253,9 +315,12 @@ export function LetterChapter({
       aria-labelledby="letter-heading"
     >
       <div className="letter-reading">
-        <h2 id="letter-heading" className="chapter-heading">
-          {content.heading}
-        </h2>
+        <div className="letter-introduction">
+          <span className="chapter-scene-label">Birthday Letter</span>
+          <h2 id="letter-heading" className="chapter-heading">
+            {content.heading}
+          </h2>
+        </div>
         {content.opening && <p className="letter-opening">{content.opening}</p>}
         <div className="letter-body">
           <RichText document={content.body} />

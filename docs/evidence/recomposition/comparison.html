@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lavender Heart — before and after</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #f5f1e9;
+      color: #31243d;
+      font:
+        16px/1.5 system-ui,
+        sans-serif;
+    }
+    header {
+      max-width: 1200px;
+      margin: 0 auto 32px;
+    }
+    h1 {
+      font-size: 30px;
+    }
+    h2 {
+      margin-top: 48px;
+    }
+    .pair {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    figure {
+      margin: 0;
+    }
+    figcaption {
+      position: sticky;
+      top: 0;
+      padding: 12px;
+      background: #f5f1e9;
+      font-weight: 700;
+    }
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    a {
+      color: inherit;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 12px;
+      }
+      .pair {
+        gap: 8px;
+      }
+      figcaption {
+        font-size: 12px;
+        padding: 8px;
+      }
+    }
+  </style>
+  <header>
+    <h1>Lavender Heart: composition review</h1>
+    <p>
+      Before and after use the same viewport and the real reduced-motion reading
+      flow. This exposes every Story panel in one document and makes the
+      full-page comparison readable.
+    </p>
+    <p>
+      Full-motion Story and Love use pinning. Their scroll spacers represent
+      animation time; a stitched image cannot show that progression. Review the
+      separate entry/middle/exit captures and the actual page at
+      <a href="http://127.0.0.1:5175/">local production preview</a>.
+    </p>
+    <p>
+      <a href="#desktop">Desktop</a> · <a href="#phone">Phone</a> ·
+      <a href="after/motion-fullpage-1440.jpg">Raw desktop motion capture</a> ·
+      <a href="after/motion-fullpage-390.jpg">Raw phone motion capture</a>
+    </p>
+    <h2 id="desktop">1440 × 900 desktop</h2>
+  </header>
+  <div class="pair">
+    <figure>
+      <figcaption>Before</figcaption>
+      <a href="before/static-fullpage-1440.png"
+        ><img
+          src="before/static-fullpage-1440.png"
+          alt="Complete previous desktop reading flow"
+      /></a>
+    </figure>
+    <figure>
+      <figcaption>After</figcaption>
+      <a href="after/static-fullpage-1440.jpg"
+        ><img
+          src="after/static-fullpage-1440.jpg"
+          alt="Complete recomposed desktop reading flow"
+      /></a>
+    </figure>
+  </div>
+  <header><h2 id="phone">390 × 844 phone</h2></header>
+  <div class="pair">
+    <figure>
+      <figcaption>Before</figcaption>
+      <a href="before/static-fullpage-390.png"
+        ><img
+          src="before/static-fullpage-390.png"
+          alt="Complete previous phone reading flow"
+      /></a>
+    </figure>
+    <figure>
+      <figcaption>After</figcaption>
+      <a href="after/static-fullpage-390.jpg"
+        ><img
+          src="after/static-fullpage-390.jpg"
+          alt="Complete recomposed phone reading flow"
+      /></a>
+    </figure>
+  </div>
+</html>

@@ -110,7 +110,7 @@ try {
       width >= 1024 ? '#story' : '.story-spread',
       width >= 1024
         ? await page
-            .locator('.story-heading')
+            .locator('#story .chapter-scene')
             .evaluate((element) => element.getBoundingClientRect().height)
         : 50,
     )

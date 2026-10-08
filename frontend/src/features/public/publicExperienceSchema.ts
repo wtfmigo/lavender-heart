@@ -24,6 +24,7 @@ const memory = z.strictObject({
   id: z.string(),
   title: z.string(),
   date: dateOnlySchema.nullable(),
+  dateLabel: z.string().optional(),
   message: limitedRichTextDocumentSchema,
   photo: photo.nullable(),
   position: z.number().int().nonnegative(),

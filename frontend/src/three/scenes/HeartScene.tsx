@@ -7,13 +7,7 @@ import {
   MeshTransmissionMaterial,
   useTexture,
 } from '@react-three/drei'
-import {
-  BackSide,
-  CanvasTexture,
-  MathUtils,
-  SRGBColorSpace,
-  type Mesh,
-} from 'three'
+import { BackSide, CanvasTexture, SRGBColorSpace, type Mesh } from 'three'
 import { createHeartGeometry } from '@/three/utils/heartGeometry'
 import { HeartFallback } from '@/three/components/HeartFallback'
 
@@ -49,7 +43,7 @@ function Sculpture({
   useEffect(() => {
     invalidate()
   }, [reducedMotion, invalidate])
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (!mesh.current) return
     const travel = reducedMotion ? 0 : progress.current
     if (!reducedMotion) elapsed.current += Math.min(delta, 0.05)
@@ -61,12 +55,6 @@ function Sculpture({
     mesh.current.position.y = reducedMotion
       ? 0
       : Math.sin(time * 0.35) * 0.035 + travel * 0.2
-    mesh.current.scale.setScalar(1 - travel * 0.2)
-    state.camera.position.z = MathUtils.lerp(
-      state.camera.position.z,
-      5.1 + travel * 0.3,
-      0.1,
-    )
   })
   const palette = useMemo(() => {
     const styles = getComputedStyle(document.documentElement)

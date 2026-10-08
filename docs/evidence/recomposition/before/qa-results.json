@@ -1,0 +1,46 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "reduced": true,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 30159,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "canvasCount": 1,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "reduced": true,
+    "url": "http://127.0.0.1:5175/",
+    "pageHeight": 23708,
+    "overflow": false,
+    "failedImages": [],
+    "chapterIds": [
+      "home",
+      "intro",
+      "story",
+      "memory",
+      "gallery",
+      "love",
+      "timeline",
+      "letter",
+      "finale"
+    ],
+    "canvasCount": 1,
+    "errors": []
+  }
+]

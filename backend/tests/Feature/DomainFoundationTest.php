@@ -59,7 +59,10 @@ class DomainFoundationTest extends TestCase
             $this->assertFalse(Schema::hasColumn('site_settings', $field));
         }
         $this->assertFalse(Schema::hasColumn('sections', 'sort_order'));
-        foreach (['story_memories', 'gallery_items', 'love_entries', 'timeline_moments', 'media_assets', 'content_revisions', 'revision_media'] as $table) {
+        foreach (['story_memories', 'gallery_items', 'love_entries', 'timeline_moments', 'media_assets'] as $table) {
+            $this->assertDatabaseCount($table, 0);
+        }
+        foreach (['content_revisions', 'revision_media'] as $table) {
             $this->assertFalse(Schema::hasTable($table));
         }
     }

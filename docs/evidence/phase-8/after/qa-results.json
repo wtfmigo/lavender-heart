@@ -1,0 +1,88 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "overflow": false,
+    "canvas": true,
+    "font": true,
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "overflow": false,
+    "canvas": true,
+    "font": true,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "overflow": false,
+    "canvas": true,
+    "font": true,
+    "errors": []
+  },
+  {
+    "width": 320,
+    "height": 844,
+    "overflow": false,
+    "canvas": true,
+    "font": true,
+    "errors": []
+  },
+  {
+    "width": 360,
+    "height": 844,
+    "overflow": false,
+    "canvas": true,
+    "font": true,
+    "errors": []
+  },
+  {
+    "width": 375,
+    "height": 844,
+    "overflow": false,
+    "canvas": true,
+    "font": true,
+    "errors": []
+  },
+  {
+    "width": 414,
+    "height": 844,
+    "overflow": false,
+    "canvas": true,
+    "font": true,
+    "errors": []
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "overflow": false,
+    "canvas": true,
+    "font": true,
+    "errors": []
+  },
+  {
+    "mode": "reduced",
+    "motion": "reduced",
+    "fallbackVisible": false
+  },
+  {
+    "mode": "fallback",
+    "motion": "full",
+    "fallbackVisible": true
+  },
+  {
+    "mode": "long-name",
+    "width": 1440,
+    "heading": "Alexandra\nMaria Isabel de la Cruz Santos",
+    "overflow": false
+  },
+  {
+    "mode": "long-name",
+    "width": 390,
+    "heading": "Alexandra\nMaria Isabel de la Cruz Santos",
+    "overflow": false
+  }
+]

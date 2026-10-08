@@ -19,3 +19,9 @@ Cormorant Garamond and Inter normal variable weights 400–600 are self-hosted a
 ## Heart
 
 The primary object is a code-generated closed heart lens: cubic outline, concentric depth rings and indexed front/back triangles. It is not downloaded. The lightweight SVG used only for loading/failed WebGL is an original faceted heart drawn in code, with the same semantic palette. No external HDR map, model, texture, shader package or cloud package is used.
+
+## Phase 8 refinement
+
+The primary geometry now uses 320 planar triangles with an angled crown and cut bevels, replacing the smooth lens's 1,344 triangles. Existing Drei transmission material refracts the original cloud image through a local buffer: four samples, 512px desktop or 256px mobile, no backside pass, dispersion or animated distortion. A runtime CanvasTexture composites the source alpha over semantic pearl to prevent black transparent-image patches. The owned backdrop and geometry are disposed; the shared loader texture remains cache-owned. No additional public bitmap or dependency is added.
+
+Four separately positioned and masked DOM fragments replace the prior three image layers plus a CSS pseudo-image. Mobile retains three visible fragments. Restrained saturation reduction preserves pearl highlights and lilac shadows without an overall purple filter. Existing original cloud/font provenance and licenses remain unchanged.

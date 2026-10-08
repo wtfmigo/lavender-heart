@@ -26,6 +26,6 @@ export const demoExperience: ExperienceSlice = {
         },
       ],
     },
-    supportingText: 'Demo birthday message. Personal words will live here.',
+    supportingText: '',
   },
 }

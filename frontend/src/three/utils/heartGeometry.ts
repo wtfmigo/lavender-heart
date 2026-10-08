@@ -7,19 +7,18 @@ export function createHeartGeometry() {
   shape.bezierCurveTo(1.04, -0.18, 0.43, -0.73, 0, -1.04)
   shape.bezierCurveTo(-0.43, -0.73, -1.04, -0.18, -1.06, 0.25)
   shape.bezierCurveTo(-1.12, 0.94, -0.35, 1.02, 0, 0.43)
-  const outline = shape.getPoints(24).slice(0, -1)
+  const outline = shape.getPoints(8).slice(0, -1)
   const positions: number[] = []
   const indices: number[] = []
   const rings = [
-    [0.38, 0.5],
-    [0.7, 0.41],
-    [0.91, 0.22],
+    [0.62, 0.42],
+    [0.88, 0.28],
     [1, 0],
   ]
   const count = outline.length
   for (const side of [1, -1]) {
     const center = positions.length / 3
-    positions.push(0, 0, 0.56 * side)
+    positions.push(0, 0, 0.6 * side)
     const triangle = (a: number, b: number, c: number) => {
       indices.push(...(side === 1 ? [a, c, b] : [a, b, c]))
     }
@@ -41,7 +40,9 @@ export function createHeartGeometry() {
   const geometry = new BufferGeometry()
   geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
   geometry.setIndex(indices)
-  geometry.center()
-  geometry.computeVertexNormals()
-  return geometry
+  const faceted = geometry.toNonIndexed()
+  geometry.dispose()
+  faceted.center()
+  faceted.computeVertexNormals()
+  return faceted
 }

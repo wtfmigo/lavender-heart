@@ -20,7 +20,7 @@ export function Hero({
       id="home"
       className="hero"
       aria-labelledby="recipient"
-      data-long-name={data.settings.recipientName.length > 28}
+      data-long-name={data.settings.recipientName.length > 24}
     >
       <div className="hero-stage">
         <div className="hero-sky" aria-hidden="true" />
@@ -45,11 +45,9 @@ export function Hero({
         </div>
         <p className="hero-love editorial-label">{data.hero.subtitle}</p>
         <div className="hero-footnote">
-          <span className="editorial-label">A BIRTHDAY EXPERIENCE</span>
           <a href="#intro" className="scroll-cue">
             Scroll to begin <span aria-hidden="true">↓</span>
           </a>
-          <span className="editorial-label hero-demo">DEMO EDITION</span>
         </div>
       </div>
     </section>

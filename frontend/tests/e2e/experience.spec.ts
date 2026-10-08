@@ -27,13 +27,35 @@ test('long supplied names remain readable during full-motion mobile scrolling', 
   expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(320)
 })
 
+test('medium multi-part names use readable natural flow around the crystal', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.route('**/demoExperience.ts*', async (route) => {
+    const response = await route.fetch()
+    await route.fulfill({
+      response,
+      body: (await response.text()).replace(
+        'Recipient Name',
+        'Alexandra Maria Isabel Lopez',
+      ),
+    })
+  })
+  await page.goto('/')
+  await expect(page.locator('.hero')).toHaveAttribute('data-long-name', 'true')
+  await expect(page.locator('.hero-stage')).toHaveCSS('position', 'relative')
+  await expect(page.locator('h1')).toHaveText('Alexandra Maria Isabel Lopez')
+  await page.locator('h1 span').last().scrollIntoViewIfNeeded()
+  await expect(page.locator('.hero-type-travel')).toHaveCSS('clip-path', 'none')
+})
+
 test('cloud travel, implemented anchors, focus protection and motion pause', async ({
   page,
 }) => {
   await page.goto('/')
   await expect(page.locator('.experience')).toBeVisible()
   await expect(page.locator('.opening')).toBeHidden({ timeout: 5000 })
-  await expect(page.locator('[data-depth] img')).toHaveCount(3)
+  await expect(page.locator('[data-depth] img')).toHaveCount(4)
   expect(
     await page
       .getByRole('navigation')
@@ -119,7 +141,7 @@ test('blocked WebGL preserves clouds, original heart and text', async ({
   await expect(page.locator('.heart-reveal')).toHaveCSS('opacity', '1')
   await expect(page.locator('.hero-type-reveal')).toHaveCSS('opacity', '1')
   await page.screenshot({
-    path: '../docs/evidence/visible-experience/fallback-mobile.png',
+    path: '../docs/evidence/phase-8/after/fallback-mobile.png',
   })
 })
 
@@ -136,7 +158,30 @@ test('context loss replaces the canvas with the heart fallback', async ({
   await expect(page.getByTestId('heart-fallback')).toBeVisible()
 })
 
-for (const width of [1440, 1024, 390, 320, 360]) {
+test('failed crystal backdrop preserves the static heart and supplied name', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext
+    HTMLCanvasElement.prototype.getContext = function (
+      this: HTMLCanvasElement,
+      ...args: Parameters<typeof original>
+    ) {
+      if (args[0] === '2d') return null
+      return Reflect.apply(original, this, args)
+    } as typeof original
+  })
+  await page.goto('/')
+  await expect(page.locator('.experience')).toBeVisible()
+  await expect(page.locator('.opening')).toBeHidden({ timeout: 5000 })
+  await expect(page.getByTestId('heart-fallback').last()).toBeVisible()
+  await expect(page.locator('canvas')).toHaveCount(0)
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Recipient Name',
+  )
+})
+
+for (const width of [1440, 1024, 768, 390, 320, 360]) {
   test(`composition remains within ${width}px and Intro is reachable`, async ({
     page,
   }) => {

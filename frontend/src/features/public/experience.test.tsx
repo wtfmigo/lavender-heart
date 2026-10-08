@@ -27,6 +27,8 @@ describe('public content boundary', () => {
     expect(screen.getByText('FOR')).toBeVisible()
     expect(screen.getByText('WITH LOVE')).toBeVisible()
     expect(screen.queryByText('Recipient Name')).not.toBeInTheDocument()
+    expect(screen.queryByText('DEMO EDITION')).not.toBeInTheDocument()
+    expect(screen.queryByText('A BIRTHDAY EXPERIENCE')).not.toBeInTheDocument()
   })
   test('keeps a long supplied name intact', () => {
     const recipientName = 'Alexandra Maria Isabel de la Cruz Santos'
@@ -86,6 +88,18 @@ describe('public content boundary', () => {
   test('demo content is isolated and explicitly neutral', () => {
     expect(demoExperience.settings.recipientName).toBe('Recipient Name')
     expect(demoExperience.settings.birthdayDate).toBeNull()
-    expect(demoExperience.intro.supportingText).toContain('Demo')
+    expect(demoExperience.intro.supportingText).toBe('')
+  })
+  test('the quiet motion icon retains its accessible name and action', () => {
+    const onToggleMotion = vi.fn()
+    const { rerender } = render(
+      <Navigation paused={false} onToggleMotion={onToggleMotion} />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Pause motion' }))
+    expect(onToggleMotion).toHaveBeenCalledOnce()
+    rerender(<Navigation paused onToggleMotion={onToggleMotion} />)
+    expect(
+      screen.getByRole('button', { name: 'Resume motion' }),
+    ).toHaveAttribute('aria-pressed', 'true')
   })
 })

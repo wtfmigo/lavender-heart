@@ -1,5 +1,5 @@
 /* Hallmark · macrostructure: atmospheric sculpture → editorial statement · theme: approved Lavender Mist */
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V4 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V4 · revised after still-image review */
 html,
 body {
   overflow-x: clip;
@@ -63,12 +63,9 @@ a:hover {
   right: var(--gutter);
   display: flex;
   align-items: center;
-  gap: var(--space-8);
-  min-height: 56px;
-  padding: var(--space-1) var(--space-6);
-  background: color-mix(in srgb, var(--color-pearl) 86%, transparent);
-  border-bottom: 1px solid
-    color-mix(in srgb, var(--text-secondary) 22%, transparent);
+  gap: var(--space-6);
+  min-height: 44px;
+  padding: 0;
   transition:
     transform 240ms ease,
     opacity 240ms ease;
@@ -79,12 +76,8 @@ a:hover {
 }
 .wordmark {
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   white-space: nowrap;
-}
-.wordmark span {
-  color: var(--text-secondary);
-  margin-left: var(--space-3);
 }
 .nav-links {
   display: flex;
@@ -99,18 +92,18 @@ a:hover {
   white-space: nowrap;
 }
 .nav-links a {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
 }
 .motion-toggle {
   border: 0;
   background: transparent;
   padding: 0;
-  font-size: 0.75rem;
+  width: 44px;
+  justify-content: center;
   color: var(--text-secondary);
 }
 .motion-toggle:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  color: var(--text-on-light);
 }
 .skip-link {
   position: fixed;
@@ -150,20 +143,24 @@ a:hover {
 }
 .hero-type-travel {
   position: absolute;
-  top: 21%;
-  left: 7%;
-  width: 86%;
+  top: 25%;
+  left: 6%;
+  width: 88%;
   z-index: var(--layer-copy);
 }
 .hero-for {
-  margin: 0 0 var(--space-3) 12%;
+  margin: 0 0 var(--space-4) 1%;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
 }
 .hero h1 {
   display: grid;
-  gap: clamp(50px, 8vh, 100px);
+  gap: clamp(40px, 5vh, 70px);
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(6rem, 13vw, 13rem);
+  font-size: clamp(6rem, 12vw, 12rem);
   font-weight: 400;
   line-height: 0.88;
   letter-spacing: -0.045em;
@@ -180,14 +177,15 @@ a:hover {
 .hero h1 span:nth-child(2) {
   justify-self: end;
   text-align: right;
+  margin-right: 3%;
 }
 .heart-travel {
   position: absolute;
   z-index: var(--layer-sculpture);
-  width: min(58vw, 800px);
-  height: 72%;
-  left: 50%;
-  top: 50%;
+  width: min(59vw, 850px);
+  height: 76%;
+  left: 55%;
+  top: 49%;
   transform: translate(-50%, -50%);
 }
 .heart-reveal,
@@ -247,9 +245,13 @@ a:hover {
 }
 .hero-love {
   position: absolute;
-  top: 72%;
-  left: 18%;
-  z-index: var(--layer-copy);
+  top: 69%;
+  left: 22%;
+  z-index: 36;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
 }
 .hero-footnote {
   position: absolute;
@@ -258,7 +260,7 @@ a:hover {
   right: var(--gutter);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
   gap: var(--space-4);
   z-index: 36;
 }
@@ -268,11 +270,12 @@ a:hover {
   align-items: center;
   gap: var(--space-2);
   min-height: 44px;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
 }
 .scroll-cue span {
-  height: 35px;
-  font-size: 1.4rem;
+  height: 24px;
+  font-size: 1.2rem;
   font-weight: 400;
 }
 .cloud-layer {
@@ -288,70 +291,87 @@ a:hover {
   width: 100%;
   height: auto;
   display: block;
+  filter: saturate(0.52) brightness(1.04);
 }
 .cloud-layer--background {
   z-index: 5;
-  width: 100%;
-  left: 30%;
-  top: -13%;
-  opacity: 0.5;
-  filter: blur(4px);
+  width: 78%;
+  left: 32%;
+  top: -17%;
+  opacity: 0.24;
+  filter: blur(3px);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 15%,
+    black 75%,
+    transparent
+  );
 }
 .cloud-layer--midground {
   z-index: 15;
-  width: 90%;
-  left: -42%;
-  top: 9%;
-  opacity: 0.88;
+  width: 60%;
+  left: -29%;
+  top: 6%;
+  opacity: 0.7;
+  mask-image: linear-gradient(to right, black 45%, transparent 100%);
 }
-.cloud-layer--midground::after {
-  content: '';
-  position: absolute;
-  left: 122%;
-  top: -10%;
-  width: 85%;
-  height: 100%;
-  background: url('/atmosphere/cloud-bank.webp') center / contain no-repeat;
+.cloud-layer--right {
+  width: 53%;
+  left: 68%;
+  top: 18%;
+  opacity: 0.64;
+  mask-image: linear-gradient(to left, black 45%, transparent 100%);
+}
+.cloud-layer--right img {
   transform: scaleX(-1);
 }
 .cloud-layer--foreground {
   z-index: var(--layer-foreground);
-  width: 110%;
-  left: -4%;
-  top: 41%;
-  opacity: 0.94;
-  filter: blur(1px);
+  width: 91%;
+  left: -22%;
+  top: 31%;
+  opacity: 0.98;
+  filter: blur(0.6px);
+  mask-image: linear-gradient(to right, black 65%, transparent 100%);
 }
 .intro {
   position: relative;
   isolation: isolate;
-  min-height: 105svh;
+  min-height: 110svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-32) 13% var(--space-16);
+  padding: var(--space-32) 16% var(--space-24);
   scroll-margin-top: 80px;
+  background: radial-gradient(
+    ellipse at 74% 32%,
+    var(--color-ivory),
+    transparent 65%
+  );
+}
+.intro-reading {
+  position: relative;
+  max-width: 1000px;
 }
 .intro-haze {
   position: absolute;
-  inset: -10% 0 0;
+  inset: -15% 0 0;
   z-index: -1;
-  opacity: 0.2;
-  background: url('/atmosphere/cloud-bank.webp') -15vw -20vw / 85vw auto
+  opacity: 0.15;
+  filter: saturate(0.4);
+  background: url('/atmosphere/cloud-bank.webp') -32vw -18vw / 88vw auto
     no-repeat;
-}
-.intro-label {
-  color: var(--text-secondary);
-  margin: 0 0 var(--space-12);
+  mask-image: linear-gradient(to bottom, black, transparent 80%);
 }
 .intro h2 {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 7.6vw, 7.5rem);
+  font-size: clamp(3.5rem, 7.2vw, 7rem);
   font-weight: 400;
   line-height: 1.04;
   letter-spacing: -0.035em;
   margin: 0;
-  max-width: 14ch;
+  max-width: 16ch;
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
@@ -363,25 +383,9 @@ a:hover {
 }
 .intro-support {
   max-width: 30ch;
-  margin: var(--space-12) 0 0 auto;
+  margin: var(--space-8) 0 0 22%;
   color: var(--text-secondary);
   font-size: 1rem;
-}
-.intro-end {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-4);
-  font-family: var(--font-display);
-  color: var(--text-secondary);
-  margin-top: var(--space-24);
-  font-size: 1.2rem;
-}
-.intro-end span {
-  width: 30px;
-  height: 1px;
-  background: var(--text-secondary);
-  opacity: 0.4;
 }
 .opening {
   position: fixed;
@@ -458,11 +462,12 @@ a:hover {
     top: 24%;
   }
   .hero h1 {
-    font-size: 13.5vw;
-    gap: 100px;
+    font-size: 12.8vw;
+    gap: 70px;
   }
   .heart-travel {
-    width: 76%;
+    width: 60%;
+    left: 62%;
   }
   .hero-love {
     left: 12%;
@@ -480,27 +485,23 @@ a:hover {
     top: var(--space-3);
     left: var(--space-4);
     right: var(--space-4);
-    padding: var(--space-1) var(--space-3);
-    gap: var(--space-4);
-    flex-wrap: wrap;
+    padding: 0;
+    gap: var(--space-2);
   }
   .wordmark {
-    font-size: 1.35rem;
-  }
-  .wordmark span {
-    display: none;
+    font-size: 1.25rem;
   }
   .nav-links {
     gap: var(--space-4);
   }
   .motion-toggle {
-    margin-left: auto;
+    margin-left: 0;
   }
   .hero-stage {
     min-height: 740px;
   }
   .hero-type-travel {
-    top: 18%;
+    top: 21%;
     left: var(--space-6);
     width: calc(100% - var(--space-12));
   }
@@ -508,16 +509,17 @@ a:hover {
     margin-left: var(--space-1);
   }
   .hero h1 {
-    font-size: clamp(3.5rem, 18.5vw, 8rem);
-    gap: 290px;
+    font-size: clamp(3.5rem, 17.5vw, 8rem);
+    gap: 260px;
   }
   .heart-travel {
     width: 110%;
-    height: 60%;
-    top: 46%;
+    height: 61%;
+    top: 47%;
+    left: 53%;
   }
   .hero-love {
-    top: 74%;
+    top: 73%;
     left: var(--space-6);
     z-index: 36;
   }
@@ -525,32 +527,25 @@ a:hover {
     display: none;
   }
   .cloud-layer--midground {
-    width: 125%;
-    left: -65%;
-    top: 22%;
+    width: 110%;
+    left: -60%;
+    top: 17%;
   }
-  .cloud-layer--midground::after {
-    left: 96%;
-    top: 28%;
-    opacity: 0.75;
-    background-image: url('/atmosphere/cloud-bank-small.webp');
+  .cloud-layer--right {
+    left: 65%;
+    top: 29%;
+    width: 85%;
+    opacity: 0.5;
   }
   .cloud-layer--foreground {
-    width: 155%;
-    left: -25%;
-    top: 60%;
+    width: 140%;
+    left: -50%;
+    top: 46%;
     filter: none;
   }
   .hero-footnote {
     bottom: var(--space-6);
     align-items: end;
-  }
-  .hero-footnote .editorial-label {
-    max-width: 12ch;
-    font-size: 0.65rem;
-  }
-  .hero-demo {
-    display: none;
   }
   .scroll-cue {
     align-items: end;
@@ -558,21 +553,21 @@ a:hover {
   }
   .intro {
     min-height: 100svh;
-    padding: var(--space-24) var(--space-6) var(--space-12);
+    padding: var(--space-24) var(--space-6) var(--space-16);
   }
   .intro h2 {
     font-size: clamp(3rem, 11.8vw, 5.5rem);
-    max-width: 12ch;
+    max-width: 14ch;
   }
   .intro-support {
-    margin: var(--space-12) 0 0;
+    margin: var(--space-6) 0 0 var(--space-6);
     max-width: 28ch;
   }
   .intro-haze {
     background-image: url('/atmosphere/cloud-bank-small.webp');
-    background-size: 150vw auto;
-    background-position: -75vw -20vw;
-    opacity: 0.12;
+    background-size: 180vw auto;
+    background-position: -95vw -25vw;
+    opacity: 0.18;
   }
 }
 @media (max-width: 360px) {
@@ -583,19 +578,24 @@ a:hover {
     gap: var(--space-3);
   }
   .wordmark {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
   .motion-toggle {
     min-height: 44px;
-    width: 100%;
-    justify-content: end;
-    font-size: 0.7rem;
+    width: 44px;
   }
   .hero-type-travel {
-    top: 19%;
+    top: 21%;
   }
   .hero h1 {
-    gap: 260px;
+    gap: 245px;
+  }
+}
+@media (min-width: 601px) and (max-width: 768px) {
+  .heart-travel {
+    height: 52%;
+    width: 100%;
+    left: 55%;
   }
 }
 @media (prefers-reduced-motion: reduce) {

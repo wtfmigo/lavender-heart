@@ -33,7 +33,7 @@ export function Navigation({
       onFocusCapture={() => setHidden(false)}
     >
       <a href="#home" className="wordmark">
-        Lavender Heart<span aria-hidden="true"> / </span>
+        Lavender Heart
       </a>
       <div className="nav-links">
         <a href="#home">Home</a>
@@ -43,9 +43,23 @@ export function Navigation({
         type="button"
         className="motion-toggle"
         aria-pressed={paused}
+        aria-label={paused ? 'Resume motion' : 'Pause motion'}
+        title={paused ? 'Resume motion' : 'Pause motion'}
         onClick={onToggleMotion}
       >
-        {paused ? 'Resume motion' : 'Pause motion'}
+        <svg
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+          fill="none"
+          aria-hidden="true"
+        >
+          {paused ? (
+            <path d="m9 6 9 6-9 6Z" stroke="currentColor" strokeWidth="1.4" />
+          ) : (
+            <path d="M9 6v12M15 6v12" stroke="currentColor" strokeWidth="1.4" />
+          )}
+        </svg>
       </button>
     </nav>
   )

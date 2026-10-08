@@ -1,8 +1,10 @@
 /* global document, window, console, process, HTMLCanvasElement */
 import { chromium } from '@playwright/test'
 import { mkdir, writeFile } from 'node:fs/promises'
+import assert from 'node:assert/strict'
 
-const directory = '../docs/evidence/visible-experience'
+const directory =
+  process.env.QA_DIRECTORY || '../docs/evidence/visible-experience'
 await mkdir(directory, { recursive: true })
 const browser = await chromium.launch()
 const results = []
@@ -61,6 +63,10 @@ try {
       canvas: !!document.querySelector('canvas[data-webgl="ready"]'),
       font: document.fonts.check('400 24px "Cormorant Garamond"'),
     }))
+    assert(
+      !hero.overflow && hero.canvas && hero.font && errors.length === 0,
+      `Composition failed at ${width}px: ${JSON.stringify({ ...hero, errors })}`,
+    )
     if (width === 1440) {
       await page.evaluate(() => window.scrollTo(0, 630))
       await page.waitForTimeout(1600)

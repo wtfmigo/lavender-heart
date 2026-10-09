@@ -45,7 +45,7 @@ function Sculpture({
   useFrame(() => {
     if (!mesh.current) return
     const travel = reducedMotion ? 0 : progress.current
-    mesh.current.rotation.y = -0.24 + travel * 1.8
+    mesh.current.rotation.y = -0.24 + Math.sin(travel * 5.5) * 0.26
     mesh.current.rotation.x = 0.06 + Math.sin(travel * 0.45) * 0.1
     mesh.current.rotation.z = -0.08 + Math.sin(travel * 0.5) * 0.08
     mesh.current.position.y = 0

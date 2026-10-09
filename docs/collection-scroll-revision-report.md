@@ -19,3 +19,11 @@ The old heart motion mixed idle sine-wave animation with only half a radian of r
 Screenshots: [desktop heading](evidence/collection-scroll/heading-1864.png), [desktop collection](evidence/collection-scroll/photos-1864.png), [phone heading](evidence/collection-scroll/heading-390.png), [phone collection](evidence/collection-scroll/photos-390.png).
 
 Physical Brave/GPU and Safari remain unverified. Development photos and personal-content placeholders are unchanged.
+
+## Follow-up: preserve the heart silhouette
+
+The user's closing screenshot exposed a side-on pose from the continuous Y-axis turn. The final rotation now uses a fast, bounded scroll-driven turn: Y stays between approximately −29° and +1°. Both lobes remain visible instead of rotating to a thin edge. Idle motion stays disabled and reverse scrolling still restores the pose.
+
+The closing regression reads the rendered silhouette at three visible scroll stops. It failed on the prior turn at 150px from the bottom (width/height 0.64), and passes after the correction. It also rejects empty pixel captures; hidden transition frames are outside this silhouette check. The idle/scroll/reverse regression remains intact.
+
+[Corrected closing heart](evidence/collection-scroll/finale-heart-fixed.png).

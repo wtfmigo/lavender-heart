@@ -1,11 +1,11 @@
 {
   "settings": {
-    "recipientName": "Recipient Name",
+    "recipientName": "Jeriann Alexa",
     "nickname": "",
-    "birthdayDate": null,
-    "relationshipStartDate": null,
+    "birthdayDate": "2026-10-09",
+    "relationshipStartDate": "2025-07-17",
     "relationshipCounterVisible": false,
-    "closingSignature": "",
+    "closingSignature": "With all my love,\nJalebong",
     "themePreset": "lavender_mist"
   },
   "hero": {
@@ -20,13 +20,13 @@
           "children": [
             {
               "type": "text",
-              "text": "A little place for the moments that matter."
+              "text": "You changed what love means to me."
             }
           ]
         }
       ]
     },
-    "supportingText": ""
+    "supportingText": "I thought I knew what love was. Then you came into my life, and I realized how much I still had to learn—about loving you, facing difficult days together, and growing alongside you."
   },
   "sections": [
     {
@@ -48,57 +48,57 @@
               "children": [
                 {
                   "type": "text",
-                  "text": "A little place for the moments that matter."
+                  "text": "You changed what love means to me."
                 }
               ]
             }
           ]
         },
-        "supportingText": ""
+        "supportingText": "I thought I knew what love was. Then you came into my life, and I realized how much I still had to learn—about loving you, facing difficult days together, and growing alongside you."
       }
     },
     {
       "key": "horizontal_story",
       "visible": true,
       "content": {
-        "heading": "Our moments"
+        "heading": "How we became us"
       }
     },
     {
       "key": "full_width_memory",
       "visible": true,
       "content": {
-        "caption": "The memory",
-        "date": null
+        "caption": "An evening I’ll always remember",
+        "date": "2025-05-29"
       }
     },
     {
       "key": "gallery",
       "visible": true,
       "content": {
-        "heading": "A little collection"
+        "heading": "Little pieces of us"
       }
     },
     {
       "key": "things_i_love",
       "visible": true,
       "content": {
-        "heading": "Little things"
+        "heading": "My favorite things about you"
       }
     },
     {
       "key": "timeline",
       "visible": true,
       "content": {
-        "heading": "A timeline of us"
+        "heading": "From our first hello to us"
       }
     },
     {
       "key": "birthday_letter",
       "visible": true,
       "content": {
-        "heading": "For you",
-        "opening": "Birthday letter",
+        "heading": "Happy Birthday, Jeriann Alexa",
+        "opening": "For you, on your birthday.",
         "body": {
           "blocks": [
             {
@@ -106,14 +106,50 @@
               "children": [
                 {
                   "type": "text",
-                  "text": "Your birthday letter here."
+                  "text": "What started as conversations on social media became something I never expected to mean this much to me. From waiting for you by Lawson to our Chick Chicken dates and that evening in Tagaytay, I’m grateful for every little moment that brought us here."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "I thought I already knew how to love. Being with you showed me that I still had so much to learn. Love isn’t only the butterflies—it’s learning to understand each other, working through difficult days, and growing together."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "I love how caring you are, your wonderfully weird and funny side, and your kindness. You’re the kindest person I know, and I hope you feel just as cared for as you make me feel."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "On your birthday, I wish you happiness, peace, and more reasons to smile. I want to be there to celebrate your good days and listen when things feel heavy."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "I will keep choosing you, even when life gets messy. I’ll care for you in every way I can, keep learning how to love you better, and do my part to help us grow."
                 }
               ]
             }
           ]
         },
-        "signature": "",
-        "date": null
+        "signature": "With all my love,\nJalebong",
+        "date": "2026-10-09"
       }
     },
     {
@@ -127,20 +163,29 @@
               "children": [
                 {
                   "type": "text",
-                  "text": "With love."
+                  "text": "Still you. Always you."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Through ordinary days and difficult ones, I want to be beside you. I will keep choosing you, Jeriann Alexa."
                 }
               ]
             }
           ]
         },
-        "date": null
+        "date": "2026-10-09"
       }
     }
   ],
   "story": [
     {
       "id": "memory-1",
-      "title": "Memory 01",
+      "title": "Our first hello",
       "date": null,
       "message": {
         "blocks": [
@@ -149,7 +194,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your message here"
+                "text": "We met on social media and kept talking. Little by little, those conversations brought us closer."
               }
             ]
           }
@@ -166,13 +211,12 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 0,
-      "dateLabel": "YOUR YEAR"
+      "position": 0
     },
     {
       "id": "memory-2",
-      "title": "Memory 02",
-      "date": null,
+      "title": "Waiting by Lawson",
+      "date": "2025-05-18",
       "message": {
         "blocks": [
           {
@@ -180,7 +224,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your message here"
+                "text": "I waited for you by Lawson near your dorm. After all our conversations online, this was our first day together."
               }
             ]
           }
@@ -197,13 +241,12 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 1,
-      "dateLabel": "YOUR DATE"
+      "position": 1
     },
     {
       "id": "memory-3",
-      "title": "Memory 03",
-      "date": null,
+      "title": "Our Chick Chicken tradition",
+      "date": "2025-05-18",
       "message": {
         "blocks": [
           {
@@ -211,7 +254,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your message here"
+                "text": "We took a Grab to QC to try Chick Chicken. It became our favorite, and we kept coming back for more."
               }
             ]
           }
@@ -228,13 +271,12 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 2,
-      "dateLabel": "MONTH / DAY"
+      "position": 2
     },
     {
       "id": "memory-4",
-      "title": "Memory 04",
-      "date": null,
+      "title": "Coffee before goodbye",
+      "date": "2025-05-18",
       "message": {
         "blocks": [
           {
@@ -242,7 +284,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your message here"
+                "text": "After Chick Chicken, we went to a coffee shop before heading home. Our conversations kept going long after that first day."
               }
             ]
           }
@@ -259,13 +301,12 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 3,
-      "dateLabel": "YOUR YEAR"
+      "position": 3
     },
     {
       "id": "memory-5",
-      "title": "Memory 05",
-      "date": null,
+      "title": "A bus ride to Tagaytay",
+      "date": "2025-05-29",
       "message": {
         "blocks": [
           {
@@ -273,7 +314,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your message here"
+                "text": "We took the bus to Tagaytay together. Somewhere along the way, we almost kissed."
               }
             ]
           }
@@ -290,13 +331,12 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 4,
-      "dateLabel": "YOUR DATE"
+      "position": 4
     },
     {
       "id": "memory-6",
-      "title": "Memory 06",
-      "date": null,
+      "title": "Our first kiss",
+      "date": "2025-05-29",
       "message": {
         "blocks": [
           {
@@ -304,7 +344,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your message here"
+                "text": "We stayed at Starbucks Hiraya until night and shared our first kiss. Afterward, I booked a Grab to take you home."
               }
             ]
           }
@@ -321,13 +361,12 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 5,
-      "dateLabel": "MONTH / DAY"
+      "position": 5
     },
     {
       "id": "memory-7",
-      "title": "Memory 07",
-      "date": null,
+      "title": "The day we became us",
+      "date": "2025-07-17",
       "message": {
         "blocks": [
           {
@@ -335,7 +374,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your message here"
+                "text": "From talking online to spending days together, we kept getting closer. On this day, we became us."
               }
             ]
           }
@@ -352,12 +391,11 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 6,
-      "dateLabel": "YOUR YEAR"
+      "position": 6
     },
     {
       "id": "memory-8",
-      "title": "Memory 08",
+      "title": "Learning to love you",
       "date": null,
       "message": {
         "blocks": [
@@ -366,7 +404,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your message here"
+                "text": "I thought love was only the butterflies. Through our challenges, I learned that I wanted to keep choosing you and growing with you."
               }
             ]
           }
@@ -383,8 +421,7 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 7,
-      "dateLabel": "YOUR DATE"
+      "position": 7
     }
   ],
   "memoryPhoto": {
@@ -406,7 +443,7 @@
       "alt": "A smiling woman in a red sweater",
       "width": 800,
       "height": 1067,
-      "caption": "Little things, gathered.",
+      "caption": "A little piece of us.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -417,7 +454,7 @@
       "alt": "Yellow flowers against a blue sky",
       "width": 800,
       "height": 1067,
-      "caption": "A little colour.",
+      "caption": "The little things I remember.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -428,7 +465,7 @@
       "alt": "A wooden boathouse beside a still mountain lake",
       "width": 1200,
       "height": 800,
-      "caption": "The mountain air\nOpen skies, quiet water, and a moment to pause.",
+      "caption": "Our first day together\nWaiting by Lawson, Chick Chicken in QC, and coffee before goodbye.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -439,7 +476,7 @@
       "alt": "A sunlit woodland path between tall trees",
       "width": 1200,
       "height": 800,
-      "caption": "The quieter path.",
+      "caption": "The beginning of many more days.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -450,7 +487,7 @@
       "alt": "A fountain pen resting on handwritten paper",
       "width": 800,
       "height": 1067,
-      "caption": "Simple moments\nCoffee, slow mornings, and details worth keeping.",
+      "caption": "Our first kiss\nA bus ride to Tagaytay and an evening at Starbucks Hiraya I’ll always remember.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -461,7 +498,7 @@
       "alt": "Hands holding cups of coffee with latte art",
       "width": 1200,
       "height": 800,
-      "caption": "A brighter morning.",
+      "caption": "Our favorite kind of date.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -472,7 +509,7 @@
       "alt": "The bow of a wooden boat on a lake beneath rocky mountains",
       "width": 1200,
       "height": 800,
-      "caption": "Somewhere by the water.",
+      "caption": "More moments with you.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -483,7 +520,7 @@
       "alt": "Gentle waves on a sandy beach at sunset",
       "width": 1200,
       "height": 800,
-      "caption": "Places we wander\nNew roads, familiar corners, and another view to remember.",
+      "caption": "The day we became us\nJuly 17, 2025. From getting closer to choosing each other.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -494,7 +531,7 @@
       "alt": "A close view of blue ocean waves",
       "width": 1200,
       "height": 800,
-      "caption": "Along the coast.",
+      "caption": "Little moments, big feelings.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -505,7 +542,7 @@
       "alt": "A woman in a yellow shirt outdoors in sunlight",
       "width": 800,
       "height": 1067,
-      "caption": "A little sunshine.",
+      "caption": "Another memory to keep.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -516,7 +553,7 @@
       "alt": "A wooden boat on a clear turquoise mountain lake",
       "width": 1200,
       "height": 800,
-      "caption": "Favorite view\nSome photographs need only a few words.",
+      "caption": "Still you. Always you.\nThrough ordinary days and difficult ones, I want to be beside you.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -527,7 +564,7 @@
       "alt": "Overlapping green fern leaves",
       "width": 800,
       "height": 1067,
-      "caption": "Beautiful little details.",
+      "caption": "Your wonderfully weird side.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -538,7 +575,7 @@
       "alt": "Sunlight through the spreading branches of a large tree",
       "width": 800,
       "height": 1067,
-      "caption": "Under the trees.",
+      "caption": "The way you make me smile.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -549,7 +586,7 @@
       "alt": "Low clouds over a grassy mountain ridge at sunset",
       "width": 1200,
       "height": 800,
-      "caption": "A different kind of quiet.",
+      "caption": "The little things I love.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -560,7 +597,7 @@
       "alt": "Traffic between tall city buildings at dusk",
       "width": 1200,
       "height": 800,
-      "caption": "The city at dusk.",
+      "caption": "Growing alongside you.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -571,7 +608,7 @@
       "alt": "A woman in a striped shirt outdoors",
       "width": 800,
       "height": 1067,
-      "caption": "One more little moment.",
+      "caption": "And so many more with you.",
       "focalX": 0.5,
       "focalY": 0.5
     }
@@ -579,46 +616,28 @@
   "loveEntries": [
     {
       "id": "love-1",
-      "statement": "Your statement here",
-      "supportingText": "",
+      "statement": "The way you care",
+      "supportingText": "You make me feel loved in the little things you do.",
       "position": 0
     },
     {
       "id": "love-2",
-      "statement": "Your statement here",
-      "supportingText": "",
+      "statement": "Your wonderfully weird side",
+      "supportingText": "Your little quirks and the way you make me laugh are some of my favorite things about you.",
       "position": 1
     },
     {
       "id": "love-3",
-      "statement": "Your statement here",
-      "supportingText": "",
+      "statement": "Your kind heart",
+      "supportingText": "You’re the kindest person I know, and I love that about you.",
       "position": 2
-    },
-    {
-      "id": "love-4",
-      "statement": "Your statement here",
-      "supportingText": "",
-      "position": 3
-    },
-    {
-      "id": "love-5",
-      "statement": "Your statement here",
-      "supportingText": "",
-      "position": 4
-    },
-    {
-      "id": "love-6",
-      "statement": "Your statement here",
-      "supportingText": "",
-      "position": 5
     }
   ],
   "timeline": [
     {
       "id": "moment-1",
-      "title": "Special moment 01",
-      "date": null,
+      "title": "Our first day together",
+      "date": "2025-05-18",
       "message": {
         "blocks": [
           {
@@ -626,7 +645,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your memory here"
+                "text": "Waiting for you by Lawson, taking a Grab to QC, and trying Chick Chicken together. It became our favorite—and that day became the first of many."
               }
             ]
           }
@@ -643,13 +662,12 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 0,
-      "dateLabel": "YOUR YEAR"
+      "position": 0
     },
     {
       "id": "moment-2",
-      "title": "Special moment 02",
-      "date": null,
+      "title": "Our first kiss",
+      "date": "2025-05-29",
       "message": {
         "blocks": [
           {
@@ -657,7 +675,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your memory here"
+                "text": "A bus ride to Tagaytay, an almost-kiss along the way, and an evening at Starbucks Hiraya. We stayed until night, and shared a first kiss I’ll always remember."
               }
             ]
           }
@@ -674,13 +692,12 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 1,
-      "dateLabel": "YOUR DATE"
+      "position": 1
     },
     {
       "id": "moment-3",
-      "title": "Special moment 03",
-      "date": null,
+      "title": "The day we became us",
+      "date": "2025-07-17",
       "message": {
         "blocks": [
           {
@@ -688,7 +705,7 @@
             "children": [
               {
                 "type": "text",
-                "text": "Your memory here"
+                "text": "From talking online to spending days together, we kept getting closer. On this day, we became us."
               }
             ]
           }
@@ -705,101 +722,7 @@
         "focalX": 0.5,
         "focalY": 0.5
       },
-      "position": 2,
-      "dateLabel": "MONTH / DAY"
-    },
-    {
-      "id": "moment-4",
-      "title": "Special moment 04",
-      "date": null,
-      "message": {
-        "blocks": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "text": "Your memory here"
-              }
-            ]
-          }
-        ]
-      },
-      "photo": {
-        "id": "photo30",
-        "src": "/photos/photo30.webp",
-        "smallSrc": "/photos/photo30-small.webp",
-        "alt": "Sunlight through the spreading branches of a large tree",
-        "width": 800,
-        "height": 1067,
-        "caption": "",
-        "focalX": 0.5,
-        "focalY": 0.5
-      },
-      "position": 3,
-      "dateLabel": "YOUR YEAR"
-    },
-    {
-      "id": "moment-5",
-      "title": "Special moment 05",
-      "date": null,
-      "message": {
-        "blocks": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "text": "Your memory here"
-              }
-            ]
-          }
-        ]
-      },
-      "photo": {
-        "id": "photo31",
-        "src": "/photos/photo31.webp",
-        "smallSrc": "/photos/photo31-small.webp",
-        "alt": "A smiling woman wearing a black knit hat and a scarf",
-        "width": 800,
-        "height": 1067,
-        "caption": "",
-        "focalX": 0.5,
-        "focalY": 0.5
-      },
-      "position": 4,
-      "dateLabel": "YOUR DATE"
-    },
-    {
-      "id": "moment-6",
-      "title": "Special moment 06",
-      "date": null,
-      "message": {
-        "blocks": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "text": "Your memory here"
-              }
-            ]
-          }
-        ]
-      },
-      "photo": {
-        "id": "photo07",
-        "src": "/photos/photo07.webp",
-        "smallSrc": "/photos/photo07-small.webp",
-        "alt": "A wooden boat on a clear turquoise mountain lake",
-        "width": 1200,
-        "height": 800,
-        "caption": "",
-        "focalX": 0.5,
-        "focalY": 0.5
-      },
-      "position": 5,
-      "dateLabel": "MONTH / DAY"
+      "position": 2
     }
   ]
 }

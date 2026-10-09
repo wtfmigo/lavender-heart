@@ -9,7 +9,7 @@ test('long supplied names remain readable during full-motion mobile scrolling', 
     await route.fulfill({
       response,
       body: (await response.text()).replace(
-        'Recipient Name',
+        'Jeriann Alexa',
         'Alexandra Maria Isabel de la Cruz Santos',
       ),
     })
@@ -36,7 +36,7 @@ test('medium multi-part names use readable natural flow around the crystal', asy
     await route.fulfill({
       response,
       body: (await response.text()).replace(
-        'Recipient Name',
+        'Jeriann Alexa',
         'Alexandra Maria Isabel Lopez',
       ),
     })
@@ -137,7 +137,7 @@ test('blocked WebGL preserves clouds, original heart and text', async ({
   ).toBeVisible()
   await expect(page.locator('.cloud-layer--foreground img')).toBeVisible()
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Recipient Name',
+    'Jeriann Alexa',
   )
   await page.evaluate(() => document.fonts.ready)
   await expect(page.locator('.heart-reveal')).toHaveCSS('opacity', '1')
@@ -183,7 +183,7 @@ test('failed crystal backdrop preserves the static heart and supplied name', asy
   ).toBeVisible()
   await expect(page.locator('canvas')).toHaveCount(0)
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Recipient Name',
+    'Jeriann Alexa',
   )
 })
 

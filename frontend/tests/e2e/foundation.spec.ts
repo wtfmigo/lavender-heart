@@ -8,7 +8,7 @@ test('public experience renders, styles load, and Laravel health remains intact'
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
   await expect(
-    page.getByRole('heading', { name: 'Recipient Name', level: 1 }),
+    page.getByRole('heading', { name: 'Jeriann Alexa', level: 1 }),
   ).toBeVisible()
   await expect(page.getByText('Technical Foundation Ready')).toHaveCount(0)
   await expect(page.locator('.opening')).toBeHidden({ timeout: 5000 })

@@ -707,3 +707,17 @@ a:hover {
     right: -80%;
   }
 }
+
+@media (min-width: 769px) {
+  .hero[data-long-name='false'] .hero-type-travel {
+    top: 10%;
+  }
+  .hero[data-long-name='false'] h1 {
+    font-size: clamp(5rem, 10vw, 10rem);
+    gap: 44svh;
+  }
+}
+.letter-signature p,
+.finale-signature {
+  white-space: pre-line;
+}

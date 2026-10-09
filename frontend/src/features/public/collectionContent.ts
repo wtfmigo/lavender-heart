@@ -1,7 +1,7 @@
-// Neutral presentation copy; personal memory titles and notes come from photo captions.
 export const collectionContent = {
-  intro: 'Moments, places, and the little details in between.',
-  closingLabel: 'And so many more…',
+  intro:
+    'Our first days, our favorite places, and the little moments that brought us closer.',
+  closingLabel: 'And so many more with you…',
   closing:
-    'A collection of photographs. A few things to remember, and a little space for what comes next.',
+    'From our first hello to everything still ahead of us. I’m grateful for the moments we’ve shared, and I’m looking forward to making more with you.',
 }

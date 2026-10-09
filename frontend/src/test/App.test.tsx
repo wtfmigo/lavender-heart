@@ -13,7 +13,7 @@ test('public route shows the experience instead of technical status', async () =
   render(<App />)
   expect(
     await screen.findByRole('heading', { level: 1 }, { timeout: 5000 }),
-  ).toHaveTextContent('Recipient Name')
+  ).toHaveTextContent(demoExperience.settings.recipientName)
   expect(
     screen.queryByText('Technical Foundation Ready'),
   ).not.toBeInTheDocument()

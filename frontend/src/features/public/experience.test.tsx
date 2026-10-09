@@ -85,10 +85,13 @@ describe('public content boundary', () => {
     fireEvent.scroll(window)
     expect(nav).toHaveAttribute('data-hidden', 'false')
   })
-  test('demo content is isolated and explicitly neutral', () => {
-    expect(demoExperience.settings.recipientName).toBe('Recipient Name')
-    expect(demoExperience.settings.birthdayDate).toBeNull()
-    expect(demoExperience.intro.supportingText).toBe('')
+  test('local gift content contains the approved birthday details', () => {
+    expect(demoExperience.settings.recipientName).toBe('Jeriann Alexa')
+    expect(demoExperience.settings.birthdayDate).toBe('2026-10-09')
+    expect(demoExperience.settings.relationshipStartDate).toBe('2025-07-17')
+    expect(demoExperience.settings.closingSignature).toBe(
+      'With all my love,\nJalebong',
+    )
   })
   test('the quiet motion icon retains its accessible name and action', () => {
     const onToggleMotion = vi.fn()

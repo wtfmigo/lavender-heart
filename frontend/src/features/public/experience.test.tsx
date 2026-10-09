@@ -80,7 +80,7 @@ describe('public content boundary', () => {
       within(nav)
         .getAllByRole('link')
         .map((link) => link.getAttribute('href')),
-    ).toEqual(['#home', '#home', '#intro'])
+    ).toEqual(['#home', '#intro'])
     screen.getByRole('link', { name: 'Intro' }).focus()
     fireEvent.scroll(window)
     expect(nav).toHaveAttribute('data-hidden', 'false')

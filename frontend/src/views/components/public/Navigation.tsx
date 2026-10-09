@@ -36,9 +36,6 @@ export function Navigation({
       data-hidden={hidden}
       onFocusCapture={() => setHidden(false)}
     >
-      <a href="#home" className="wordmark">
-        Lavender Heart
-      </a>
       <div className="nav-links">
         <a href="#home">Home</a>
         {chapters.includes('intro') && <a href="#intro">Intro</a>}

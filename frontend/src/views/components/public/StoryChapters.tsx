@@ -81,6 +81,9 @@ function MemoryPhoto({
           loading="lazy"
           decoding="async"
           style={{
+            aspectRatio: photo.src.startsWith('/photos/personal/')
+              ? `${photo.width} / ${photo.height}`
+              : undefined,
             objectPosition: `${photo.focalX * 100}% ${photo.focalY * 100}%`,
           }}
         />
@@ -207,7 +210,7 @@ export function FullWidthMemory({
   return (
     <section
       id="memory"
-      className={`full-memory${photo ? '' : ' full-memory--empty'}`}
+      className={`full-memory${photo ? '' : ' full-memory--empty'}${photo && photo.height > photo.width ? ' full-memory--portrait' : ''}`}
       aria-label={content.caption || 'Memory'}
     >
       {photo && (

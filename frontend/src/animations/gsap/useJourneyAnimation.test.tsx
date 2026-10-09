@@ -70,11 +70,13 @@ function Journey({
   complete = false,
   tallStory = false,
   tallLove = false,
+  personalPhotos = false,
 }: {
   reduced?: boolean
   complete?: boolean
   tallStory?: boolean
   tallLove?: boolean
+  personalPhotos?: boolean
 }) {
   const container = useRef<HTMLDivElement>(null)
   const progress = useRef(0)
@@ -160,9 +162,19 @@ function Journey({
             )}
           </section>
         ))}
-      <section id="memory">
+      <section
+        id="memory"
+        className={personalPhotos ? 'full-memory--portrait' : ''}
+      >
         <img className="memory-image" alt="" />
       </section>
+      {personalPhotos && (
+        <figure className="chapter-photo">
+          <div className="photo-window">
+            <img src="/photos/personal/example.jpg" alt="" />
+          </div>
+        </figure>
+      )}
       <section id="letter" />
       <section id="finale" />
     </div>
@@ -183,6 +195,18 @@ beforeEach(() => {
 })
 
 afterEach(() => vi.restoreAllMocks())
+
+test('personal photographs keep their full frame without image zoom or parallax cropping', () => {
+  render(<Journey personalPhotos />)
+  expect(
+    mocks.fromTo.mock.calls.some(([element]) => element.tagName === 'IMG'),
+  ).toBe(false)
+  expect(
+    mocks.fromTo.mock.calls.some(([element]) =>
+      element.classList.contains('photo-window'),
+    ),
+  ).toBe(true)
+})
 
 test('hidden chapters connect adjacent visible heart positions and release Lenis', () => {
   const { unmount } = render(<Journey />)

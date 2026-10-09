@@ -76,7 +76,10 @@ export function useJourneyAnimation(
           const memory = container.current?.querySelector('#memory')
           const memoryImage =
             memory?.querySelector<HTMLElement>('.memory-image')
-          if (memoryImage) {
+          if (
+            memoryImage &&
+            !memory?.classList.contains('full-memory--portrait')
+          ) {
             gsap.fromTo(
               memoryImage,
               { yPercent: -12, scale: 1.18 },
@@ -271,7 +274,10 @@ export function useJourneyAnimation(
             const image = element.matches('.gallery-photo, .chapter-photo')
               ? element.querySelector('img')
               : null
-            if (image)
+            if (
+              image &&
+              !image.getAttribute('src')?.startsWith('/photos/personal/')
+            )
               gsap.fromTo(
                 image,
                 {

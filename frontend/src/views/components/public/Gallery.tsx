@@ -57,6 +57,9 @@ export function Gallery({
             loading="lazy"
             decoding="async"
             style={{
+              aspectRatio: item.src.startsWith('/photos/personal/')
+                ? `${item.width} / ${item.height}`
+                : undefined,
               objectPosition: `${item.focalX * 100}% ${item.focalY * 100}%`,
             }}
           />

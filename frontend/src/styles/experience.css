@@ -721,3 +721,63 @@ a:hover {
 .finale-signature {
   white-space: pre-line;
 }
+
+/* Owner photos retain their whole frame, including faces near the edges. */
+.experience .chapter-photo img[src^='/photos/personal/'],
+.experience .gallery-photo img[src^='/photos/personal/'] {
+  aspect-ratio: auto;
+  height: auto;
+  object-fit: contain;
+}
+.experience .chapter-photo img[src^='/photos/personal/'] {
+  max-height: 68svh;
+}
+.timeline-content:not(:has(.chapter-photo)) {
+  grid-template-columns: 1fr;
+}
+.full-memory--portrait {
+  align-items: center;
+}
+.full-memory--portrait .memory-image {
+  inset: 8% 4% 8% auto;
+  width: 48%;
+  height: 84%;
+  object-fit: contain;
+}
+.full-memory--portrait .full-memory-copy {
+  width: 42%;
+}
+.collection-favorite:has(img[src^='/photos/personal/']) .collection-note {
+  grid-area: auto;
+  width: auto;
+  color: var(--text-on-light);
+}
+.collection-favorite:has(img[src^='/photos/personal/']) button::after {
+  display: none;
+}
+.experience .collection-photo--cinematic img[src^='/photos/personal/'] {
+  max-height: 80svh;
+}
+.experience .collection-details:has(img[src^='/photos/personal/']) .keepsake-3,
+.experience .collection-details:has(img[src^='/photos/personal/']) .keepsake-4 {
+  grid-column: span 3;
+  margin-top: 0;
+}
+@media (max-width: 700px) {
+  .full-memory--portrait {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 8svh var(--gutter);
+  }
+  .full-memory--portrait .memory-image {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    max-height: 70svh;
+    z-index: 0;
+  }
+  .full-memory--portrait .full-memory-copy {
+    width: 100%;
+  }
+}

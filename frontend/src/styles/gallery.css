@@ -27,6 +27,7 @@
   cursor: zoom-in;
   flex: 1;
   position: relative;
+  overflow: clip;
 }
 .gallery-photo img {
   display: block;

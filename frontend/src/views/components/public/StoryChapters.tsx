@@ -72,17 +72,19 @@ function MemoryPhoto({
 }) {
   return (
     <figure className={`chapter-photo ${className}`}>
-      <img
-        src={photo.src}
-        alt={photo.alt}
-        width={photo.width}
-        height={photo.height}
-        loading="lazy"
-        decoding="async"
-        style={{
-          objectPosition: `${photo.focalX * 100}% ${photo.focalY * 100}%`,
-        }}
-      />
+      <div className="photo-window">
+        <img
+          src={photo.src}
+          alt={photo.alt}
+          width={photo.width}
+          height={photo.height}
+          loading="lazy"
+          decoding="async"
+          style={{
+            objectPosition: `${photo.focalX * 100}% ${photo.focalY * 100}%`,
+          }}
+        />
+      </div>
       {photo.caption && <figcaption>{photo.caption}</figcaption>}
     </figure>
   )

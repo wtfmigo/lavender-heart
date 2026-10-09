@@ -79,6 +79,7 @@ export function useJourneyAnimation(
           const stage =
             container.current?.querySelector<HTMLElement>('.story-stage')
           const track = stage?.querySelector<HTMLElement>('.story-track')
+          let storyPan: gsap.core.Tween | undefined
           const nativeStory = () => {
             if (!stage || !track) return
             stage.dataset.storyFlow = 'vertical'
@@ -92,7 +93,7 @@ export function useJourneyAnimation(
           )
             nativeStory()
           else if (desktop && stage && track) {
-            gsap.to(track, {
+            storyPan = gsap.to(track, {
               x: () => -Math.max(0, track.scrollWidth - stage.clientWidth),
               ease: 'none',
               scrollTrigger: {
@@ -116,6 +117,7 @@ export function useJourneyAnimation(
             container.current?.querySelector<HTMLElement>('.love-stage')
           const loveSequence =
             loveStage?.querySelector<HTMLElement>('.love-sequence')
+          let lovePan: gsap.core.Tween | undefined
           const loveOverflows = () =>
             !!loveSequence &&
             [...loveSequence.querySelectorAll<HTMLElement>('.love-entry')].some(
@@ -128,7 +130,7 @@ export function useJourneyAnimation(
           }
           if (desktop && loveOverflows()) nativeLove()
           else if (desktop && loveStage && loveSequence) {
-            gsap.to(loveSequence, {
+            lovePan = gsap.to(loveSequence, {
               y: () =>
                 -Math.max(
                   0,
@@ -152,6 +154,63 @@ export function useJourneyAnimation(
               },
             })
           }
+          const motionTargets =
+            container.current?.querySelectorAll<HTMLElement>(
+              '.gallery-photo, .chapter-photo, .chapter-scene .chapter-heading, .intro-support, .story-copy > *, .full-memory-copy, .love-entry > *, .timeline-date, .timeline-copy > *, .letter-introduction, .letter-opening, .letter-body > *, .letter-signature, .finale h2, .finale-message, .finale-signature',
+            )
+          motionTargets?.forEach((element) => {
+            const story = element.closest('.story-spread')
+            const love = element.closest<HTMLElement>('.love-entry')
+            const loveStart = () =>
+              (lovePan?.scrollTrigger?.start ?? 0) +
+              love!.getBoundingClientRect().top -
+              loveSequence!.getBoundingClientRect().top
+            const pinnedLove = !!lovePan && love
+            const scrollTrigger = {
+              trigger: element,
+              start: pinnedLove
+                ? () => loveStart() - window.innerHeight * 0.85
+                : story && storyPan
+                  ? 'left 95%'
+                  : 'top 95%',
+              end: pinnedLove
+                ? () => loveStart() - window.innerHeight * 0.45
+                : story && storyPan
+                  ? 'left 65%'
+                  : 'top 65%',
+              ...(story && storyPan ? { containerAnimation: storyPan } : {}),
+              scrub: 0.45,
+              invalidateOnRefresh: true,
+            }
+            gsap.fromTo(
+              element,
+              { opacity: 0.25, y: desktop ? 32 : 18 },
+              {
+                opacity: 1,
+                y: 0,
+                ease: 'none',
+                scrollTrigger,
+              },
+            )
+            const image = element.matches('.gallery-photo, .chapter-photo')
+              ? element.querySelector('img')
+              : null
+            if (image)
+              gsap.fromTo(
+                image,
+                { yPercent: -5, scale: 1.12 },
+                {
+                  yPercent: 5,
+                  scale: 1.12,
+                  ease: 'none',
+                  scrollTrigger: {
+                    ...scrollTrigger,
+                    start: story && storyPan ? 'left right' : 'top bottom',
+                    end: story && storyPan ? 'right left' : 'bottom top',
+                  },
+                },
+              )
+          })
           const position = (id: string) => {
             const companion = (
               width: number,

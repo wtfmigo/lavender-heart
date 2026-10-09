@@ -171,11 +171,40 @@ export function useJourneyAnimation(
               },
             })
           }
+          // Earlier pinned chapters must exist before measuring collection cloud triggers.
+          container.current
+            ?.querySelectorAll<HTMLElement>('#gallery .collection-cloud')
+            .forEach((cloud) => {
+              const opening = cloud.classList.contains(
+                'collection-cloud--opening',
+              )
+              gsap.fromTo(
+                cloud,
+                { yPercent: 8, xPercent: opening ? -2 : 2 },
+                {
+                  yPercent: desktop ? -23 : -16,
+                  xPercent: opening ? 3 : -3,
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: opening
+                      ? cloud.parentElement?.querySelector(
+                          '.collection-opening',
+                        )
+                      : cloud.parentElement,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 0.65,
+                    invalidateOnRefresh: true,
+                  },
+                },
+              )
+            })
           const motionTargets =
             container.current?.querySelectorAll<HTMLElement>(
-              '.gallery-photo, .chapter-photo, .chapter-scene .chapter-heading, .intro-support, .story-copy > *, .full-memory-copy, .love-entry > *, .timeline-date, .timeline-copy > *, .letter-introduction, .letter-opening, .letter-body > *, .letter-signature, .finale h2, .finale-message, .finale-signature',
+              '.gallery-photo, .collection-note, .collection-closing > p, .chapter-photo, .chapter-scene .chapter-heading, .intro-support, .story-copy > *, .full-memory-copy, .love-entry > *, .timeline-date, .timeline-copy > *, .letter-introduction, .letter-opening, .letter-body > *, .letter-signature, .finale h2, .finale-message, .finale-signature',
             )
           motionTargets?.forEach((element) => {
+            const collection = !!element.closest('#gallery')
             const photoFrame = element.querySelector<HTMLElement>(
               'button, .photo-window',
             )
@@ -204,10 +233,15 @@ export function useJourneyAnimation(
             }
             gsap.fromTo(
               photoFrame ?? element,
-              { opacity: 0.08, y: desktop ? 110 : 64 },
+              {
+                opacity: collection ? 0 : 0.08,
+                y: collection ? 18 : desktop ? 110 : 64,
+                ...(collection ? { clipPath: 'inset(8% 0 0 0)' } : {}),
+              },
               {
                 opacity: 1,
                 y: 0,
+                ...(collection ? { clipPath: 'inset(0% 0 0 0)' } : {}),
                 ease: 'none',
                 scrollTrigger,
               },
@@ -218,10 +252,13 @@ export function useJourneyAnimation(
             if (image)
               gsap.fromTo(
                 image,
-                { yPercent: -12, scale: 1.42 },
                 {
-                  yPercent: 12,
-                  scale: 1.3,
+                  yPercent: collection ? -1 : -12,
+                  scale: collection ? 1.05 : 1.42,
+                },
+                {
+                  yPercent: collection ? 1 : 12,
+                  scale: collection ? 1.025 : 1.3,
                   ease: 'none',
                   scrollTrigger: {
                     ...scrollTrigger,
@@ -267,9 +304,9 @@ export function useJourneyAnimation(
               story: companion(200, 0.8),
               memory: companion(140, 0.5),
               gallery: {
-                ...companion(300, 0.9),
-                left: desktop ? '74%' : 'calc(100% - 90px)',
-                top: desktop ? '32%' : '26%',
+                ...companion(160, 0.75),
+                left: desktop ? '50%' : 'calc(100% - 72px)',
+                top: desktop ? '24%' : '18%',
               },
               love: companion(180, 0.85, desktop),
               timeline: companion(180, 0.75),

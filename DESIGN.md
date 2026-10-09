@@ -210,7 +210,7 @@ A minimal first-visit “Scroll” cue with a thin line/understated arrow disapp
 ## 18. Section 5 — Curated Gallery and Lightbox
 
 - **Visual purpose:** present authentic photographs as an editorial collection rather than a social feed.
-- **Layout:** masonry composition with mixed portrait/landscape sizing, asymmetry, balance, and generous spacing. Use fewer columns as width decreases; narrow screens may use one column. Keep visual and accessible reading order coherent.
+- **Layout:** art-directed memory chapter: a large serif opening with overlapping portrait/detail images, three distinct numbered spreads, a cinematic favorite view, a staggered detail collage, and a quiet closing. Use mixed portrait/landscape sizing, asymmetry, and generous spacing; no masonry or uniform thumbnails. Recompose into an editorial vertical sequence on mobile. Soft cloud banks frame the opening and closing without covering photographs or copy.
 - **Typography:** quiet Inter captions/dates where present; chapter heading uses Cormorant Garamond.
 - **Photography role:** central; mixed framing, natural colors, and intentional crops rather than uniform thumbnails or card borders.
 - **Motion:** progressive subtle stagger, fade, and very small scale settling. Selected larger photos may have light depth/parallax. Desktop hover scale is approximately **1.02–1.04 maximum**, with a tiny depth shift or caption/date fade when useful.

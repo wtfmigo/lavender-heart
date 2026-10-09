@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react'
-import type { CSSProperties } from 'react'
 import { motion } from 'motion/react'
 import type { ExperiencePhoto } from '@/features/public/experience'
 import { useReducedMotion } from '@/controllers/hooks/useReducedMotion'
 import '@/styles/gallery.css'
-import { ChapterScene } from './ChapterScene'
+import { HeartFallback } from '@/three/components/HeartFallback'
+import { collectionContent } from '@/features/public/collectionContent'
 
 export function Gallery({
   heading,
@@ -28,58 +28,138 @@ export function Gallery({
     setSelected(index)
     dialog.current?.showModal()
   }
+  function photo(index: number, role: string) {
+    const item = photos[index]
+    if (!item) return null
+    return (
+      <figure
+        key={item.id}
+        className={`gallery-photo collection-photo--${role}`}
+      >
+        <button
+          type="button"
+          aria-label={`Open photo ${index + 1}: ${item.alt}`}
+          onClick={(event) => open(index, event.currentTarget)}
+        >
+          <img
+            src={item.src}
+            srcSet={
+              item.smallSrc
+                ? `${item.smallSrc} 600w, ${item.src} ${item.width}w`
+                : undefined
+            }
+            sizes={
+              role === 'cinematic' ? '100vw' : '(max-width: 700px) 90vw, 60vw'
+            }
+            width={item.width}
+            height={item.height}
+            alt={item.alt}
+            loading="lazy"
+            decoding="async"
+            style={{
+              objectPosition: `${item.focalX * 100}% ${item.focalY * 100}%`,
+            }}
+          />
+        </button>
+        {item.caption && role !== 'lead' && role !== 'cinematic' && (
+          <figcaption>{item.caption}</figcaption>
+        )}
+      </figure>
+    )
+  }
+  function note(index: number, number: string) {
+    const [title, ...body] = photos[index].caption.split('\n')
+    return (
+      <div className="collection-note">
+        <span className="collection-number">
+          {number}
+          <span aria-hidden="true" />
+        </span>
+        {title && <h3>{title}</h3>}
+        {body.length > 0 && <p>{body.join(' ')}</p>}
+      </div>
+    )
+  }
   return (
     <section
       id="gallery"
       className="gallery-chapter"
       aria-labelledby="gallery-heading"
     >
-      <ChapterScene
-        heading={heading}
-        headingId="gallery-heading"
-        label="Photographs"
-        variant="gallery"
+      <div
+        className="collection-cloud collection-cloud--opening"
+        aria-hidden="true"
       />
+      <header className="collection-opening chapter-scene">
+        <div className="collection-intro">
+          <span className="chapter-scene-label">03 /</span>
+          <h2 id="gallery-heading" className="chapter-heading">
+            {heading}
+          </h2>
+          <p>{collectionContent.intro}</p>
+        </div>
+        <div className="chapter-heart" aria-hidden="true">
+          <HeartFallback />
+        </div>
+        <div className="collection-opening-photos">
+          {photo(0, 'portrait')}
+          {photo(1, 'opening-detail')}
+        </div>
+      </header>
       <div className="gallery-composition">
-        {photos.map((photo, index) => (
-          <figure
-            key={photo.id}
-            className={`gallery-photo gallery-photo-${index % 8}`}
-            style={
-              {
-                '--gallery-row':
-                  Math.floor(index / 8) * 5 +
-                  [1, 1, 2, 3, 3, 4, 4, 5][index % 8],
-              } as CSSProperties
-            }
-          >
-            <button
-              type="button"
-              aria-label={`Open photo ${index + 1}: ${photo.alt}`}
-              onClick={(event) => open(index, event.currentTarget)}
-            >
-              <img
-                src={photo.src}
-                srcSet={
-                  photo.smallSrc
-                    ? `${photo.smallSrc} 600w, ${photo.src} ${photo.width}w`
-                    : undefined
-                }
-                sizes="(max-width: 700px) 85vw, 60vw"
-                width={photo.width}
-                height={photo.height}
-                alt={photo.alt}
-                loading="lazy"
-                decoding="async"
-                style={{
-                  objectPosition: `${photo.focalX * 100}% ${photo.focalY * 100}%`,
-                }}
-              />
-            </button>
-            {photo.caption && <figcaption>{photo.caption}</figcaption>}
-          </figure>
-        ))}
+        {photos[2] && (
+          <article className="collection-spread collection-spread--air">
+            {photo(2, 'lead')}
+            {note(2, '01')}
+            {photo(3, 'support')}
+          </article>
+        )}
+        {photos[4] && (
+          <article className="collection-spread collection-spread--moments">
+            {photo(4, 'lead')}
+            {note(4, '02')}
+            {photo(5, 'detail')}
+            {photo(6, 'landscape')}
+          </article>
+        )}
+        {photos[7] && (
+          <article className="collection-spread collection-spread--wander">
+            {note(7, '03')}
+            {photo(7, 'lead')}
+            {photo(8, 'street')}
+            {photo(9, 'postcard')}
+          </article>
+        )}
+        {photos[10] && (
+          <article className="collection-favorite">
+            {photo(10, 'cinematic')}
+            {note(10, '04')}
+          </article>
+        )}
+        {photos.length > 11 && (
+          <div className="collection-details">
+            {photos
+              .slice(11)
+              .map((_, index) =>
+                photo(index + 11, `keepsake keepsake-${index % 5}`),
+              )}
+          </div>
+        )}
       </div>
+      <footer className="collection-closing">
+        <div
+          className="collection-cloud collection-cloud--closing"
+          aria-hidden="true"
+        />
+        <span className="chapter-scene-label">
+          {collectionContent.closingLabel}
+        </span>
+        <span className="collection-closing-line" aria-hidden="true" />
+        <p>{collectionContent.closing}</p>
+        <span className="collection-signoff" aria-hidden="true">
+          ♡
+        </span>
+      </footer>
       <dialog
         ref={dialog}
         className="gallery-lightbox"

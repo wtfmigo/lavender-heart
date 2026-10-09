@@ -29,7 +29,9 @@ for (const width of [1440, 390]) {
       const first = await sample(650)
       const second = await sample(150)
       const height = await image.evaluate((element) => element.clientHeight)
-      expect(Math.abs(second - first)).toBeGreaterThan(height * 0.055)
+      expect(Math.abs(second - first)).toBeGreaterThan(
+        height * (selector === '.gallery-photo' ? 0.002 : 0.055),
+      )
       expect(await sample(650)).toBeCloseTo(first, 0)
       await expect(image).toBeVisible()
     }

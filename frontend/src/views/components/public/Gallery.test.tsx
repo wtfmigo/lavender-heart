@@ -57,3 +57,30 @@ it('omits an empty gallery', () => {
   )
   expect(container).toBeEmptyDOMElement()
 })
+it.each([1, 2, 7, 16, 23])(
+  'keeps all %i photos available exactly once in editorial scenes',
+  (count) => {
+    const items = Array.from({ length: count }, (_, index) => ({
+      ...photos[0],
+      id: `memory-${index}`,
+      alt: `Memory ${index}`,
+    }))
+    const { container } = render(
+      <Gallery heading="A little collection" photos={items} />,
+    )
+    expect(container.querySelectorAll('.gallery-photo button')).toHaveLength(
+      count,
+    )
+    expect(container.querySelector('.collection-opening')).toBeInTheDocument()
+    expect(container.querySelector('.collection-closing')).toBeInTheDocument()
+    if (count >= 16) {
+      expect(container.querySelectorAll('.collection-spread')).toHaveLength(3)
+      expect(
+        container.querySelector('.collection-favorite .gallery-photo'),
+      ).toBeInTheDocument()
+      expect(
+        container.querySelectorAll('.collection-details .gallery-photo'),
+      ).toHaveLength(count - 11)
+    }
+  },
+)

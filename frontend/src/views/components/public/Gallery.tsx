@@ -81,151 +81,164 @@ export function Gallery({
     )
   }
   return (
-    <section
-      id="gallery"
-      className="gallery-chapter"
-      aria-labelledby="gallery-heading"
-    >
-      <div
-        className="collection-cloud collection-cloud--opening"
-        aria-hidden="true"
-      />
-      <header className="collection-opening chapter-scene">
-        <div className="collection-intro">
-          <span className="chapter-scene-label">03 /</span>
-          <h2 id="gallery-heading" className="chapter-heading">
-            {heading}
-          </h2>
-          <p>{collectionContent.intro}</p>
-        </div>
-        <div className="chapter-heart" aria-hidden="true">
-          <HeartFallback />
-        </div>
-        <div className="collection-opening-photos">
-          {photo(0, 'portrait')}
-          {photo(1, 'opening-detail')}
-        </div>
-      </header>
-      <div className="gallery-composition">
-        {photos[2] && (
-          <article className="collection-spread collection-spread--air">
-            {photo(2, 'lead')}
-            {note(2, '01')}
-            {photo(3, 'support')}
-          </article>
-        )}
-        {photos[4] && (
-          <article className="collection-spread collection-spread--moments">
-            {photo(4, 'lead')}
-            {note(4, '02')}
-            {photo(5, 'detail')}
-            {photo(6, 'landscape')}
-          </article>
-        )}
-        {photos[7] && (
-          <article className="collection-spread collection-spread--wander">
-            {note(7, '03')}
-            {photo(7, 'lead')}
-            {photo(8, 'street')}
-            {photo(9, 'postcard')}
-          </article>
-        )}
-        {photos[10] && (
-          <article className="collection-favorite">
-            {photo(10, 'cinematic')}
-            {note(10, '04')}
-          </article>
-        )}
-        {photos.length > 11 && (
-          <div className="collection-details">
-            {photos
-              .slice(11)
-              .map((_, index) =>
-                photo(index + 11, `keepsake keepsake-${index % 5}`),
-              )}
-          </div>
-        )}
-      </div>
-      <footer className="collection-closing">
-        <div
-          className="collection-cloud collection-cloud--closing"
-          aria-hidden="true"
-        >
-          <span className="collection-cloud-bank collection-cloud-bank--left" />
-          <span className="collection-cloud-bank collection-cloud-bank--right" />
-        </div>
-        <span className="chapter-scene-label">
-          {collectionContent.closingLabel}
-        </span>
-        <span className="collection-closing-line" aria-hidden="true" />
-        <p>{collectionContent.closing}</p>
-        <span className="collection-signoff" aria-hidden="true">
-          ♡
-        </span>
-      </footer>
-      <dialog
-        ref={dialog}
-        className="gallery-lightbox"
-        aria-label="Photographs"
-        data-lenis-prevent
-        onClose={() => returnFocus.current?.focus()}
-        onKeyDown={(event) => {
-          if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-            event.preventDefault()
-            move(event.key === 'ArrowLeft' ? -1 : 1)
-          }
-        }}
-        onTouchStart={(event) => {
-          touchStart.current = event.touches[0]?.clientX ?? null
-        }}
-        onTouchEnd={(event) => {
-          if (touchStart.current === null) return
-          const delta =
-            (event.changedTouches[0]?.clientX ?? touchStart.current) -
-            touchStart.current
-          if (Math.abs(delta) > 50) move(delta < 0 ? 1 : -1)
-          touchStart.current = null
-        }}
+    <>
+      <section
+        id="gallery"
+        className="gallery-chapter"
+        aria-labelledby="gallery-heading"
       >
-        <button
-          type="button"
-          className="lightbox-close"
-          aria-label="Close photographs"
-          autoFocus
-          onClick={() => dialog.current?.close()}
+        <div
+          className="collection-cloud collection-cloud--opening"
+          aria-hidden="true"
+        />
+        <header className="collection-opening chapter-scene">
+          <div className="collection-intro">
+            <span className="chapter-scene-label">03 /</span>
+            <h2 id="gallery-heading" className="chapter-heading">
+              {heading}
+            </h2>
+            <p>{collectionContent.intro}</p>
+          </div>
+          <div className="chapter-heart" aria-hidden="true">
+            <HeartFallback />
+          </div>
+          <div className="collection-opening-photos">
+            {photo(0, 'portrait')}
+            {photo(1, 'opening-detail')}
+          </div>
+        </header>
+        <div className="gallery-composition">
+          {photos[2] && (
+            <article className="collection-spread collection-spread--air">
+              {photo(2, 'lead')}
+              {note(2, '01')}
+              {photo(3, 'support')}
+            </article>
+          )}
+          {photos[4] && (
+            <article className="collection-spread collection-spread--moments">
+              {photo(4, 'lead')}
+              {note(4, '02')}
+              {photo(5, 'detail')}
+              {photo(6, 'landscape')}
+            </article>
+          )}
+          {photos[7] && (
+            <article className="collection-spread collection-spread--wander">
+              {note(7, '03')}
+              {photo(7, 'lead')}
+              {photo(8, 'street')}
+              {photo(9, 'postcard')}
+            </article>
+          )}
+          {photos[10] && (
+            <article className="collection-favorite">
+              {photo(10, 'cinematic')}
+              {note(10, '04')}
+            </article>
+          )}
+          {photos.length > 11 && (
+            <div className="collection-details">
+              {photos
+                .slice(11)
+                .map((_, index) =>
+                  photo(index + 11, `keepsake keepsake-${index % 5}`),
+                )}
+            </div>
+          )}
+        </div>
+        <footer className="collection-closing">
+          <div
+            className="collection-cloud collection-cloud--closing"
+            aria-hidden="true"
+          >
+            <span className="collection-cloud-bank collection-cloud-bank--left" />
+            <span className="collection-cloud-bank collection-cloud-bank--right" />
+          </div>
+          <span className="chapter-scene-label">
+            {collectionContent.closingLabel}
+          </span>
+          <span className="collection-closing-line" aria-hidden="true" />
+          <p>{collectionContent.closing}</p>
+          <span className="collection-signoff" aria-hidden="true">
+            ♡
+          </span>
+        </footer>
+        <dialog
+          ref={dialog}
+          className="gallery-lightbox"
+          aria-label="Photographs"
+          data-lenis-prevent
+          onClose={() => returnFocus.current?.focus()}
+          onKeyDown={(event) => {
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+              event.preventDefault()
+              move(event.key === 'ArrowLeft' ? -1 : 1)
+            }
+          }}
+          onTouchStart={(event) => {
+            touchStart.current = event.touches[0]?.clientX ?? null
+          }}
+          onTouchEnd={(event) => {
+            if (touchStart.current === null) return
+            const delta =
+              (event.changedTouches[0]?.clientX ?? touchStart.current) -
+              touchStart.current
+            if (Math.abs(delta) > 50) move(delta < 0 ? 1 : -1)
+            touchStart.current = null
+          }}
         >
-          Close <span aria-hidden="true">×</span>
-        </button>
-        <motion.figure
-          key={current.id}
-          initial={{ opacity: reduced ? 1 : 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: reduced ? 0 : 0.18 }}
-        >
-          <img
-            src={current.src}
-            alt={current.alt}
-            width={current.width}
-            height={current.height}
-          />
-          {current.caption && <figcaption>{current.caption}</figcaption>}
-        </motion.figure>
-        <div className="lightbox-controls">
           <button
             type="button"
-            aria-label="Previous photo"
-            onClick={() => move(-1)}
+            className="lightbox-close"
+            aria-label="Close photographs"
+            autoFocus
+            onClick={() => dialog.current?.close()}
           >
-            ← Previous
+            Close <span aria-hidden="true">×</span>
           </button>
-          <span aria-live="polite" aria-atomic="true">
-            {selected + 1} / {photos.length}
-          </span>
-          <button type="button" aria-label="Next photo" onClick={() => move(1)}>
-            Next →
-          </button>
-        </div>
-      </dialog>
-    </section>
+          <motion.figure
+            key={current.id}
+            initial={{ opacity: reduced ? 1 : 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: reduced ? 0 : 0.18 }}
+          >
+            <img
+              src={current.src}
+              alt={current.alt}
+              width={current.width}
+              height={current.height}
+            />
+            {current.caption && <figcaption>{current.caption}</figcaption>}
+          </motion.figure>
+          <div className="lightbox-controls">
+            <button
+              type="button"
+              aria-label="Previous photo"
+              onClick={() => move(-1)}
+            >
+              ← Previous
+            </button>
+            <span aria-live="polite" aria-atomic="true">
+              {selected + 1} / {photos.length}
+            </span>
+            <button
+              type="button"
+              aria-label="Next photo"
+              onClick={() => move(1)}
+            >
+              Next →
+            </button>
+          </div>
+        </dialog>
+      </section>
+      <div
+        className="hero-cloud-passage collection-cloud-passage"
+        aria-hidden="true"
+      >
+        <span className="cloud-passage-bank cloud-passage-bank--back" />
+        <span className="cloud-passage-bank cloud-passage-bank--front" />
+      </div>
+    </>
   )
 }

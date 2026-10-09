@@ -199,6 +199,28 @@ export function useJourneyAnimation(
                 },
               )
             })
+          container.current
+            ?.querySelectorAll<HTMLElement>('.cloud-passage-bank')
+            .forEach((cloud) => {
+              const front = cloud.classList.contains(
+                'cloud-passage-bank--front',
+              )
+              gsap.fromTo(
+                cloud,
+                { yPercent: front ? 18 : 8 },
+                {
+                  yPercent: front ? -26 : -12,
+                  xPercent: front ? -5 : 4,
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: cloud.parentElement,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 0.65,
+                  },
+                },
+              )
+            })
           const motionTargets =
             container.current?.querySelectorAll<HTMLElement>(
               '.gallery-photo, .collection-note, .collection-closing > p, .chapter-photo, .chapter-scene .chapter-heading, .intro-support, .story-copy > *, .full-memory-copy, .love-entry > *, .timeline-date, .timeline-copy > *, .letter-introduction, .letter-opening, .letter-body > *, .letter-signature, .finale h2, .finale-message, .finale-signature',

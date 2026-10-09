@@ -577,3 +577,7 @@
   align-self: center;
   font-size: 0.8rem;
 }
+
+.collection-cloud-passage {
+  background: var(--surface-middle);
+}

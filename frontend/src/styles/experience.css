@@ -118,7 +118,7 @@ a:hover {
   transform: translateY(0);
 }
 .hero {
-  height: 170svh;
+  height: auto;
   position: relative;
   scroll-margin-top: var(--space-24);
 }
@@ -485,7 +485,7 @@ a:hover {
     display: none;
   }
   .hero {
-    height: 135svh;
+    height: auto;
   }
   .navigation {
     top: var(--space-3);
@@ -653,5 +653,57 @@ a:hover {
   .hero-stage {
     position: relative;
     height: 800px;
+  }
+}
+
+.hero-cloud-passage {
+  position: relative;
+  height: 130svh;
+  overflow: clip;
+  pointer-events: none;
+  z-index: var(--layer-foreground);
+  background: var(--surface-start);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 12%,
+    black 85%,
+    transparent
+  );
+}
+.cloud-passage-bank {
+  position: absolute;
+  width: 135%;
+  height: 110%;
+  background: url('/atmosphere/cloud-bank.webp') center / cover no-repeat;
+  filter: saturate(0.2) brightness(1.12);
+}
+.cloud-passage-bank--back {
+  left: -45%;
+  top: -18%;
+  opacity: 0.8;
+  mask-image: linear-gradient(to right, black 45%, transparent 100%);
+}
+.cloud-passage-bank--front {
+  right: -40%;
+  top: 22%;
+  mask-image: linear-gradient(to left, black 45%, transparent 100%);
+}
+.experience[data-motion='reduced'] .hero-cloud-passage {
+  display: none;
+}
+@media (max-width: 768px) {
+  .hero-cloud-passage {
+    height: 110svh;
+  }
+  .cloud-passage-bank {
+    width: 200%;
+    background-image: url('/atmosphere/cloud-bank-small.webp');
+  }
+  .cloud-passage-bank--back {
+    left: -90%;
+  }
+  .cloud-passage-bank--front {
+    right: -80%;
   }
 }

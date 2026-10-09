@@ -129,6 +129,25 @@ export function useExperienceAnimation(
                 toggleActions: 'play none none reverse',
               },
             })
+          gsap.utils
+            .toArray<HTMLElement>('.cloud-passage-bank')
+            .forEach((cloud, index) => {
+              gsap.fromTo(
+                cloud,
+                { yPercent: index ? 18 : 8 },
+                {
+                  yPercent: index ? -26 : -12,
+                  xPercent: index ? -5 : 4,
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: '.hero-cloud-passage',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 0.65,
+                  },
+                },
+              )
+            })
           const drift = gsap.to('.cloud-drift', {
             x: (index) => (index + 1) * 10,
             duration: 30,

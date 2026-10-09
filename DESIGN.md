@@ -173,7 +173,7 @@ A minimal first-visit “Scroll” cue with a thin line/understated arrow disapp
 - **Typography:** name-focused Cormorant Garamond display; “FOR / [HER NAME] / WITH LOVE” is compositional guidance, not hardcoded final copy. Birthday context uses smaller supporting copy/date rather than a dominant generic “HAPPY BIRTHDAY.” All actual copy stays editable.
 - **Photography role:** none required; the heart is the visual anchor.
 - **Atmosphere:** soft ivory/lavender studio background, radial illumination, faint grain/haze; no illustrated landscape.
-- **Motion:** slow idle rotation/float, slight pointer response, controlled scroll-reactive camera/scale/angle, then exit. The scroll cue is secondary.
+- **Motion:** slow idle rotation/float, slight pointer response, controlled scroll-reactive camera/scale/angle, then exit through a layered, full-width cloud passage before the next visible chapter. Skip the passage in paused/reduced motion. The scroll cue is secondary.
 - **Responsive behavior:** recompose split text above/below the heart as needed; do not hide or crop long names. Use adaptive 3D or the fallback. Reduced motion settles the object without unnecessary camera travel.
 - **Avoid:** red/cartoon heart, plastic/neon material, aggressive spinning, oversized pointer effects, unreadable overlap, or a giant CTA.
 

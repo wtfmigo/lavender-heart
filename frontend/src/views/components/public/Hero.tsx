@@ -39,6 +39,10 @@ export function Hero({
           </a>
         </div>
       </div>
+      <div className="hero-cloud-passage" aria-hidden="true">
+        <span className="cloud-passage-bank cloud-passage-bank--back" />
+        <span className="cloud-passage-bank cloud-passage-bank--front" />
+      </div>
     </section>
   )
 }

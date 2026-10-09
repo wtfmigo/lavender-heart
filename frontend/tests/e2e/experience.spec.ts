@@ -61,7 +61,7 @@ test('cloud travel, implemented anchors, focus protection and motion pause', asy
       .getByRole('navigation')
       .getByRole('link')
       .evaluateAll((links) => links.map((link) => link.getAttribute('href'))),
-  ).toEqual(['#home', '#home', '#intro', '#gallery', '#letter'])
+  ).toEqual(['#home', '#intro', '#gallery', '#letter'])
   await page.evaluate(() => window.scrollTo(0, 500))
   await expect(page.getByRole('navigation')).toHaveAttribute(
     'data-hidden',

@@ -220,12 +220,15 @@ test('each desktop chapter has its own companion scale and the finale dominates'
   expect(states.some((state) => state.width === 350 && state.opacity > 0)).toBe(
     true,
   )
-  expect(states.some((state) => state.width === 200 && state.opacity > 0)).toBe(
-    true,
-  )
   expect(
-    states.filter((state) => state.width === 180 && state.opacity > 0).length,
-  ).toBeGreaterThanOrEqual(2)
+    states.filter(
+      (state) =>
+        state.width > 300 && state.left.endsWith('%') && state.opacity > 0,
+    ).length,
+  ).toBeGreaterThanOrEqual(3)
+  expect(
+    states.some((state) => state.width > 300 && state.left === '24%'),
+  ).toBe(true)
   expect(
     states.some((state) => state.width === 160 && state.left === '50%'),
   ).toBe(true)

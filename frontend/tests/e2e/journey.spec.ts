@@ -112,7 +112,7 @@ for (const width of [1440, 390]) {
             : id === 'letter'
               ? 0
               : id === 'gallery'
-                ? 0.9
+                ? 0.75
                 : width >= 1024
                   ? 0.5
                   : 0,
@@ -374,6 +374,6 @@ test('phone heart returns at chapter introductions and timeline bridges, then fa
   await position('.timeline-content', 100)
   await opacity(0)
   await position('#gallery')
-  await opacity(0.9)
+  await opacity(0.75)
   await expect(page.locator('canvas')).toHaveCount(1)
 })

@@ -150,7 +150,10 @@ export function Gallery({
         <div
           className="collection-cloud collection-cloud--closing"
           aria-hidden="true"
-        />
+        >
+          <span className="collection-cloud-bank collection-cloud-bank--left" />
+          <span className="collection-cloud-bank collection-cloud-bank--right" />
+        </div>
         <span className="chapter-scene-label">
           {collectionContent.closingLabel}
         </span>

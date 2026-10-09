@@ -3,7 +3,7 @@
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 17svh 12vw 12svh;
   isolation: isolate;
 }
@@ -25,10 +25,10 @@
 }
 .chapter-heart {
   position: absolute;
-  top: 21svh;
-  right: 14vw;
-  width: clamp(150px, 18vw, 240px);
-  height: 25svh;
+  top: 27svh;
+  right: 9vw;
+  width: clamp(280px, 28vw, 500px);
+  height: 46svh;
   pointer-events: none;
 }
 .chapter-heart .heart-fallback svg {
@@ -40,7 +40,7 @@
 }
 .chapter-scene--love .chapter-heart {
   right: auto;
-  left: 12vw;
+  left: 10vw;
 }
 .experience[data-motion='full'] section[data-live-heart='true'] .chapter-heart {
   opacity: 0;
@@ -48,6 +48,7 @@
 @media (max-width: 1023px) {
   .chapter-scene {
     min-height: 90svh;
+    justify-content: flex-end;
     padding: 15svh var(--gutter) 10svh;
   }
   .chapter-scene > .chapter-scene-label {

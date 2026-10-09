@@ -268,7 +268,8 @@ export function useJourneyAnimation(
                 },
               )
           })
-          const position = (id: string) => {
+          const position = (id: string, reading: boolean | 'left' = false) => {
+            const chapterWidth = Math.min(500, window.innerWidth * 0.36)
             const companion = (
               width: number,
               opacity: number,
@@ -301,15 +302,27 @@ export function useJourneyAnimation(
                 left: desktop ? '77%' : 'calc(100% - 72px)',
                 top: desktop ? '45%' : '28%',
               },
-              story: companion(200, 0.8),
+              story: {
+                ...companion(chapterWidth, desktop ? 0.9 : 0.8),
+                left: desktop ? '76%' : 'calc(100% - 72px)',
+                top: desktop ? '50%' : '28%',
+              },
               memory: companion(140, 0.5),
               gallery: {
                 ...companion(160, 0.75),
                 left: desktop ? '50%' : 'calc(100% - 72px)',
                 top: desktop ? '24%' : '18%',
               },
-              love: companion(180, 0.85, desktop),
-              timeline: companion(180, 0.75),
+              love: {
+                ...companion(chapterWidth, desktop ? 0.9 : 0.85, desktop),
+                left: desktop ? '24%' : 'calc(100% - 72px)',
+                top: desktop ? '50%' : '28%',
+              },
+              timeline: {
+                ...companion(chapterWidth, desktop ? 0.85 : 0.75),
+                left: desktop ? '77%' : 'calc(100% - 72px)',
+                top: desktop ? '50%' : '28%',
+              },
               letter: companion(140, 0),
               finale: {
                 left: '50%',
@@ -322,6 +335,22 @@ export function useJourneyAnimation(
                 rotation: 0,
               },
             }
+            if (
+              desktop &&
+              reading &&
+              ['story', 'love', 'timeline'].includes(id)
+            )
+              return {
+                ...companion(320, 0.78),
+                left:
+                  id === 'timeline'
+                    ? reading === 'left'
+                      ? '25%'
+                      : '75%'
+                    : 'calc(100% - 160px)',
+                top: id === 'timeline' ? '78%' : '20%',
+                height: 320,
+              }
             return states[id as keyof typeof states]
           }
           const visibleChapters = chapters
@@ -346,8 +375,37 @@ export function useJourneyAnimation(
               ? [{ section: section!, element, top: 0, bottom: 0 }]
               : []
           })
+          const timelineSection = visibleChapters.find(
+            ({ id }) => id === 'timeline',
+          )?.section
+          const timelineObstacles =
+            timelineSection?.querySelectorAll(
+              '.timeline-date strong, .timeline-content .photo-window, .timeline-copy',
+            ) ?? []
+          let timelineTop = Infinity
+          let timelineBottom = -Infinity
           const updateVisibility = () => {
             const next = Number(gsap.getProperty(heart, 'opacity')) > 0.04
+            let obscured = false
+            if (
+              desktop &&
+              next &&
+              window.scrollY + window.innerHeight > timelineTop &&
+              window.scrollY < timelineBottom
+            ) {
+              const heartBox = heart.getBoundingClientRect()
+              obscured = [...timelineObstacles].some((content) => {
+                const bounds = content.getBoundingClientRect()
+                return (
+                  heartBox.left < bounds.right &&
+                  heartBox.right > bounds.left &&
+                  heartBox.top < bounds.bottom &&
+                  heartBox.bottom > bounds.top
+                )
+              })
+            }
+            if (heart.dataset.obscured !== String(obscured))
+              heart.dataset.obscured = String(obscured)
             const candidates = next
               ? echoes.filter(
                   (echo) =>
@@ -377,6 +435,11 @@ export function useJourneyAnimation(
             )
           const rebuild = () => {
             journey.clear()
+            if (timelineSection) {
+              const bounds = timelineSection.getBoundingClientRect()
+              timelineTop = bounds.top + window.scrollY
+              timelineBottom = bounds.bottom + window.scrollY
+            }
             const closing = container.current?.querySelector('#finale')
             closingStart = closing
               ? closing.getBoundingClientRect().top +
@@ -393,7 +456,12 @@ export function useJourneyAnimation(
               journey.set(heart, position(visibleChapters[0].id), 0)
             const documentTop = (element: Element) =>
               element.getBoundingClientRect().top + window.scrollY
-            const transition = (id: string, top: number, opacity?: number) => {
+            const transition = (
+              id: string,
+              top: number,
+              opacity?: number,
+              reading: boolean | 'left' = false,
+            ) => {
               const entry = !desktop && opacity === undefined && id !== 'finale'
               const start = Math.min(
                 scrollLimit() - 1,
@@ -428,7 +496,7 @@ export function useJourneyAnimation(
               journey.to(
                 heart,
                 {
-                  ...position(id),
+                  ...position(id, reading),
                   ...(opacity === undefined ? {} : { opacity }),
                   duration: end - start,
                   ease: 'none',
@@ -445,6 +513,26 @@ export function useJourneyAnimation(
                 if (collection) transition(id, documentTop(collection), 0)
                 return
               }
+              const scene = section!.querySelector('.chapter-scene')
+              const body =
+                scene?.nextElementSibling ??
+                section!.querySelector('.intro-reading, .full-memory-copy')
+              if (desktop && body && ['story', 'love'].includes(id))
+                transition(id, documentTop(body), undefined, true)
+              if (desktop && id === 'timeline') {
+                section!
+                  .querySelectorAll('.timeline-moment')
+                  .forEach((moment, index) => {
+                    const content = moment.querySelector('.timeline-content')
+                    if (content)
+                      transition(
+                        id,
+                        documentTop(content),
+                        undefined,
+                        index % 2 ? 'left' : true,
+                      )
+                  })
+              }
               if (
                 desktop ||
                 id === 'home' ||
@@ -452,10 +540,6 @@ export function useJourneyAnimation(
                 id === 'finale'
               )
                 return
-              const scene = section!.querySelector('.chapter-scene')
-              const body =
-                scene?.nextElementSibling ??
-                section!.querySelector('.intro-reading, .full-memory-copy')
               if (body) transition(id, documentTop(body), 0)
               else if (id === 'intro' || id === 'memory')
                 transition(
@@ -500,6 +584,7 @@ export function useJourneyAnimation(
           return () => {
             gsap.ticker.remove(updateVisibility)
             journey.kill()
+            delete heart.dataset.obscured
             if (stage) delete stage.dataset.storyFlow
             if (loveStage) delete loveStage.dataset.loveFlow
             visibleChapters.forEach(

@@ -12,11 +12,13 @@
   );
 }
 .collection-cloud {
+  --collection-cloud-image: url('/atmosphere/cloud-bank.webp');
   position: absolute;
   pointer-events: none;
   z-index: -1;
-  background: url('/atmosphere/cloud-bank.webp') center / contain no-repeat;
-  opacity: 0.55;
+  background: var(--collection-cloud-image) center / contain no-repeat;
+  opacity: 0.35;
+  filter: saturate(0.55) brightness(1.04);
   width: 115%;
   height: clamp(450px, 65vw, 950px);
 }
@@ -24,12 +26,34 @@
   top: -6vw;
   left: -15%;
   transform: rotate(-8deg);
+  mask-image: linear-gradient(to right, black 35%, transparent 90%);
 }
 .collection-cloud--closing {
-  bottom: -12vw;
-  right: -18%;
-  transform: rotate(165deg);
-  opacity: 0.65;
+  bottom: -10vw;
+  right: 0;
+  width: 100%;
+  background: none;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 25%,
+    black 65%,
+    transparent
+  );
+}
+.collection-cloud-bank {
+  position: absolute;
+  inset-block: 0;
+  width: 80%;
+  background: var(--collection-cloud-image) center / cover no-repeat;
+}
+.collection-cloud-bank--left {
+  left: -35%;
+  mask-image: linear-gradient(to right, black 35%, transparent 95%);
+}
+.collection-cloud-bank--right {
+  right: -35%;
+  mask-image: linear-gradient(to left, black 35%, transparent 95%);
 }
 .collection-opening.chapter-scene {
   min-height: 0;
@@ -361,8 +385,12 @@
 }
 @media (max-width: 700px) {
   .collection-cloud {
-    background-image: url('/atmosphere/cloud-bank-small.webp');
+    --collection-cloud-image: url('/atmosphere/cloud-bank-small.webp');
     width: 170%;
+  }
+  .collection-cloud--closing {
+    width: 100%;
+    bottom: -4rem;
   }
   .collection-opening.chapter-scene {
     display: block;

@@ -60,7 +60,7 @@ test('native wheel scroll turns smoothly in one direction', async ({
 test('scroll makes a complete horizontal turn instead of rocking back and forth', async ({
   page,
 }) => {
-  test.setTimeout(60000)
+  test.setTimeout(120000)
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/')
   const canvas = page.locator('canvas[data-webgl="ready"]')

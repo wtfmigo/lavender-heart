@@ -110,7 +110,9 @@ for (const width of [1440, 390]) {
           id === 'finale'
             ? 1
             : id === 'letter'
-              ? 0
+              ? width >= 1024
+                ? 0.85
+                : 0
               : id === 'gallery'
                 ? 0.75
                 : width >= 1024

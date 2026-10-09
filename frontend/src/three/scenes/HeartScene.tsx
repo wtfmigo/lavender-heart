@@ -7,7 +7,13 @@ import {
   MeshTransmissionMaterial,
   useTexture,
 } from '@react-three/drei'
-import { BackSide, CanvasTexture, SRGBColorSpace, type Mesh } from 'three'
+import {
+  BackSide,
+  CanvasTexture,
+  MathUtils,
+  SRGBColorSpace,
+  type Mesh,
+} from 'three'
 import { createHeartGeometry } from '@/three/utils/heartGeometry'
 import { HeartFallback } from '@/three/components/HeartFallback'
 
@@ -42,10 +48,13 @@ function Sculpture({
   useEffect(() => {
     invalidate()
   }, [reducedMotion, invalidate])
-  useFrame(() => {
+  useFrame((_, delta) => {
     if (!mesh.current) return
     const travel = reducedMotion ? 0 : progress.current
-    mesh.current.rotation.y = -0.24 - travel * 1.8
+    const angle = -0.24 - travel * 1.8
+    mesh.current.rotation.y = reducedMotion
+      ? angle
+      : MathUtils.damp(mesh.current.rotation.y, angle, 8, delta)
     mesh.current.rotation.x = 0.06
     mesh.current.rotation.z = -0.08
     mesh.current.position.y = 0

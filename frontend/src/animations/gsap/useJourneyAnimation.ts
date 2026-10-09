@@ -268,8 +268,12 @@ export function useJourneyAnimation(
                 },
               )
           })
-          const position = (id: string, reading: boolean | 'left' = false) => {
+          const position = (id: string, reading = false) => {
             const chapterWidth = Math.min(500, window.innerWidth * 0.36)
+            const letterWidth = Math.min(
+              300,
+              (window.innerWidth - 680) / 2 - 32,
+            )
             const companion = (
               width: number,
               opacity: number,
@@ -323,7 +327,13 @@ export function useJourneyAnimation(
                 left: desktop ? '77%' : 'calc(100% - 72px)',
                 top: desktop ? '50%' : '28%',
               },
-              letter: companion(140, 0),
+              letter: {
+                ...companion(letterWidth, desktop ? 0.85 : 0),
+                left: desktop
+                  ? `calc(100% - ${letterWidth / 2 + 16}px)`
+                  : 'calc(100% - 72px)',
+                top: desktop ? '50%' : '28%',
+              },
               finale: {
                 left: '50%',
                 top: '38%',
@@ -341,15 +351,16 @@ export function useJourneyAnimation(
               ['story', 'love', 'timeline'].includes(id)
             )
               return {
-                ...companion(320, 0.78),
+                ...companion(
+                  id === 'timeline' ? 160 : 320,
+                  id === 'timeline' ? 0.85 : 0.78,
+                ),
                 left:
                   id === 'timeline'
-                    ? reading === 'left'
-                      ? '25%'
-                      : '75%'
+                    ? 'calc(100% - 90px)'
                     : 'calc(100% - 160px)',
-                top: id === 'timeline' ? '78%' : '20%',
-                height: 320,
+                top: id === 'timeline' ? '50%' : '20%',
+                height: id === 'timeline' ? 200 : 320,
               }
             return states[id as keyof typeof states]
           }
@@ -375,37 +386,8 @@ export function useJourneyAnimation(
               ? [{ section: section!, element, top: 0, bottom: 0 }]
               : []
           })
-          const timelineSection = visibleChapters.find(
-            ({ id }) => id === 'timeline',
-          )?.section
-          const timelineObstacles =
-            timelineSection?.querySelectorAll(
-              '.timeline-date strong, .timeline-content .photo-window, .timeline-copy',
-            ) ?? []
-          let timelineTop = Infinity
-          let timelineBottom = -Infinity
           const updateVisibility = () => {
             const next = Number(gsap.getProperty(heart, 'opacity')) > 0.04
-            let obscured = false
-            if (
-              desktop &&
-              next &&
-              window.scrollY + window.innerHeight > timelineTop &&
-              window.scrollY < timelineBottom
-            ) {
-              const heartBox = heart.getBoundingClientRect()
-              obscured = [...timelineObstacles].some((content) => {
-                const bounds = content.getBoundingClientRect()
-                return (
-                  heartBox.left < bounds.right &&
-                  heartBox.right > bounds.left &&
-                  heartBox.top < bounds.bottom &&
-                  heartBox.bottom > bounds.top
-                )
-              })
-            }
-            if (heart.dataset.obscured !== String(obscured))
-              heart.dataset.obscured = String(obscured)
             const candidates = next
               ? echoes.filter(
                   (echo) =>
@@ -435,11 +417,6 @@ export function useJourneyAnimation(
             )
           const rebuild = () => {
             journey.clear()
-            if (timelineSection) {
-              const bounds = timelineSection.getBoundingClientRect()
-              timelineTop = bounds.top + window.scrollY
-              timelineBottom = bounds.bottom + window.scrollY
-            }
             const closing = container.current?.querySelector('#finale')
             closingStart = closing
               ? closing.getBoundingClientRect().top +
@@ -460,7 +437,7 @@ export function useJourneyAnimation(
               id: string,
               top: number,
               opacity?: number,
-              reading: boolean | 'left' = false,
+              reading = false,
             ) => {
               const entry = !desktop && opacity === undefined && id !== 'finale'
               const start = Math.min(
@@ -517,22 +494,8 @@ export function useJourneyAnimation(
               const body =
                 scene?.nextElementSibling ??
                 section!.querySelector('.intro-reading, .full-memory-copy')
-              if (desktop && body && ['story', 'love'].includes(id))
+              if (desktop && body && ['story', 'love', 'timeline'].includes(id))
                 transition(id, documentTop(body), undefined, true)
-              if (desktop && id === 'timeline') {
-                section!
-                  .querySelectorAll('.timeline-moment')
-                  .forEach((moment, index) => {
-                    const content = moment.querySelector('.timeline-content')
-                    if (content)
-                      transition(
-                        id,
-                        documentTop(content),
-                        undefined,
-                        index % 2 ? 'left' : true,
-                      )
-                  })
-              }
               if (
                 desktop ||
                 id === 'home' ||
@@ -574,7 +537,7 @@ export function useJourneyAnimation(
             animation: journey,
             start: 0,
             end: scrollLimit,
-            scrub: true,
+            scrub: 0.45,
             onRefresh: (self) => {
               rebuild()
               journey.progress(self.progress)
@@ -584,7 +547,6 @@ export function useJourneyAnimation(
           return () => {
             gsap.ticker.remove(updateVisibility)
             journey.kill()
-            delete heart.dataset.obscured
             if (stage) delete stage.dataset.storyFlow
             if (loveStage) delete loveStage.dataset.loveFlow
             visibleChapters.forEach(

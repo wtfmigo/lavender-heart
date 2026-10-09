@@ -27,7 +27,17 @@ test('the Timeline heart leaves long memory messages clear', async ({
         .locator('.persistent-heart .heart-reveal')
         .evaluate((element) => getComputedStyle(element).visibility),
     )
-    .toBe('hidden')
+    .toBe('visible')
+  await expect
+    .poll(() =>
+      page
+        .locator('.persistent-heart')
+        .evaluate((element) => Number(getComputedStyle(element).opacity)),
+    )
+    .toBeGreaterThan(0.5)
+  const heart = (await page.locator('.persistent-heart').boundingBox())!
+  const copy = (await page.locator('.timeline-copy').first().boundingBox())!
+  expect(heart.x).toBeGreaterThanOrEqual(copy.x + copy.width)
 })
 
 for (const width of [1024, 1440, 1864]) {
@@ -65,12 +75,6 @@ for (const width of [1024, 1440, 1864]) {
     expect((await heart.boundingBox())!.width).toBeLessThan(400)
     const coversContent = () =>
       heart.evaluate((element) => {
-        if (
-          Number(getComputedStyle(element).opacity) <= 0.04 ||
-          getComputedStyle(element.querySelector('.heart-reveal')!)
-            .visibility === 'hidden'
-        )
-          return []
         const heartBox = element.getBoundingClientRect()
         return [
           ...document.querySelectorAll(
@@ -103,5 +107,53 @@ for (const width of [1024, 1440, 1864]) {
     await page.screenshot({
       path: `../docs/evidence/atmosphere-tuning/${width}-timeline-reading-even.png`,
     })
+  })
+}
+
+for (const width of [1024, 1440]) {
+  test(`heart stays visible through Timeline, Letter and reverse scrolling at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 968 })
+    await page.goto('/')
+    await expect(page.locator('canvas[data-webgl="ready"]')).toBeVisible({
+      timeout: 15000,
+    })
+    await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
+    for (const selector of [
+      '.timeline-content',
+      '.timeline-moment:nth-child(2) .timeline-content',
+      '.timeline-moment:last-child .timeline-content',
+      '#letter',
+      '#finale',
+      '#letter',
+      '.timeline-content',
+    ]) {
+      await page
+        .locator(selector)
+        .first()
+        .evaluate((element) =>
+          window.scrollTo({
+            top: element.getBoundingClientRect().top + window.scrollY,
+            behavior: 'instant',
+          }),
+        )
+      await page.waitForTimeout(1000)
+      const heart = page.locator('.persistent-heart')
+      await expect
+        .poll(() =>
+          heart.evaluate((element) =>
+            Number(getComputedStyle(element).opacity),
+          ),
+        )
+        .toBeGreaterThan(0.5)
+      await expect(heart.locator('.heart-reveal')).toBeVisible()
+      expect(
+        await heart
+          .locator('.heart-reveal')
+          .evaluate((element) => getComputedStyle(element).visibility),
+      ).toBe('visible')
+      await expect(page.locator('canvas')).toHaveCount(1)
+    }
   })
 }

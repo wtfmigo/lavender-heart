@@ -193,7 +193,7 @@ test('hidden chapters connect adjacent visible heart positions and release Lenis
   expect(mocks.timeline).toHaveBeenCalledOnce()
   expect(heartCalls[0][1].width).toBe(140)
   expect(heartCalls[0][1].opacity).toBe(0.5)
-  expect(heartCalls[1][1].opacity).toBe(0)
+  expect(heartCalls[1][1].opacity).toBe(0.85)
   expect(heartCalls[2][1].left).toBe('50%')
   expect(
     mocks.fromTo.mock.calls.some(([element]) =>
@@ -231,6 +231,14 @@ test('each desktop chapter has its own companion scale and the finale dominates'
   ).toBe(true)
   expect(
     states.some((state) => state.width === 160 && state.left === '50%'),
+  ).toBe(true)
+  expect(
+    states.some(
+      (state) =>
+        state.opacity === 0.85 &&
+        state.top === '50%' &&
+        state.left.startsWith('calc('),
+    ),
   ).toBe(true)
   expect(states.at(-1).height).toBe(window.innerHeight * 0.72)
 })

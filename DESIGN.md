@@ -107,7 +107,7 @@ Avoid bright red, cartoon geometry, glossy plastic, neon glow, rainbow refractio
 | --- | --- |
 | Hero | Dominant central visual anchor; full heart |
 | After Hero | Disappears temporarily so photography and writing can breathe |
-| Story, Little things, Timeline openings | Enlarged crystal heart balances the heading; a smaller companion follows reading and recedes before covering Timeline photos or writing |
+| Story, Little things, Timeline openings | Enlarged crystal heart balances the heading; a smaller companion follows reading in the Timeline gutter and Letter side space, without abrupt disappearance |
 | Finale | Full heart returns centrally |
 
 Do not keep the heart permanently visible or repeat the complete object after every chapter. Transition fragments should never compete with photographs or readability.

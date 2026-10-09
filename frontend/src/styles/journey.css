@@ -53,8 +53,3 @@
     height: 52svh;
   }
 }
-
-/* Keep the decorative heart clear of alternating Timeline photos and dates. */
-.persistent-heart[data-obscured='true'] .heart-reveal {
-  visibility: hidden;
-}

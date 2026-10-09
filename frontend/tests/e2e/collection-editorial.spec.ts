@@ -93,11 +93,11 @@ for (const [width, height] of [
     await page.goto('/')
     const gallery = page.locator('#gallery')
     await gallery.scrollIntoViewIfNeeded()
-    await expect(gallery.locator('.gallery-photo')).toHaveCount(27)
+    await expect(gallery.locator('.gallery-photo')).toHaveCount(21)
     await expect(gallery.locator('.collection-spread')).toHaveCount(3)
     await expect(
       gallery.locator('.collection-details .gallery-photo'),
-    ).toHaveCount(16)
+    ).toHaveCount(10)
     for (const photo of await gallery.locator('.gallery-photo').all()) {
       await photo.scrollIntoViewIfNeeded()
       const box = await photo.boundingBox()
@@ -127,7 +127,7 @@ for (const [width, height] of [
       const scene = gallery.locator(selector)
       await scene.scrollIntoViewIfNeeded()
       await scene.screenshot({
-        path: `../docs/evidence/collection-editorial/${width}-${selector.slice(1)}.png`,
+        path: `test-results/collection-editorial/${width}-${selector.slice(1)}.png`,
       })
     }
   })

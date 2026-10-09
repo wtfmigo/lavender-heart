@@ -29,6 +29,7 @@ vi.mock('gsap', () => ({
   default: {
     registerPlugin: vi.fn(),
     set: vi.fn(),
+    quickSetter: () => vi.fn(),
     fromTo: mocks.fromTo,
     to: mocks.to,
     timeline: mocks.timeline,

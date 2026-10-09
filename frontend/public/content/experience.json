@@ -68,8 +68,8 @@
       "key": "full_width_memory",
       "visible": true,
       "content": {
-        "caption": "An evening I’ll always remember",
-        "date": "2025-05-29"
+        "caption": "Little moments, big feelings.",
+        "date": null
       }
     },
     {
@@ -330,17 +330,7 @@
           }
         ]
       },
-      "photo": {
-        "id": "img_0100",
-        "src": "/photos/personal/img_0100.jpg",
-        "smallSrc": "/photos/personal/img_0100-small.jpg",
-        "alt": "Jeriann Alexa and Jalebong sharing a kiss in a mirror at Starbucks Hiraya",
-        "width": 1200,
-        "height": 1600,
-        "caption": "",
-        "focalX": 0.5,
-        "focalY": 0.5
-      },
+      "photo": null,
       "position": 5
     },
     {
@@ -381,12 +371,12 @@
         ]
       },
       "photo": {
-        "id": "dsc03391",
-        "src": "/photos/personal/dsc03391.jpg",
-        "smallSrc": "/photos/personal/dsc03391-small.jpg",
-        "alt": "Jeriann Alexa and Jalebong standing together outdoors at night",
+        "id": "img_0791",
+        "src": "/photos/personal/img_0791.jpg",
+        "smallSrc": "/photos/personal/img_0791-small.jpg",
+        "alt": "Jeriann Alexa and Jalebong smiling together at a table",
         "width": 1600,
-        "height": 1200,
+        "height": 900,
         "caption": "",
         "focalX": 0.5,
         "focalY": 0.5
@@ -395,12 +385,12 @@
     }
   ],
   "memoryPhoto": {
-    "id": "img_0100",
-    "src": "/photos/personal/img_0100.jpg",
-    "smallSrc": "/photos/personal/img_0100-small.jpg",
-    "alt": "Jeriann Alexa and Jalebong sharing a kiss in a mirror at Starbucks Hiraya",
-    "width": 1200,
-    "height": 1600,
+    "id": "img_3527",
+    "src": "/photos/personal/img_3527.jpg",
+    "smallSrc": "/photos/personal/img_3527-small.jpg",
+    "alt": "Jeriann Alexa and Jalebong sitting together at a cafe",
+    "width": 1600,
+    "height": 1200,
     "caption": "",
     "focalX": 0.5,
     "focalY": 0.5
@@ -430,67 +420,67 @@
     },
     {
       "id": "gallery-3",
-      "src": "/photos/personal/img_0516.jpg",
-      "smallSrc": "/photos/personal/img_0516-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong making funny faces on their first day together",
-      "width": 1200,
-      "height": 1600,
-      "caption": "Our first day together\nMay 18, 2025. The beginning of so many more.",
+      "src": "/photos/personal/img_0081.jpg",
+      "smallSrc": "/photos/personal/img_0081-small.jpg",
+      "alt": "Jeriann Alexa and Jalebong making funny faces outdoors",
+      "width": 1600,
+      "height": 1200,
+      "caption": "Your wonderfully weird side\nThe little moments that make being with you so much fun.",
       "focalX": 0.5,
       "focalY": 0.5
     },
     {
       "id": "gallery-4",
-      "src": "/photos/personal/img_3772.jpg",
-      "smallSrc": "/photos/personal/img_3772-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong on a video call",
-      "width": 740,
+      "src": "/photos/personal/img_0733.jpg",
+      "smallSrc": "/photos/personal/img_0733-small.jpg",
+      "alt": "Jeriann Alexa and Jalebong posing in a decorative mirror",
+      "width": 1200,
       "height": 1600,
-      "caption": "Our conversations, wherever we are.",
+      "caption": "A little piece of us.",
       "focalX": 0.5,
       "focalY": 0.5
     },
     {
       "id": "gallery-5",
-      "src": "/photos/personal/img_0100.jpg",
-      "smallSrc": "/photos/personal/img_0100-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong sharing a kiss in a mirror at Starbucks Hiraya",
-      "width": 1200,
-      "height": 1600,
-      "caption": "Our first kiss\nMay 29, 2025. An evening at Starbucks Hiraya I’ll always remember.",
+      "src": "/photos/personal/img_6732.jpg",
+      "smallSrc": "/photos/personal/img_6732-small.jpg",
+      "alt": "Jeriann Alexa and Jalebong together at a restaurant table",
+      "width": 1600,
+      "height": 1200,
+      "caption": "Our favorite kind of time together\nSharing a meal and making another memory with you.",
       "focalX": 0.5,
       "focalY": 0.5
     },
     {
       "id": "gallery-6",
-      "src": "/photos/personal/img_0085.jpg",
-      "smallSrc": "/photos/personal/img_0085-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong taking a selfie during their Tagaytay trip",
+      "src": "/photos/personal/img_1104.jpg",
+      "smallSrc": "/photos/personal/img_1104-small.jpg",
+      "alt": "Jeriann Alexa and Jalebong making funny faces on a bench",
       "width": 1200,
       "height": 1600,
-      "caption": "A trip I’ll always remember.",
+      "caption": "The way you make me laugh.",
       "focalX": 0.5,
       "focalY": 0.5
     },
     {
       "id": "gallery-7",
-      "src": "/photos/personal/img_0791.jpg",
-      "smallSrc": "/photos/personal/img_0791-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong smiling together at a table",
+      "src": "/photos/personal/img_3513.jpg",
+      "smallSrc": "/photos/personal/img_3513-small.jpg",
+      "alt": "Jeriann Alexa in a red sweater at a cafe table",
       "width": 1600,
-      "height": 900,
-      "caption": "Our favorite kind of time together.",
+      "height": 1200,
+      "caption": "Another little moment with you.",
       "focalX": 0.5,
       "focalY": 0.5
     },
     {
       "id": "gallery-8",
-      "src": "/photos/personal/dsc03391.jpg",
-      "smallSrc": "/photos/personal/dsc03391-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong standing together outdoors at night",
+      "src": "/photos/personal/dsc04032.jpg",
+      "smallSrc": "/photos/personal/dsc04032-small.jpg",
+      "alt": "Jeriann Alexa and Jalebong sharing a quiet moment together",
       "width": 1600,
       "height": 1200,
-      "caption": "More days with you\nThe places we go and the memories we get to keep.",
+      "caption": "More days with you\nThrough ordinary days and difficult ones, I want to be beside you.",
       "focalX": 0.5,
       "focalY": 0.5
     },
@@ -518,17 +508,28 @@
     },
     {
       "id": "gallery-11",
-      "src": "/photos/personal/dsc03945.jpg",
-      "smallSrc": "/photos/personal/dsc03945-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong standing in the sea at sunset",
-      "width": 1200,
-      "height": 1600,
-      "caption": "Still you. Always you.\nThrough ordinary days and difficult ones, I want to be beside you.",
+      "src": "/photos/personal/dsc03391.jpg",
+      "smallSrc": "/photos/personal/dsc03391-small.jpg",
+      "alt": "Jeriann Alexa and Jalebong standing together outdoors at night",
+      "width": 1600,
+      "height": 1200,
+      "caption": "Still you. Always you.\nI will keep choosing you, Jeriann Alexa.",
       "focalX": 0.5,
       "focalY": 0.5
     },
     {
       "id": "gallery-12",
+      "src": "/photos/personal/dsc03945.jpg",
+      "smallSrc": "/photos/personal/dsc03945-small.jpg",
+      "alt": "Jeriann Alexa and Jalebong standing in the sea at sunset",
+      "width": 1200,
+      "height": 1600,
+      "caption": "Still you. Always you.",
+      "focalX": 0.5,
+      "focalY": 0.5
+    },
+    {
+      "id": "gallery-13",
       "src": "/photos/personal/dsc02870.jpg",
       "smallSrc": "/photos/personal/dsc02870-small.jpg",
       "alt": "Jeriann Alexa and Jalebong taking a selfie at night",
@@ -539,40 +540,7 @@
       "focalY": 0.5
     },
     {
-      "id": "gallery-13",
-      "src": "/photos/personal/dsc04032.jpg",
-      "smallSrc": "/photos/personal/dsc04032-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong sharing a quiet moment together",
-      "width": 1600,
-      "height": 1200,
-      "caption": "Little moments, big feelings.",
-      "focalX": 0.5,
-      "focalY": 0.5
-    },
-    {
       "id": "gallery-14",
-      "src": "/photos/personal/img_0081.jpg",
-      "smallSrc": "/photos/personal/img_0081-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong making funny faces outdoors",
-      "width": 1600,
-      "height": 1200,
-      "caption": "Another memory to keep.",
-      "focalX": 0.5,
-      "focalY": 0.5
-    },
-    {
-      "id": "gallery-15",
-      "src": "/photos/personal/img_0733.jpg",
-      "smallSrc": "/photos/personal/img_0733-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong posing in a decorative mirror",
-      "width": 1200,
-      "height": 1600,
-      "caption": "Growing alongside you.",
-      "focalX": 0.5,
-      "focalY": 0.5
-    },
-    {
-      "id": "gallery-16",
       "src": "/photos/personal/img_0957.jpg",
       "smallSrc": "/photos/personal/img_0957-small.jpg",
       "alt": "Jeriann Alexa and Jalebong posing in a cafe mirror",
@@ -583,7 +551,7 @@
       "focalY": 0.5
     },
     {
-      "id": "gallery-17",
+      "id": "gallery-15",
       "src": "/photos/personal/img_0988.jpg",
       "smallSrc": "/photos/personal/img_0988-small.jpg",
       "alt": "Jeriann Alexa and Jalebong reflected in a round mirror",
@@ -594,18 +562,7 @@
       "focalY": 0.5
     },
     {
-      "id": "gallery-18",
-      "src": "/photos/personal/img_1104.jpg",
-      "smallSrc": "/photos/personal/img_1104-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong making funny faces on a bench",
-      "width": 1200,
-      "height": 1600,
-      "caption": "Little moments, big feelings.",
-      "focalX": 0.5,
-      "focalY": 0.5
-    },
-    {
-      "id": "gallery-19",
+      "id": "gallery-16",
       "src": "/photos/personal/img_1180.jpg",
       "smallSrc": "/photos/personal/img_1180-small.jpg",
       "alt": "Jeriann Alexa and Jalebong reflected in a wooden framed mirror",
@@ -616,7 +573,7 @@
       "focalY": 0.5
     },
     {
-      "id": "gallery-20",
+      "id": "gallery-17",
       "src": "/photos/personal/img_1332.jpg",
       "smallSrc": "/photos/personal/img_1332-small.jpg",
       "alt": "Jeriann Alexa posing beside a wooden staircase",
@@ -627,7 +584,7 @@
       "focalY": 0.5
     },
     {
-      "id": "gallery-21",
+      "id": "gallery-18",
       "src": "/photos/personal/img_1501.jpg",
       "smallSrc": "/photos/personal/img_1501-small.jpg",
       "alt": "Jeriann Alexa and Jalebong taking a selfie on a city street at night",
@@ -638,29 +595,7 @@
       "focalY": 0.5
     },
     {
-      "id": "gallery-22",
-      "src": "/photos/personal/img_3513.jpg",
-      "smallSrc": "/photos/personal/img_3513-small.jpg",
-      "alt": "Jeriann Alexa in a red sweater at a cafe table",
-      "width": 1600,
-      "height": 1200,
-      "caption": "Your wonderfully weird side.",
-      "focalX": 0.5,
-      "focalY": 0.5
-    },
-    {
-      "id": "gallery-23",
-      "src": "/photos/personal/img_3527.jpg",
-      "smallSrc": "/photos/personal/img_3527-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong sitting together at a cafe",
-      "width": 1600,
-      "height": 1200,
-      "caption": "Little moments, big feelings.",
-      "focalX": 0.5,
-      "focalY": 0.5
-    },
-    {
-      "id": "gallery-24",
+      "id": "gallery-19",
       "src": "/photos/personal/img_4685.jpg",
       "smallSrc": "/photos/personal/img_4685-small.jpg",
       "alt": "Jeriann Alexa and Jalebong having dinner together",
@@ -671,7 +606,7 @@
       "focalY": 0.5
     },
     {
-      "id": "gallery-25",
+      "id": "gallery-20",
       "src": "/photos/personal/img_6394.jpg",
       "smallSrc": "/photos/personal/img_6394-small.jpg",
       "alt": "Jeriann Alexa and Jalebong embracing in clear water",
@@ -682,18 +617,7 @@
       "focalY": 0.5
     },
     {
-      "id": "gallery-26",
-      "src": "/photos/personal/img_6732.jpg",
-      "smallSrc": "/photos/personal/img_6732-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong together at a restaurant table",
-      "width": 1600,
-      "height": 1200,
-      "caption": "And so many more with you.",
-      "focalX": 0.5,
-      "focalY": 0.5
-    },
-    {
-      "id": "gallery-27",
+      "id": "gallery-21",
       "src": "/photos/personal/img_6760.jpg",
       "smallSrc": "/photos/personal/img_6760-small.jpg",
       "alt": "Jeriann Alexa and Jalebong taking a selfie together",
@@ -742,17 +666,7 @@
           }
         ]
       },
-      "photo": {
-        "id": "img_0516",
-        "src": "/photos/personal/img_0516.jpg",
-        "smallSrc": "/photos/personal/img_0516-small.jpg",
-        "alt": "Jeriann Alexa and Jalebong making funny faces on their first day together",
-        "width": 1200,
-        "height": 1600,
-        "caption": "",
-        "focalX": 0.5,
-        "focalY": 0.5
-      },
+      "photo": null,
       "position": 0
     },
     {

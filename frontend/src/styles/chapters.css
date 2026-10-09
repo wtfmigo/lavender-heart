@@ -435,6 +435,10 @@
 .finale-heart-space {
   min-height: max(0px, calc(76svh - clamp(2rem, 4vw, 4rem)));
 }
+.finale-wrap .finale-static-heart {
+  top: calc(2svh + clamp(2rem, 4vw, 4rem) + 1rem);
+  height: max(0px, calc(76svh - clamp(2rem, 4vw, 4rem) - 2rem));
+}
 .finale-message {
   max-width: 16ch;
   margin: auto;

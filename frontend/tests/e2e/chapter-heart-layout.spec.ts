@@ -67,12 +67,18 @@ for (const width of [1024, 1440, 1864]) {
       expect(box.x).toBeGreaterThanOrEqual(0)
       expect(box.x + box.width).toBeLessThanOrEqual(width * 0.95 + 1)
       await page.screenshot({
-        path: `../docs/evidence/atmosphere-tuning/${width}-${id}-heart.png`,
+        path: `test-results/chapter-hearts-agent/screenshots/${width}-${id}-heart.png`,
       })
     }
-    await page.locator('.timeline-content').first().scrollIntoViewIfNeeded()
+    const firstMemory = page.locator('.timeline-content').first()
+    await firstMemory.scrollIntoViewIfNeeded()
     await page.waitForTimeout(1200)
-    expect((await heart.boundingBox())!.width).toBeLessThan(400)
+    const textOnly = await firstMemory.evaluate((element) =>
+      element.classList.contains('timeline-content--text'),
+    )
+    if (textOnly)
+      expect((await heart.boundingBox())!.width).toBeGreaterThan(200)
+    else expect((await heart.boundingBox())!.width).toBeLessThan(200)
     const coversContent = () =>
       heart.evaluate((element) => {
         const heartBox = element.getBoundingClientRect()
@@ -97,7 +103,7 @@ for (const width of [1024, 1440, 1864]) {
       })
     expect(await coversContent()).toEqual([])
     await page.screenshot({
-      path: `../docs/evidence/atmosphere-tuning/${width}-timeline-reading.png`,
+      path: `test-results/chapter-hearts-agent/screenshots/${width}-timeline-reading.png`,
     })
     await page
       .locator('.timeline-moment:nth-child(2) .timeline-content')
@@ -105,7 +111,7 @@ for (const width of [1024, 1440, 1864]) {
     await page.waitForTimeout(1200)
     expect(await coversContent()).toEqual([])
     await page.screenshot({
-      path: `../docs/evidence/atmosphere-tuning/${width}-timeline-reading-even.png`,
+      path: `test-results/chapter-hearts-agent/screenshots/${width}-timeline-reading-even.png`,
     })
   })
 }

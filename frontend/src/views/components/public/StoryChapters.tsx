@@ -101,7 +101,7 @@ function StoryMemory({
   index: number
 }) {
   return (
-    <div className="story-memory">
+    <div className={`story-memory${item.photo ? '' : ' story-memory--text'}`}>
       <div className="story-copy">
         <span className="chapter-index" aria-hidden="true">
           {String(index + 1).padStart(2, '0')}
@@ -294,7 +294,9 @@ export function TimelineChapter({
             <div className="timeline-date">
               <MemoryDate item={item} />
             </div>
-            <div className="timeline-content">
+            <div
+              className={`timeline-content${item.photo ? '' : ' timeline-content--text'}`}
+            >
               {item.photo && <MemoryPhoto photo={item.photo} />}
               <div className="timeline-copy">
                 <h3>{item.title}</h3>

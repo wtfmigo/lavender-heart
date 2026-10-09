@@ -2,6 +2,8 @@
 
 User approved placing the photos from the local PICS folder, preserving landscape and portrait frames. Originals remain untouched. The active frontend uses 27 unique photographs; the excluded phone-gallery screenshot duplicates IMG_6732.
 
+Historical insertion report. The repeated placements and layout below were superseded by [the layout repair](2026-10-10-layout-repair.md).
+
 ## Confirmed placements
 
 - IMG_0516: first meet, May 18, 2025; Story, Gallery and Timeline.

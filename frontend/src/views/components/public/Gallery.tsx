@@ -35,6 +35,7 @@ export function Gallery({
       <figure
         key={item.id}
         className={`gallery-photo collection-photo--${role}`}
+        data-orientation={item.height > item.width ? 'portrait' : 'landscape'}
       >
         <button
           type="button"
@@ -57,9 +58,6 @@ export function Gallery({
             loading="lazy"
             decoding="async"
             style={{
-              aspectRatio: item.src.startsWith('/photos/personal/')
-                ? `${item.width} / ${item.height}`
-                : undefined,
               objectPosition: `${item.focalX * 100}% ${item.focalY * 100}%`,
             }}
           />

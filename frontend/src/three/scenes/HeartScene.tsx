@@ -31,7 +31,6 @@ function Sculpture({
   mobile,
 }: Pick<Props, 'reducedMotion' | 'progress'> & { mobile: boolean }) {
   const mesh = useRef<Mesh>(null)
-  const elapsed = useRef(0)
   const invalidate = useThree((state) => state.invalidate)
   const cloud = useTexture(
     mobile
@@ -43,18 +42,13 @@ function Sculpture({
   useEffect(() => {
     invalidate()
   }, [reducedMotion, invalidate])
-  useFrame((_, delta) => {
+  useFrame(() => {
     if (!mesh.current) return
     const travel = reducedMotion ? 0 : progress.current
-    if (!reducedMotion) elapsed.current += Math.min(delta, 0.05)
-    const time = elapsed.current
-    mesh.current.rotation.y =
-      -0.24 + (reducedMotion ? 0 : Math.sin(time * 0.17) * 0.11) + travel * 0.5
-    mesh.current.rotation.x = 0.06 - travel * 0.1
-    mesh.current.rotation.z = -0.08 + travel * 0.15
-    mesh.current.position.y = reducedMotion
-      ? 0
-      : Math.sin(time * 0.35) * 0.035 + travel * 0.2
+    mesh.current.rotation.y = -0.24 + travel * 1.8
+    mesh.current.rotation.x = 0.06 + Math.sin(travel * 0.45) * 0.1
+    mesh.current.rotation.z = -0.08 + Math.sin(travel * 0.5) * 0.08
+    mesh.current.position.y = 0
   })
   const palette = useMemo(() => {
     const styles = getComputedStyle(document.documentElement)

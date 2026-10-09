@@ -184,7 +184,11 @@ export function useJourneyAnimation(
               },
               story: companion(200, 0.8),
               memory: companion(140, 0.5),
-              gallery: companion(180, 0.65),
+              gallery: {
+                ...companion(300, 0.9),
+                left: desktop ? '74%' : 'calc(100% - 90px)',
+                top: desktop ? '32%' : '26%',
+              },
               love: companion(180, 0.85, desktop),
               timeline: companion(180, 0.75),
               letter: companion(140, 0),
@@ -308,6 +312,13 @@ export function useJourneyAnimation(
             }
             visibleChapters.slice(1).forEach(({ section, id }) => {
               transition(id, documentTop(section!))
+              if (id === 'gallery') {
+                const collection = section!.querySelector(
+                  '.gallery-composition',
+                )
+                if (collection) transition(id, documentTop(collection), 0)
+                return
+              }
               if (
                 desktop ||
                 id === 'home' ||
@@ -359,7 +370,7 @@ export function useJourneyAnimation(
               journey.progress(self.progress)
             },
             onUpdate: (self) => {
-              progressRef.current = self.progress
+              progressRef.current = self.scroll() / window.innerHeight
             },
           })
           gsap.ticker.add(updateVisibility)

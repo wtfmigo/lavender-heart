@@ -40,12 +40,6 @@
     height: 62svh;
   }
 }
-@media (min-width: 1024px) {
-  .journey-content {
-    max-width: min(1100px, calc(100% - 360px));
-    margin-inline: auto;
-  }
-}
 .story-stage[data-story-flow='vertical'] .story-track {
   display: block;
   width: 100%;

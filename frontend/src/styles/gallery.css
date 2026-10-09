@@ -6,8 +6,8 @@
 .gallery-composition {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: clamp(1rem, 3vw, 3rem);
-  row-gap: clamp(4rem, 7vw, 7rem);
+  column-gap: clamp(1.5rem, 3vw, 3.5rem);
+  row-gap: clamp(3rem, 5vw, 5rem);
   align-items: start;
   margin: 0 var(--gutter);
 }
@@ -37,19 +37,18 @@
   color: var(--text-secondary);
 }
 .gallery-photo-0 {
-  grid-column: 1 / 8;
+  grid-column: 1 / 7;
 }
 .gallery-photo-1 {
-  grid-column: 10 / 13;
-  margin-top: 35svh;
+  grid-column: 8 / 13;
+  margin-top: 8svh;
 }
 .gallery-photo-2 {
-  grid-column: 8 / 13;
-  margin-top: -25svh;
+  grid-column: 7 / 13;
 }
 .gallery-photo-3 {
-  grid-column: 1 / 5;
-  margin-top: 10svh;
+  grid-column: 1 / 6;
+  align-self: center;
 }
 .gallery-photo-4 {
   grid-column: 1 / 13;
@@ -59,14 +58,14 @@
   object-fit: cover;
 }
 .gallery-photo-5 {
-  grid-column: 1 / 5;
+  grid-column: 1 / 7;
 }
 .gallery-photo-6 {
-  grid-column: 7 / 13;
-  margin-top: 8svh;
+  grid-column: 8 / 13;
+  margin-top: 6svh;
 }
 .gallery-photo-7 {
-  grid-column: 3 / 12;
+  grid-column: 2 / 12;
 }
 .gallery-photo-7 img {
   aspect-ratio: 16 / 9;

@@ -186,6 +186,16 @@ export default function HeartScene({
   )
   return (
     <Canvas
+      // Keep the GPU viewport stable while the chapter frame animates its size.
+      resize={{ offsetSize: true, scroll: false, debounce: 0 }}
+      style={{
+        width: 600,
+        height: 750,
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%) scale(var(--heart-render-scale, 1))',
+      }}
       camera={{ position: [0, 0, 5.1], fov: mobile ? 42 : 32 }}
       dpr={mobile ? [1, 1.25] : [1, 1.75]}
       frameloop={active && !reducedMotion ? 'always' : 'demand'}

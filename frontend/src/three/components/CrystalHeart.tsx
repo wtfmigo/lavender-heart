@@ -34,6 +34,21 @@ export function CrystalHeart({
   useEffect(() => {
     const target = element.current
     if (!target) return
+    const fit = () => {
+      target.style.setProperty(
+        '--heart-render-scale',
+        String(Math.min(target.clientWidth / 600, target.clientHeight / 750)),
+      )
+    }
+    fit()
+    if (typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(fit)
+    observer.observe(target)
+    return () => observer.disconnect()
+  }, [])
+  useEffect(() => {
+    const target = element.current
+    if (!target) return
     let visible = true
     const update = () => setActive(visible && !document.hidden)
     const observer = new IntersectionObserver(([entry]) => {

@@ -15,7 +15,7 @@
   line-height: 0.92;
   letter-spacing: -0.045em;
   margin: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   text-wrap: balance;
 }
 .story-chapter {
@@ -73,7 +73,7 @@
   line-height: 1;
   margin: var(--space-6) 0;
   letter-spacing: -0.025em;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .memory-message,
 .timeline-copy {
@@ -143,7 +143,7 @@
   font-size: clamp(4rem, 8vw, 9rem);
   line-height: 0.9;
   letter-spacing: -0.055em;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .story-spread--date .story-date time span {
   display: block;
@@ -257,7 +257,7 @@
   font-weight: 400;
   margin: 0;
   text-wrap: balance;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .love-chapter {
   background: linear-gradient(var(--surface-middle), var(--color-lilac));
@@ -289,7 +289,7 @@
   line-height: 1.02;
   margin: 0;
   text-wrap: balance;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .love-entry p {
   max-width: 34ch;
@@ -299,7 +299,7 @@
   background: linear-gradient(var(--color-lilac), var(--color-purple-dusty));
 }
 .timeline-moments {
-  padding: 0 12vw 8svh;
+  padding: 0 max(var(--gutter), 180px) 8svh 6vw;
 }
 .timeline-moment {
   min-height: 100svh;
@@ -319,7 +319,7 @@
   font-weight: 400;
   letter-spacing: -0.065em;
   line-height: 0.85;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
   color: var(--color-plum-deep);
 }
 .timeline-date time > span {
@@ -330,12 +330,16 @@
 }
 .timeline-content {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   align-items: center;
-  gap: 7vw;
+  gap: clamp(2rem, 5vw, 6rem);
 }
 .timeline-content .chapter-photo img {
-  max-height: 52svh;
+  max-height: 68svh;
+}
+.timeline-copy h3 {
+  font-size: clamp(2.7rem, 3.6vw, 4.6rem);
+  overflow-wrap: normal;
 }
 .timeline-moment:first-child .timeline-date {
   min-height: 100svh;
@@ -344,7 +348,7 @@
   justify-content: center;
 }
 .timeline-moment:first-child .timeline-date strong {
-  font-size: clamp(7rem, 18vw, 18rem);
+  font-size: clamp(7rem, 14vw, 16rem);
 }
 .timeline-moment:first-child .timeline-date:empty {
   display: none;
@@ -353,7 +357,7 @@
   text-align: right;
 }
 .timeline-moment:nth-child(even) .timeline-content {
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
 }
 .timeline-moment:nth-child(even) .chapter-photo {
   grid-column: 2;
@@ -364,7 +368,8 @@
   grid-row: 1;
 }
 .timeline-moment:nth-child(3n) .chapter-photo {
-  width: 76%;
+  width: 90%;
+  margin-left: 0;
 }
 .letter-chapter {
   padding: 14svh var(--gutter) 18svh;
@@ -581,7 +586,7 @@
     min-height: 100svh;
   }
   .timeline-moment:first-child .timeline-date strong {
-    font-size: clamp(6rem, 30vw, 12rem);
+    font-size: clamp(4.8rem, 23vw, 10rem);
   }
   .timeline-copy {
     max-width: none;

@@ -34,7 +34,10 @@ export function useJourneyAnimation(
       heart.dispatchEvent(new CustomEvent('heartvisibility', { detail: true }))
       if (reducedMotion) return
       const lenis = new Lenis({ anchors: true, lerp: 0.085, syncTouch: false })
-      const tick = (time: number) => lenis.raf(time * 1000)
+      const tick = (time: number) => {
+        lenis.raf(time * 1000)
+        progressRef.current = window.scrollY / window.innerHeight
+      }
       const unsubscribe = lenis.on('scroll', ScrollTrigger.update)
       gsap.ticker.add(tick)
       let disposed = false
@@ -368,9 +371,6 @@ export function useJourneyAnimation(
             onRefresh: (self) => {
               rebuild()
               journey.progress(self.progress)
-            },
-            onUpdate: (self) => {
-              progressRef.current = self.scroll() / window.innerHeight
             },
           })
           gsap.ticker.add(updateVisibility)

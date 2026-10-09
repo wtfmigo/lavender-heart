@@ -37,7 +37,7 @@ export function CrystalHeart({
     const fit = () => {
       target.style.setProperty(
         '--heart-render-scale',
-        String(Math.min(target.clientWidth / 600, target.clientHeight / 750)),
+        String(Math.min(target.clientWidth / 750, target.clientHeight / 750)),
       )
     }
     fit()

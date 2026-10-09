@@ -45,9 +45,9 @@ function Sculpture({
   useFrame(() => {
     if (!mesh.current) return
     const travel = reducedMotion ? 0 : progress.current
-    mesh.current.rotation.y = -0.24 + Math.sin(travel * 5.5) * 0.26
-    mesh.current.rotation.x = 0.06 + Math.sin(travel * 0.45) * 0.1
-    mesh.current.rotation.z = -0.08 + Math.sin(travel * 0.5) * 0.08
+    mesh.current.rotation.y = -0.24
+    mesh.current.rotation.x = 0.06
+    mesh.current.rotation.z = -0.08 - travel * 1.8
     mesh.current.position.y = 0
   })
   const palette = useMemo(() => {
@@ -183,7 +183,7 @@ export default function HeartScene({
       // Keep the GPU viewport stable while the chapter frame animates its size.
       resize={{ offsetSize: true, scroll: false, debounce: 0 }}
       style={{
-        width: 600,
+        width: 750,
         height: 750,
         position: 'absolute',
         left: '50%',

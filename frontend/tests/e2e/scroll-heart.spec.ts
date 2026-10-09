@@ -1,5 +1,128 @@
 import { expect, test } from '@playwright/test'
 
+test('native wheel scroll turns smoothly in one direction', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const canvas = page.locator('canvas[data-webgl="ready"]')
+  await expect(canvas).toBeVisible({ timeout: 15000 })
+  await page.locator('#intro').evaluate((e) =>
+    window.scrollTo({
+      top: e.getBoundingClientRect().top + window.scrollY + 100,
+      behavior: 'instant',
+    }),
+  )
+  await page.waitForTimeout(1500)
+  const sampling = canvas.evaluate(
+    (e: HTMLCanvasElement) =>
+      new Promise<number[]>((resolve) => {
+        const angles: number[] = []
+        const capture = () => {
+          const gl = e.getContext('webgl2')!
+          const program = gl.getParameter(gl.CURRENT_PROGRAM)
+          const matrix = gl.getUniform(
+            program,
+            gl.getUniformLocation(program, 'modelViewMatrix')!,
+          )
+          angles.push(Math.atan2(-matrix[4], matrix[0]))
+          if (angles.length < 45) requestAnimationFrame(capture)
+          else resolve(angles)
+        }
+        requestAnimationFrame(capture)
+      }),
+  )
+  await page.mouse.wheel(0, 300)
+  const angles = await sampling
+  const changes = angles
+    .slice(1)
+    .map((angle, i) =>
+      Math.atan2(Math.sin(angle - angles[i]), Math.cos(angle - angles[i])),
+    )
+  expect(
+    changes.every((change) => change <= 0.01),
+    'No backwards snaps during downward scroll',
+  ).toBe(true)
+  expect(
+    changes.every((change) => Math.abs(change) < 0.3),
+    'No abrupt angle jumps',
+  ).toBe(true)
+  expect(changes.reduce((sum, change) => sum + change, 0)).toBeLessThan(-0.1)
+})
+
+test('scroll makes a complete clockwise turn instead of rocking back and forth', async ({
+  page,
+}) => {
+  test.setTimeout(60000)
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/')
+  const canvas = page.locator('canvas[data-webgl="ready"]')
+  await expect(canvas).toBeVisible({ timeout: 15000 })
+  await expect(page.locator('.opening')).toBeHidden()
+  await page.waitForTimeout(1800)
+  const start = await page
+    .locator('#intro')
+    .evaluate((e) => e.getBoundingClientRect().top + window.scrollY + 120)
+  const silhouette = async (scroll: number) => {
+    await page.evaluate(
+      (top) => window.scrollTo({ top, behavior: 'instant' }),
+      scroll,
+    )
+    await page.waitForTimeout(900)
+    const mask = await canvas.evaluate(
+      (e: HTMLCanvasElement) =>
+        new Promise<number[]>((resolve) =>
+          requestAnimationFrame(() => {
+            const gl = e.getContext('webgl2')!
+            const pixels = new Uint8Array(e.width * e.height * 4)
+            gl.readPixels(
+              0,
+              0,
+              e.width,
+              e.height,
+              gl.RGBA,
+              gl.UNSIGNED_BYTE,
+              pixels,
+            )
+            resolve(
+              Array.from({ length: e.width * e.height }, (_, i) =>
+                pixels[i * 4 + 3] > 16 ? 1 : 0,
+              ),
+            )
+          }),
+        ),
+    )
+    const width = await canvas.evaluate((e: HTMLCanvasElement) => e.width)
+    expect(
+      mask.some((value) => value === 1),
+      'Rendered heart exists',
+    ).toBe(true)
+    expect(
+      mask.some(
+        (value, i) =>
+          value === 1 &&
+          (i < width ||
+            i >= mask.length - width ||
+            i % width === 0 ||
+            i % width === width - 1),
+      ),
+      'Heart fits at every turn angle',
+    ).toBe(false)
+    return mask
+  }
+  const original = await silhouette(start)
+  const difference = (mask: number[]) =>
+    mask.reduce((sum, value, i) => sum + Math.abs(value - original[i]), 0) /
+    original.reduce((sum, value) => sum + value, 0)
+  for (const quarter of [1, 2, 3, 4]) {
+    const mask = await silhouette(start + (900 * quarter * Math.PI) / (2 * 1.8))
+    if (quarter === 1) expect(difference(mask)).toBeGreaterThan(0.1)
+    if (quarter === 4) expect(difference(mask)).toBeLessThan(0.025)
+    await page.screenshot({
+      path: `../docs/evidence/collection-scroll/turn-${quarter}.png`,
+    })
+  }
+})
+
 test('closing heart keeps a broad recognizable silhouette at scroll stops', async ({
   page,
 }) => {
@@ -60,7 +183,7 @@ test('closing heart keeps a broad recognizable silhouette at scroll stops', asyn
     ).toBeGreaterThan(0.8)
     if (offset === 0)
       await page.screenshot({
-        path: '../docs/evidence/collection-scroll/finale-heart-fixed.png',
+        path: '../docs/evidence/collection-scroll/full-turn-finale.png',
       })
   }
 })

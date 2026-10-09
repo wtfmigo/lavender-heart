@@ -34,9 +34,26 @@ export function useJourneyAnimation(
       heart.dispatchEvent(new CustomEvent('heartvisibility', { detail: true }))
       if (reducedMotion) return
       const lenis = new Lenis({ anchors: true, lerp: 0.085, syncTouch: false })
+      let closingStart = Infinity
+      let closingEnd = Infinity
       const tick = (time: number) => {
         lenis.raf(time * 1000)
-        progressRef.current = window.scrollY / window.innerHeight
+        const travel = window.scrollY / window.innerHeight
+        const closingProgress = Math.min(
+          1,
+          Math.max(
+            0,
+            (window.scrollY - closingStart) /
+              Math.max(1, closingEnd - closingStart),
+          ),
+        )
+        const startPhase = closingStart / window.innerHeight
+        const frontPhase =
+          (Math.ceil((startPhase * 1.8) / (Math.PI * 2)) * Math.PI * 2) / 1.8
+        progressRef.current =
+          window.scrollY > closingStart
+            ? startPhase + (frontPhase - startPhase) * closingProgress
+            : travel
       }
       const unsubscribe = lenis.on('scroll', ScrollTrigger.update)
       gsap.ticker.add(tick)
@@ -62,10 +79,10 @@ export function useJourneyAnimation(
           if (memoryImage) {
             gsap.fromTo(
               memoryImage,
-              { yPercent: -8, scale: 1.03 },
+              { yPercent: -12, scale: 1.18 },
               {
-                yPercent: 8,
-                scale: 1.03,
+                yPercent: 12,
+                scale: 1.18,
                 ease: 'none',
                 scrollTrigger: {
                   trigger: memory,
@@ -159,6 +176,9 @@ export function useJourneyAnimation(
               '.gallery-photo, .chapter-photo, .chapter-scene .chapter-heading, .intro-support, .story-copy > *, .full-memory-copy, .love-entry > *, .timeline-date, .timeline-copy > *, .letter-introduction, .letter-opening, .letter-body > *, .letter-signature, .finale h2, .finale-message, .finale-signature',
             )
           motionTargets?.forEach((element) => {
+            const photoFrame = element.querySelector<HTMLElement>(
+              'button, .photo-window',
+            )
             const story = element.closest('.story-spread')
             const love = element.closest<HTMLElement>('.love-entry')
             const loveStart = () =>
@@ -172,19 +192,19 @@ export function useJourneyAnimation(
                 ? () => loveStart() - window.innerHeight * 0.85
                 : story && storyPan
                   ? 'left 95%'
-                  : 'top 95%',
+                  : 'clamp(top 95%)',
               end: pinnedLove
                 ? () => loveStart() - window.innerHeight * 0.45
                 : story && storyPan
                   ? 'left 65%'
-                  : 'top 65%',
+                  : 'clamp(top 65%)',
               ...(story && storyPan ? { containerAnimation: storyPan } : {}),
               scrub: 0.45,
               invalidateOnRefresh: true,
             }
             gsap.fromTo(
-              element,
-              { opacity: 0.25, y: desktop ? 32 : 18 },
+              photoFrame ?? element,
+              { opacity: 0.08, y: desktop ? 110 : 64 },
               {
                 opacity: 1,
                 y: 0,
@@ -198,10 +218,10 @@ export function useJourneyAnimation(
             if (image)
               gsap.fromTo(
                 image,
-                { yPercent: -5, scale: 1.12 },
+                { yPercent: -12, scale: 1.42 },
                 {
-                  yPercent: 5,
-                  scale: 1.12,
+                  yPercent: 12,
+                  scale: 1.3,
                   ease: 'none',
                   scrollTrigger: {
                     ...scrollTrigger,
@@ -320,6 +340,13 @@ export function useJourneyAnimation(
             )
           const rebuild = () => {
             journey.clear()
+            const closing = container.current?.querySelector('#finale')
+            closingStart = closing
+              ? closing.getBoundingClientRect().top +
+                window.scrollY -
+                window.innerHeight * 0.3
+              : Infinity
+            closingEnd = scrollLimit()
             echoes.forEach((echo) => {
               const bounds = echo.element.getBoundingClientRect()
               echo.top = bounds.top + window.scrollY

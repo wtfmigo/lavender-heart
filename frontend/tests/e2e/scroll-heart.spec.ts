@@ -189,10 +189,15 @@ test('closing heart stays visible through front and side views', async ({
       ratio,
       `Heart silhouette at ${offset}px from bottom`,
     ).toBeGreaterThan(0.35)
-    if (offset === 0)
+    if (offset === 0) {
+      expect(
+        ratio,
+        'The closing heart finishes facing forward',
+      ).toBeGreaterThan(0.8)
       await page.screenshot({
-        path: '../docs/evidence/collection-scroll/horizontal-finale.png',
+        path: '../docs/evidence/collection-scroll/strong-front-finale.png',
       })
+    }
   }
 })
 

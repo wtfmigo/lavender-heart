@@ -25,9 +25,11 @@ for (const width of [1440, 390]) {
             new DOMMatrixReadOnly(getComputedStyle(element).transform).m42,
         )
       }
+      await sample(650)
       const first = await sample(650)
       const second = await sample(150)
-      expect(Math.abs(second - first)).toBeGreaterThan(3)
+      const height = await image.evaluate((element) => element.clientHeight)
+      expect(Math.abs(second - first)).toBeGreaterThan(height * 0.055)
       expect(await sample(650)).toBeCloseTo(first, 0)
       await expect(image).toBeVisible()
     }
@@ -86,7 +88,49 @@ test('pinned statements and letter paragraphs reveal with scroll and reverse', a
   }
   await page.locator('.gallery-photo').first().scrollIntoViewIfNeeded()
   await page.waitForTimeout(1000)
+})
+
+test('closing message completes its reveal at the bottom of the page', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1864, height: 968 })
+  await page.goto('/')
+  await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
+  await expect(page.locator('canvas[data-webgl="ready"]')).toBeVisible({
+    timeout: 15000,
+  })
+  await page.evaluate(() =>
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'instant',
+    }),
+  )
+  await expect(page.locator('#finale')).toBeInViewport()
+  await page.waitForTimeout(1500)
+  await page.evaluate(() =>
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'instant',
+    }),
+  )
+  await expect
+    .poll(() =>
+      page
+        .locator('.finale-message')
+        .evaluate((element) => Number(getComputedStyle(element).opacity)),
+    )
+    .toBeGreaterThan(0.99)
+  await expect
+    .poll(() =>
+      page
+        .locator('.finale-message')
+        .evaluate(
+          (element) =>
+            new DOMMatrixReadOnly(getComputedStyle(element).transform).m42,
+        ),
+    )
+    .toBeCloseTo(0, 0)
   await page.screenshot({
-    path: '../docs/evidence/collection-scroll/gallery-parallax.png',
+    path: '../docs/evidence/collection-scroll/strong-closing.png',
   })
 })

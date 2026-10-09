@@ -45,9 +45,9 @@ function Sculpture({
   useFrame(() => {
     if (!mesh.current) return
     const travel = reducedMotion ? 0 : progress.current
-    mesh.current.rotation.y = -0.24
+    mesh.current.rotation.y = -0.24 - travel * 1.8
     mesh.current.rotation.x = 0.06
-    mesh.current.rotation.z = -0.08 - travel * 1.8
+    mesh.current.rotation.z = -0.08
     mesh.current.position.y = 0
   })
   const palette = useMemo(() => {

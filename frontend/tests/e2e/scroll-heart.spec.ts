@@ -15,8 +15,8 @@ test('native wheel scroll turns smoothly in one direction', async ({
   await page.waitForTimeout(1500)
   const sampling = canvas.evaluate(
     (e: HTMLCanvasElement) =>
-      new Promise<number[]>((resolve) => {
-        const angles: number[] = []
+      new Promise<number[][]>((resolve) => {
+        const angles: number[][] = []
         const capture = () => {
           const gl = e.getContext('webgl2')!
           const program = gl.getParameter(gl.CURRENT_PROGRAM)
@@ -24,7 +24,10 @@ test('native wheel scroll turns smoothly in one direction', async ({
             program,
             gl.getUniformLocation(program, 'modelViewMatrix')!,
           )
-          angles.push(Math.atan2(-matrix[4], matrix[0]))
+          angles.push([
+            Math.atan2(matrix[8], matrix[0] / Math.cos(-0.08)),
+            matrix[4] + matrix[0] * Math.tan(-0.08),
+          ])
           if (angles.length < 45) requestAnimationFrame(capture)
           else resolve(angles)
         }
@@ -32,7 +35,12 @@ test('native wheel scroll turns smoothly in one direction', async ({
       }),
   )
   await page.mouse.wheel(0, 300)
-  const angles = await sampling
+  const frames = await sampling
+  expect(
+    frames.every((frame) => Math.abs(frame[1]) < 0.001),
+    'Heart stays upright during a horizontal turn',
+  ).toBe(true)
+  const angles = frames.map((frame) => frame[0])
   const changes = angles
     .slice(1)
     .map((angle, i) =>
@@ -49,7 +57,7 @@ test('native wheel scroll turns smoothly in one direction', async ({
   expect(changes.reduce((sum, change) => sum + change, 0)).toBeLessThan(-0.1)
 })
 
-test('scroll makes a complete clockwise turn instead of rocking back and forth', async ({
+test('scroll makes a complete horizontal turn instead of rocking back and forth', async ({
   page,
 }) => {
   test.setTimeout(60000)
@@ -118,12 +126,12 @@ test('scroll makes a complete clockwise turn instead of rocking back and forth',
     if (quarter === 1) expect(difference(mask)).toBeGreaterThan(0.1)
     if (quarter === 4) expect(difference(mask)).toBeLessThan(0.025)
     await page.screenshot({
-      path: `../docs/evidence/collection-scroll/turn-${quarter}.png`,
+      path: `../docs/evidence/collection-scroll/horizontal-turn-${quarter}.png`,
     })
   }
 })
 
-test('closing heart keeps a broad recognizable silhouette at scroll stops', async ({
+test('closing heart stays visible through front and side views', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1864, height: 968 })
@@ -180,10 +188,10 @@ test('closing heart keeps a broad recognizable silhouette at scroll stops', asyn
     expect(
       ratio,
       `Heart silhouette at ${offset}px from bottom`,
-    ).toBeGreaterThan(0.8)
+    ).toBeGreaterThan(0.35)
     if (offset === 0)
       await page.screenshot({
-        path: '../docs/evidence/collection-scroll/full-turn-finale.png',
+        path: '../docs/evidence/collection-scroll/horizontal-finale.png',
       })
   }
 })

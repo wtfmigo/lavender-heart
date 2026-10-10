@@ -84,3 +84,29 @@ it.each([1, 2, 7, 16, 23])(
     }
   },
 )
+it('paces little details in ordered groups of at most five without losing photo captions', () => {
+  const items = Array.from({ length: 23 }, (_, index) => ({
+    ...photos[0],
+    id: `memory-${index}`,
+    alt: `Memory ${index}`,
+    caption: `Caption ${index}`,
+  }))
+  const { container } = render(
+    <Gallery heading="A little collection" photos={items} />,
+  )
+  const groups = container.querySelectorAll('.collection-detail-spread')
+  expect(
+    Array.from(groups, (group) => group.querySelectorAll('figure').length),
+  ).toEqual([5, 5, 2])
+  expect(
+    Array.from(container.querySelectorAll('.gallery-photo button'), (button) =>
+      button.getAttribute('aria-label'),
+    ),
+  ).toEqual(items.map((item, index) => `Open photo ${index + 1}: ${item.alt}`))
+  expect(
+    Array.from(
+      container.querySelectorAll('.collection-details figcaption'),
+      (caption) => caption.textContent,
+    ),
+  ).toEqual(items.slice(11).map((item) => item.caption))
+})

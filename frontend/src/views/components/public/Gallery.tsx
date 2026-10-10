@@ -59,6 +59,7 @@ export function Gallery({
             decoding="async"
             style={{
               objectPosition: `${item.focalX * 100}% ${item.focalY * 100}%`,
+              aspectRatio: `${item.width} / ${item.height}`,
             }}
           />
         </button>
@@ -126,8 +127,8 @@ export function Gallery({
           )}
           {photos[7] && (
             <article className="collection-spread collection-spread--wander">
-              {note(7, '03')}
               {photo(7, 'lead')}
+              {note(7, '03')}
               {photo(8, 'street')}
               {photo(9, 'postcard')}
             </article>
@@ -140,11 +141,21 @@ export function Gallery({
           )}
           {photos.length > 11 && (
             <div className="collection-details">
-              {photos
-                .slice(11)
-                .map((_, index) =>
-                  photo(index + 11, `keepsake keepsake-${index % 5}`),
-                )}
+              {Array.from(
+                { length: Math.ceil((photos.length - 11) / 5) },
+                (_, group) => (
+                  <div className="collection-detail-spread" key={group}>
+                    {photos
+                      .slice(11 + group * 5, 16 + group * 5)
+                      .map((_, index) =>
+                        photo(
+                          11 + group * 5 + index,
+                          `keepsake keepsake-${index}`,
+                        ),
+                      )}
+                  </div>
+                ),
+              )}
             </div>
           )}
         </div>

@@ -90,8 +90,10 @@
   height: auto;
 }
 .collection-opening-photos {
-  position: relative;
-  padding-bottom: 14%;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 4%;
+  align-items: end;
 }
 .gallery-photo {
   margin: 0;
@@ -114,7 +116,6 @@
   width: 100%;
   height: auto;
   object-fit: cover;
-  aspect-ratio: 4 / 3;
 }
 .gallery-photo figcaption {
   font-family: var(--font-display);
@@ -126,24 +127,15 @@
   color: var(--text-secondary);
 }
 .collection-photo--portrait {
-  width: 88%;
-  margin-left: auto;
-}
-.collection-photo--portrait img {
-  aspect-ratio: 4 / 5;
+  grid-column: 5 / 13;
+  grid-row: 1;
 }
 .collection-photo--portrait figcaption {
-  margin-left: 26%;
   text-align: right;
 }
 .collection-photo--opening-detail {
-  position: absolute;
-  left: -13%;
-  bottom: 0;
-  width: 45%;
-}
-.collection-photo--opening-detail img {
-  aspect-ratio: 1;
+  grid-column: 1 / 5;
+  grid-row: 1;
 }
 .gallery-composition {
   position: relative;
@@ -153,7 +145,7 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 2.5vw;
   align-items: start;
-  padding: 3vw 3vw 5vw;
+  padding: 5vw 6vw 7vw;
 }
 .collection-note {
   position: relative;
@@ -190,17 +182,15 @@
   color: var(--text-secondary);
 }
 .collection-spread--air .collection-photo--lead {
-  grid-column: 1 / 8;
+  grid-column: 1 / 9;
+  grid-row: 1 / 3;
 }
 .collection-spread--air .collection-note {
-  grid-column: 8 / 10;
+  grid-column: 9 / 13;
 }
 .collection-spread--air .collection-photo--support {
   grid-column: 10 / 13;
-  margin-top: 6vw;
-}
-.collection-photo--support img {
-  aspect-ratio: 3 / 4;
+  grid-row: 2;
 }
 .collection-spread--moments {
   padding-top: 0;
@@ -208,10 +198,6 @@
 .collection-spread--moments .collection-photo--lead {
   grid-column: 1 / 7;
   grid-row: 1 / 3;
-  margin-left: -3vw;
-}
-.collection-spread--moments .collection-photo--lead img {
-  aspect-ratio: 6 / 5;
 }
 .collection-spread--moments .collection-note {
   grid-column: 8 / 12;
@@ -221,16 +207,13 @@
   grid-row: 2;
   align-self: end;
 }
-.collection-photo--detail img {
-  aspect-ratio: 1;
-}
 .collection-spread--moments .collection-photo--landscape {
   grid-column: 9 / 13;
   grid-row: 2;
   margin-top: 1vw;
 }
 .collection-spread--wander {
-  padding: 2vw 0 4vw 9vw;
+  padding-top: 5vw;
 }
 .collection-spread--wander .collection-note {
   grid-column: 1 / 5;
@@ -240,15 +223,9 @@
   grid-column: 5 / 13;
   grid-row: 1 / 3;
 }
-.collection-spread--wander .collection-photo--lead img {
-  aspect-ratio: 5 / 4;
-}
 .collection-photo--street {
   grid-column: 1 / 3;
   grid-row: 2;
-}
-.collection-photo--street img {
-  aspect-ratio: 3 / 4;
 }
 .collection-photo--postcard {
   grid-column: 3 / 5;
@@ -259,76 +236,49 @@
   position: relative;
   margin-top: 1vw;
   display: grid;
+  margin-inline: 3vw;
 }
 .collection-photo--cinematic {
-  grid-area: 1 / 1;
-}
-.collection-photo--cinematic button {
-  height: 100%;
-}
-.collection-photo--cinematic img {
-  aspect-ratio: 2.65;
-  height: 100%;
+  grid-column: 1;
 }
 .collection-favorite .collection-note {
-  grid-area: 1 / 1;
-  align-self: end;
-  position: relative;
-  margin: 4vw 9%;
-  width: 35%;
-  color: var(--color-pearl);
-  pointer-events: none;
+  margin: 2rem 3vw 0;
+  max-width: 42rem;
 }
 .collection-favorite .collection-note p {
-  color: inherit;
-}
-.collection-favorite .gallery-photo button::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(90deg, rgb(31 23 40 / 65%), transparent 75%);
+  max-width: 42ch;
 }
 .collection-details {
+  margin: 7vw 8vw 0;
+}
+.collection-detail-spread {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: 3vw;
-  row-gap: 4vw;
+  row-gap: 3vw;
   align-items: start;
-  margin: 6vw 8vw 0;
+  margin-bottom: 5vw;
 }
 .collection-photo--keepsake {
-  grid-column: span 3;
+  grid-column: span 4;
 }
 .keepsake-0 {
-  grid-column: span 4;
-  transform: rotate(-5deg);
-  margin-top: 1vw;
-}
-.keepsake-0 img {
-  aspect-ratio: 1.15;
+  grid-column: 1 / 5;
 }
 .keepsake-1 {
   margin-top: 3vw;
 }
-.keepsake-1 img {
-  aspect-ratio: 1;
-}
 .keepsake-2 {
-  grid-column: span 5;
-  width: 70%;
-  margin-left: auto;
-}
-.keepsake-2 img {
-  aspect-ratio: 1.1;
+  grid-column: 9 / 13;
+  width: 85%;
+  justify-self: end;
 }
 .keepsake-3 {
-  grid-column: 8 / 12;
-  margin-top: -6vw;
+  grid-column: 2 / 6;
 }
 .keepsake-4 {
-  grid-column: 2 / 5;
-  margin-top: -10vw;
+  grid-column: 8 / 12;
+  margin-top: 3vw;
 }
 .collection-closing {
   position: relative;
@@ -374,13 +324,8 @@
   outline-offset: 5px;
 }
 @media (max-width: 1023px) and (min-width: 701px) {
-  .collection-spread--air .collection-note {
-    grid-column: 8 / 13;
-  }
   .collection-spread--air .collection-photo--support {
-    grid-column: 9 / 12;
-    grid-row: 2;
-    margin-top: -8vw;
+    grid-column: 9 / 13;
   }
 }
 @media (max-width: 700px) {
@@ -410,14 +355,6 @@
   }
   .collection-opening-photos {
     margin-top: 2.5rem;
-    padding-bottom: 18%;
-  }
-  .collection-photo--portrait {
-    width: 78%;
-  }
-  .collection-photo--opening-detail {
-    left: 0;
-    width: 40%;
   }
   .collection-spread {
     display: flex;
@@ -452,27 +389,15 @@
     width: 64%;
     margin-top: 0;
   }
-  .collection-spread--wander .collection-note {
-    order: 0;
-  }
-  .collection-spread--wander .collection-photo--lead {
-    order: 3;
-  }
   .collection-photo--street {
-    order: 1;
     width: 45%;
   }
   .collection-photo--postcard {
-    order: 2;
     width: 38%;
     margin: 1.5rem 0 0 auto;
   }
-  .collection-photo--cinematic img {
-    aspect-ratio: 5 / 4;
-  }
   .collection-favorite .collection-note {
-    margin: 2rem var(--gutter);
-    width: 78%;
+    margin: 1.5rem var(--gutter) 0;
   }
   .collection-favorite .collection-note h3 {
     font-size: 2rem;
@@ -482,19 +407,22 @@
     font-size: 0.8rem;
   }
   .collection-details {
+    margin: 3rem var(--gutter) 0;
+  }
+  .collection-detail-spread {
     display: flex;
     flex-wrap: wrap;
     column-gap: 10%;
     row-gap: 2rem;
-    margin: 3rem var(--gutter) 0;
+    margin-bottom: 3rem;
   }
   .collection-photo--keepsake {
     width: 45%;
     margin: 0;
   }
   .keepsake-0 {
-    width: 60%;
-    margin: 0 auto 0.5rem;
+    width: 55%;
+    margin: 0 0 0.5rem;
   }
   .keepsake-2,
   .keepsake-4 {

@@ -1,6 +1,43 @@
 import { expect, test } from '@playwright/test'
 import content from '../../public/content/experience.json' with { type: 'json' }
 
+test('an editorial spread reveals its photographs and associated note together', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/')
+  const spread = page.locator('.collection-spread--air')
+  await expect(spread).toBeAttached()
+  await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
+  await page.evaluate(() => document.fonts.ready)
+  await spread.scrollIntoViewIfNeeded()
+  const top = await spread.evaluate(
+    (e) => e.getBoundingClientRect().top + window.scrollY,
+  )
+  await page.evaluate(
+    (y) => window.scrollTo({ top: y, behavior: 'instant' }),
+    top - 720,
+  )
+  await expect
+    .poll(() =>
+      spread
+        .locator('.gallery-photo')
+        .first()
+        .evaluate((e) => Number(getComputedStyle(e).opacity)),
+    )
+    .toBeGreaterThan(0.1)
+  await expect
+    .poll(() =>
+      spread.evaluate((e) => {
+        const opacities = [
+          ...e.querySelectorAll('.gallery-photo,.collection-note'),
+        ].map((element) => Number(getComputedStyle(element).opacity))
+        return Math.max(...opacities) - Math.min(...opacities)
+      }),
+    )
+    .toBeLessThan(0.01)
+})
+
 test('long owner captions stay inside the cinematic composition', async ({
   page,
 }) => {
@@ -52,11 +89,29 @@ for (const width of [1440, 390]) {
           (y) => window.scrollTo({ top: y, behavior: 'instant' }),
           position,
         )
-        await page.waitForTimeout(1100)
-        return cloud.evaluate(
-          (element) =>
-            new DOMMatrixReadOnly(getComputedStyle(element).transform).m42,
-        )
+        await expect
+          .poll(() => page.evaluate(() => window.scrollY))
+          .toBeCloseTo(position, 0)
+        const translation = () =>
+          cloud.evaluate(
+            (element) =>
+              new DOMMatrixReadOnly(getComputedStyle(element).transform).m42,
+          )
+        let previous = await translation()
+        let stableSamples = 0
+        await expect
+          .poll(
+            async () => {
+              const current = await translation()
+              stableSamples =
+                Math.abs(current - previous) < 0.05 ? stableSamples + 1 : 0
+              previous = current
+              return stableSamples
+            },
+            { intervals: [100], timeout: 10000 },
+          )
+          .toBeGreaterThanOrEqual(3)
+        return previous
       }
       const before = await sample(top - 650)
       const after = await sample(top - 100)
@@ -98,19 +153,75 @@ for (const [width, height] of [
     await expect(
       gallery.locator('.collection-details .gallery-photo'),
     ).toHaveCount(10)
+    await expect(gallery.locator('.collection-detail-spread')).toHaveCount(2)
+    expect(
+      await gallery
+        .locator('.gallery-photo img')
+        .evaluateAll((images) =>
+          images.map((image) => image.getAttribute('src')),
+        ),
+    ).toEqual(content.gallery.map((photo) => photo.src))
     for (const photo of await gallery.locator('.gallery-photo').all()) {
       await photo.scrollIntoViewIfNeeded()
       const box = await photo.boundingBox()
       expect(box!.x).toBeGreaterThanOrEqual(-1)
       expect(box!.x + box!.width).toBeLessThanOrEqual(width + 1)
-      expect(
-        await photo
-          .locator('img')
-          .evaluate(
-            (image: HTMLImageElement) =>
-              image.complete && image.naturalWidth > 0,
-          ),
-      ).toBe(true)
+      await expect
+        .poll(
+          () =>
+            photo
+              .locator('img')
+              .evaluate(
+                (image: HTMLImageElement) =>
+                  image.complete && image.naturalWidth > 0,
+              ),
+          { timeout: 15000 },
+        )
+        .toBe(true)
+      const image = await photo
+        .locator('img')
+        .evaluate((element: HTMLImageElement) => ({
+          ratio:
+            element.getBoundingClientRect().width /
+            element.getBoundingClientRect().height,
+          originalRatio:
+            Number(element.getAttribute('width')) /
+            Number(element.getAttribute('height')),
+        }))
+      expect(image.ratio).toBeCloseTo(image.originalRatio, 2)
+    }
+    const boxes = await gallery
+      .locator('.gallery-photo')
+      .evaluateAll((photos) =>
+        photos.map((photo) => {
+          const { left, right, top, bottom } = photo.getBoundingClientRect()
+          return { left, right, top, bottom }
+        }),
+      )
+    for (let index = 0; index < boxes.length; index++) {
+      for (const other of boxes.slice(index + 1)) {
+        const photo = boxes[index]
+        expect(
+          photo.right <= other.left + 1 ||
+            other.right <= photo.left + 1 ||
+            photo.bottom <= other.top + 1 ||
+            other.bottom <= photo.top + 1,
+          `Photo ${index + 1} has its own space`,
+        ).toBe(true)
+      }
+    }
+    const cinematicPhoto = await gallery
+      .locator('.collection-photo--cinematic')
+      .boundingBox()
+    const cinematicCaption = await gallery
+      .locator('.collection-favorite .collection-note')
+      .boundingBox()
+    expect(cinematicCaption!.y).toBeGreaterThanOrEqual(
+      cinematicPhoto!.y + cinematicPhoto!.height,
+    )
+    if (width <= 700) {
+      expect(boxes[7].bottom).toBeLessThanOrEqual(boxes[8].top)
+      expect(boxes[7].bottom).toBeLessThanOrEqual(boxes[9].top)
     }
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),

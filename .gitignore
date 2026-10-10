@@ -32,3 +32,6 @@
 
 # Personal photo derivatives stay local with their original owner files.
 /frontend/public/photos/personal/
+
+# Local visual-review captures contain personal photographs.
+/docs/evidence/scroll-gallery-repair/

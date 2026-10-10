@@ -106,13 +106,15 @@ Avoid bright red, cartoon geometry, glossy plastic, neon glow, rainbow refractio
 | Placement | Intended presence |
 | --- | --- |
 | Hero | Dominant central visual anchor; full heart |
-| After Hero | Disappears temporarily so photography and writing can breathe |
-| Story, Little things, Timeline openings | Enlarged crystal heart balances the heading; a smaller companion follows reading in the Timeline gutter and Letter side space, without abrupt disappearance |
+| Intro | Smaller calm presence near upper-center |
+| Story | Small upper-center supporting sculpture in reserved negative space; hidden during phone reading |
+| Full-Width Memory, Gallery, Letter | Persistent sculpture recedes completely; Gallery opening retains its small static lavender motif |
+| Little things, Timeline | Small controlled upper-center introduction; recedes during reading |
 | Finale | Full heart returns centrally |
 
 Do not keep the heart permanently visible or repeat the complete object after every chapter. Transition fragments should never compete with photographs or readability.
 
-Idle motion is extremely slow rotation, gentle float, and subtle pointer response. Scroll introduces controlled scale/angle changes and cinematic camera movement, followed by a natural exit. Avoid aggressive spinning, exaggerated mouse following, and continuously dramatic movement. Retain the normal system cursor; no trails, giant followers, or magnetic effects everywhere.
+The owner's October 10, 2026 repair direction uses stable center-based choreography. Idle and scroll rotation remain subtle and bounded so the silhouette stays recognizable; no pointer rotation, camera wandering, full spins, or arbitrary side-to-side travel. Size and visibility interpolate reversibly through one chapter controller. Retain the normal system cursor.
 
 Adaptive 3D preserves the heart's identity. Capable devices retain real 3D; mobile may reduce DPR, lights, shader/material complexity, particles, and rendering cost. Weak or unsupported devices receive a lightweight static/rendered heart fallback. A failed WebGL scene must never leave an empty hero or finale. No fallback assets are created in this phase.
 
@@ -190,9 +192,9 @@ A minimal first-visit “Scroll” cue with a thin line/understated arrow disapp
 ## 16. Section 3 — Horizontal Photo + Message Story
 
 - **Visual purpose:** let shared memories unfold as editorial spreads; a signature interaction.
-- **Layout:** desktop/capable large viewports use pinned horizontal storytelling driven by vertical scrolling. Each memory can contain photo, date/small label, optional title, and personal message. Vary large-image/narrow-copy arrangements, copy above/below image, portrait spreads with whitespace, selected oversized text, and quiet captions. Generous horizontal gaps and occasional partial adjacent content imply continuation.
+- **Layout:** desktop/capable large viewports use pinned horizontal storytelling driven by vertical scrolling, with one memory per viewport spread in saved order. Keep its photograph and message together on one stable editorial canvas; alternate portrait, wide, date, and cinematic arrangements within a consistent grid.
 - **Typography:** serif editorial titles/selected statements, Inter dates/captions/messages; longer memories retain readable columns.
-- **Photography role:** primary; vary portrait and landscape framing without identical panel widths or boxed cards.
+- **Photography role:** primary; vary image sizes and portrait/landscape framing within equal viewport canvases, preserving complete personal photographs and supplied focal metadata.
 - **Motion:** GSAP/ScrollTrigger horizontal progression with restrained major reveals. Preserve the saved content order and understandable reading flow.
 - **Responsive behavior:** phones use the same memories in vertical editorial storytelling, preserving order, hierarchy, images, messages, and pacing. Narrow/weaker tablets may also use vertical flow. Reduced motion uses natural vertical flow without strong pinning. Content that cannot fit a pinned stage must remain readable in flow.
 - **Avoid:** conventional carousel, generic swipe carousel on mobile, repeated product slides, scroll traps, or horizontally forced phone navigation.
@@ -210,7 +212,7 @@ A minimal first-visit “Scroll” cue with a thin line/understated arrow disapp
 ## 18. Section 5 — Curated Gallery and Lightbox
 
 - **Visual purpose:** present authentic photographs as an editorial collection rather than a social feed.
-- **Layout:** art-directed memory chapter: a large serif opening with overlapping portrait/detail images, three distinct numbered spreads, a cinematic favorite view, a staggered detail collage, and a quiet closing. Use mixed portrait/landscape sizing, asymmetry, and generous spacing; no masonry or uniform thumbnails. Recompose into an editorial vertical sequence on mobile. Soft cloud banks frame the opening and closing without covering photographs or copy.
+- **Layout:** art-directed memory chapter: a large serif opening with separate portrait/detail frames and a lavender motif, three distinct numbered spreads, a near-full-width favorite view with adjacent caption, small detail groups of up to five images, and a quiet closing. Use mixed sizing, asymmetry, and generous spacing without overlapping photographs, repeated large pairs, or uniform thumbnails. Recompose into a vertical editorial sequence on mobile in saved photo order. Soft cloud banks frame the opening and closing without covering photographs or copy.
 - **Typography:** quiet Inter captions/dates where present; chapter heading uses Cormorant Garamond.
 - **Photography role:** central; mixed framing, natural colors, and intentional crops rather than uniform thumbnails or card borders.
 - **Motion:** progressive subtle stagger, fade, and very small scale settling. Selected larger photos may have light depth/parallax. Desktop hover scale is approximately **1.02–1.04 maximum**, with a tiny depth shift or caption/date fade when useful.

@@ -157,26 +157,7 @@
       "visible": true,
       "content": {
         "message": {
-          "blocks": [
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "text": "Still you. Always you."
-                }
-              ]
-            },
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "text": "Through ordinary days and difficult ones, I want to be beside you. I will keep choosing you, Jeriann Alexa."
-                }
-              ]
-            }
-          ]
+          "blocks": []
         },
         "date": "2026-10-09"
       }

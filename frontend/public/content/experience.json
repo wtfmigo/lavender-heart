@@ -357,7 +357,16 @@
           }
         ]
       },
-      "photo": null,
+      "photo": {
+        "id": "img_4058",
+        "src": "/photos/personal/img_4058.jpg",
+        "alt": "Jeriann Alexa and Jalebong taking a mirror selfie together in a convenience store",
+        "width": 3024,
+        "height": 4032,
+        "caption": "",
+        "focalX": 0.5,
+        "focalY": 0.5
+      },
       "position": 6
     },
     {

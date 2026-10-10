@@ -30,9 +30,9 @@ for (const width of [1864, 1440, 768, 414, 390, 375, 320]) {
     const sources = await page
       .locator('img[src^="/photos/personal/"]:not(.gallery-lightbox img)')
       .evaluateAll((images) => images.map((image) => image.getAttribute('src')))
-    expect(sources).toHaveLength(30)
+    expect(sources).toHaveLength(31)
     // The owner assigned the first-kiss photograph to both Story and Timeline.
-    expect(new Set(sources).size).toBe(29)
+    expect(new Set(sources).size).toBe(30)
     const official = page.locator('.timeline-moment').nth(2)
     await expect(official.locator('img')).toHaveCount(0)
     await expect(official.locator('time')).toHaveAttribute(

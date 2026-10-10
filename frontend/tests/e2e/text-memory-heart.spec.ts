@@ -1,10 +1,21 @@
 import { expect, test } from '@playwright/test'
+import content from '../../public/content/experience.json' with { type: 'json' }
 
 for (const width of [1440, 390]) {
   test(`text-only memories keep the supporting heart small at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
+    await page.route('**/content/experience.json', (route) =>
+      route.fulfill({
+        json: {
+          ...content,
+          story: content.story.map((memory) =>
+            memory.id === 'memory-7' ? { ...memory, photo: null } : memory,
+          ),
+        },
+      }),
+    )
     await page.goto('/')
     await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
     const memory = page.locator('.story-memory--text').first()

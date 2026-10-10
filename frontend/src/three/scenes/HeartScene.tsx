@@ -55,9 +55,25 @@ function Sculpture({
     mesh.current.rotation.y = reducedMotion
       ? angle
       : MathUtils.damp(mesh.current.rotation.y, angle, 8, delta)
-    mesh.current.rotation.x = 0.06
-    mesh.current.rotation.z = -0.08
-    mesh.current.position.y = 0
+    mesh.current.rotation.x = reducedMotion
+      ? 0.06
+      : MathUtils.damp(
+          mesh.current.rotation.x,
+          0.06 + (angle + 0.24) * 0.12,
+          8,
+          delta,
+        )
+    mesh.current.rotation.z = reducedMotion
+      ? -0.08
+      : MathUtils.damp(
+          mesh.current.rotation.z,
+          -0.08 + (angle + 0.24) * 0.08,
+          8,
+          delta,
+        )
+    mesh.current.position.y = reducedMotion
+      ? 0
+      : Math.sin(clock.elapsedTime * 0.45) * 0.018
   })
   const palette = useMemo(() => {
     const styles = getComputedStyle(document.documentElement)

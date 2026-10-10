@@ -105,7 +105,7 @@ test('story gives each memory its own spread without losing or repeating supplie
   )
 })
 
-test('timeline makes genuine dates dominant and labels missing dates without inventing metadata', () => {
+test('timeline keeps genuine dates without repeated year displays or invented metadata', () => {
   const { container } = render(
     <TimelineChapter
       heading="Our dates"
@@ -113,8 +113,9 @@ test('timeline makes genuine dates dominant and labels missing dates without inv
     />,
   )
   expect(
-    container.querySelector('time[datetime="2026-10-08"] strong'),
-  ).toHaveTextContent('2026')
+    container.querySelector('time[datetime="2026-10-08"]'),
+  ).toHaveTextContent('October 8')
+  expect(container.querySelector('.timeline-date time strong')).toBeNull()
   expect(screen.getByText('YOUR YEAR')).toBeVisible()
   expect(container.querySelectorAll('time')).toHaveLength(1)
   expect(container.querySelector('.timeline-date .chapter-index')).toBeNull()

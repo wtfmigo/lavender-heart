@@ -7,7 +7,7 @@ for (const width of [1864, 1440, 768, 414, 390, 375, 320]) {
     await page.setViewportSize({ width, height: 900 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
-    await expect(page.locator('#gallery .gallery-photo')).toHaveCount(21)
+    await expect(page.locator('#gallery .gallery-photo')).toHaveCount(20)
     for (const image of await page
       .locator('img[src^="/photos/personal/"]:not(.gallery-lightbox img)')
       .all()) {
@@ -30,11 +30,14 @@ for (const width of [1864, 1440, 768, 414, 390, 375, 320]) {
     const sources = await page
       .locator('img[src^="/photos/personal/"]:not(.gallery-lightbox img)')
       .evaluateAll((images) => images.map((image) => image.getAttribute('src')))
-    expect(sources).toHaveLength(31)
-    // The owner assigned the first-kiss photograph to both Story and Timeline.
-    expect(new Set(sources).size).toBe(30)
+    expect(sources).toHaveLength(32)
+    // The first-kiss photo remains in Story and Timeline; the favorite moved from Collection.
+    expect(new Set(sources).size).toBe(31)
     const official = page.locator('.timeline-moment').nth(2)
-    await expect(official.locator('img')).toHaveCount(0)
+    await expect(official.locator('img')).toHaveAttribute(
+      'src',
+      '/photos/personal/img_3772.jpg',
+    )
     await expect(official.locator('time')).toHaveAttribute(
       'datetime',
       '2025-07-17',

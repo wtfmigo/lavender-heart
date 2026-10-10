@@ -38,7 +38,7 @@ test('an editorial spread reveals its photographs and associated note together',
     .toBeLessThan(0.01)
 })
 
-test('long owner captions stay inside the cinematic composition', async ({
+test('long owner captions stay inside the normal-size photo frame', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 844 })
@@ -52,10 +52,10 @@ test('long owner captions stay inside the cinematic composition', async ({
     route.fulfill({ json: data }),
   )
   await page.goto('/')
-  const scene = page.locator('.collection-favorite')
+  const scene = page.locator('.collection-details .gallery-photo').first()
   await scene.scrollIntoViewIfNeeded()
   const frame = await scene.boundingBox()
-  const note = await scene.locator('.collection-note').boundingBox()
+  const note = await scene.locator('figcaption').boundingBox()
   expect(note!.y).toBeGreaterThanOrEqual(frame!.y)
   expect(note!.y + note!.height).toBeLessThanOrEqual(frame!.y + frame!.height)
 })
@@ -148,12 +148,40 @@ for (const [width, height] of [
     await page.goto('/')
     const gallery = page.locator('#gallery')
     await gallery.scrollIntoViewIfNeeded()
-    await expect(gallery.locator('.gallery-photo')).toHaveCount(21)
+    await expect(gallery.locator('.gallery-photo')).toHaveCount(20)
     await expect(gallery.locator('.collection-spread')).toHaveCount(3)
     await expect(
       gallery.locator('.collection-details .gallery-photo'),
     ).toHaveCount(10)
     await expect(gallery.locator('.collection-detail-spread')).toHaveCount(2)
+    await expect(
+      gallery.locator('.collection-detail-spread').first().locator('figure'),
+    ).toHaveCount(9)
+    await expect(
+      gallery.locator('.collection-detail-spread').last().locator('figure'),
+    ).toHaveCount(1)
+    if (width >= 701) {
+      const rows = await gallery
+        .locator('.collection-detail-spread')
+        .first()
+        .locator('figure')
+        .evaluateAll((figures) =>
+          figures.map((e) => e.getBoundingClientRect().top),
+        )
+      for (const start of [0, 3, 6])
+        expect(
+          Math.max(...rows.slice(start, start + 3)) -
+            Math.min(...rows.slice(start, start + 3)),
+        ).toBeLessThan(1)
+      const remaining = await gallery
+        .locator('.collection-detail-spread')
+        .last()
+        .locator('figure')
+        .boundingBox()
+      expect(
+        Math.abs(remaining!.x + remaining!.width / 2 - width / 2),
+      ).toBeLessThan(2)
+    }
     expect(
       await gallery
         .locator('.gallery-photo img')
@@ -188,7 +216,10 @@ for (const [width, height] of [
             Number(element.getAttribute('width')) /
             Number(element.getAttribute('height')),
         }))
-      expect(image.ratio).toBeCloseTo(image.originalRatio, 2)
+      const keepsake = await photo.evaluate((element) =>
+        element.classList.contains('collection-photo--keepsake'),
+      )
+      expect(image.ratio).toBeCloseTo(keepsake ? 3 / 4 : image.originalRatio, 2)
     }
     const boxes = await gallery
       .locator('.gallery-photo')
@@ -210,15 +241,7 @@ for (const [width, height] of [
         ).toBe(true)
       }
     }
-    const cinematicPhoto = await gallery
-      .locator('.collection-photo--cinematic')
-      .boundingBox()
-    const cinematicCaption = await gallery
-      .locator('.collection-favorite .collection-note')
-      .boundingBox()
-    expect(cinematicCaption!.y).toBeGreaterThanOrEqual(
-      cinematicPhoto!.y + cinematicPhoto!.height,
-    )
+    await expect(gallery.locator('.collection-favorite')).toHaveCount(0)
     if (width <= 700) {
       expect(boxes[7].bottom).toBeLessThanOrEqual(boxes[8].top)
       expect(boxes[7].bottom).toBeLessThanOrEqual(boxes[9].top)
@@ -231,7 +254,6 @@ for (const [width, height] of [
       '.collection-spread--air',
       '.collection-spread--moments',
       '.collection-spread--wander',
-      '.collection-favorite',
       '.collection-details',
       '.collection-closing',
     ]) {

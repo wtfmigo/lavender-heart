@@ -13,6 +13,10 @@ for (const width of [1440, 390]) {
           story: content.story.map((memory) =>
             memory.id === 'memory-7' ? { ...memory, photo: null } : memory,
           ),
+          timeline: content.timeline.map((moment) => ({
+            ...moment,
+            photo: null,
+          })),
         },
       }),
     )

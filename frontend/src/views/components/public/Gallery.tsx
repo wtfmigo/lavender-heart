@@ -49,9 +49,7 @@ export function Gallery({
                 ? `${item.smallSrc} 600w, ${item.src} ${item.width}w`
                 : undefined
             }
-            sizes={
-              role === 'cinematic' ? '100vw' : '(max-width: 700px) 90vw, 60vw'
-            }
+            sizes="(max-width: 700px) 90vw, 60vw"
             width={item.width}
             height={item.height}
             alt={item.alt}
@@ -59,11 +57,14 @@ export function Gallery({
             decoding="async"
             style={{
               objectPosition: `${item.focalX * 100}% ${item.focalY * 100}%`,
-              aspectRatio: `${item.width} / ${item.height}`,
+              aspectRatio:
+                role === 'keepsake'
+                  ? '3 / 4'
+                  : `${item.width} / ${item.height}`,
             }}
           />
         </button>
-        {item.caption && role !== 'lead' && role !== 'cinematic' && (
+        {item.caption && role !== 'lead' && (
           <figcaption>{item.caption}</figcaption>
         )}
       </figure>
@@ -133,25 +134,16 @@ export function Gallery({
               {photo(9, 'postcard')}
             </article>
           )}
-          {photos[10] && (
-            <article className="collection-favorite">
-              {photo(10, 'cinematic')}
-              {note(10, '04')}
-            </article>
-          )}
-          {photos.length > 11 && (
+          {photos.length > 10 && (
             <div className="collection-details">
               {Array.from(
-                { length: Math.ceil((photos.length - 11) / 5) },
+                { length: Math.ceil((photos.length - 10) / 9) },
                 (_, group) => (
                   <div className="collection-detail-spread" key={group}>
                     {photos
-                      .slice(11 + group * 5, 16 + group * 5)
+                      .slice(10 + group * 9, 19 + group * 9)
                       .map((_, index) =>
-                        photo(
-                          11 + group * 5 + index,
-                          `keepsake keepsake-${index}`,
-                        ),
+                        photo(10 + group * 9 + index, 'keepsake'),
                       )}
                   </div>
                 ),

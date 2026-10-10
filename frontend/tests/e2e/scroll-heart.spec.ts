@@ -20,6 +20,7 @@ test('the rendered heart keeps a broad silhouette through forward and reverse sc
   const finale = await page
     .locator('#finale')
     .evaluate((element) => element.getBoundingClientRect().top + window.scrollY)
+  const ratios: number[] = []
   for (const top of [
     0,
     intro,
@@ -83,5 +84,14 @@ test('the rendered heart keeps a broad silhouette through forward and reverse sc
       `Front silhouette at scroll ${top}`,
     ).toBeGreaterThan(0.65)
     expect(silhouette.clipped).toBe(false)
+    ratios.push(silhouette.ratio)
   }
+  expect(
+    Math.max(...ratios.slice(2, 5)) - Math.min(...ratios.slice(2, 5)),
+    'Scroll visibly changes the first, middle and last Story heart silhouettes',
+  ).toBeGreaterThan(0.025)
+  await test.info().attach('rendered-heart-silhouettes', {
+    body: JSON.stringify(ratios),
+    contentType: 'application/json',
+  })
 })

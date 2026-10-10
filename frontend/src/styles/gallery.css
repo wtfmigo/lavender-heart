@@ -58,9 +58,9 @@
 .collection-opening.chapter-scene {
   min-height: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   align-items: center;
-  gap: 8%;
+  gap: 6%;
   padding: clamp(100px, 12vw, 170px) 6vw 9vw;
 }
 .collection-intro {
@@ -104,9 +104,9 @@
 .gallery-photo button {
   display: block;
   width: 100%;
-  padding: 0;
-  border: 0;
-  background: transparent;
+  padding: 4px;
+  border: 1px solid var(--color-pearl);
+  background: var(--color-ivory);
   cursor: zoom-in;
   overflow: clip;
   position: relative;
@@ -118,12 +118,11 @@
   object-fit: cover;
 }
 .gallery-photo figcaption {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(1rem, 1.5vw, 1.35rem);
-  line-height: 1.25;
+  font-family: var(--font-body);
+  font-size: clamp(0.7rem, 0.8vw, 0.82rem);
+  line-height: 1.55;
   white-space: pre-line;
-  margin: 0.8rem 0.25rem 0;
+  margin: 0.85rem 0.25rem 0;
   color: var(--text-secondary);
 }
 .collection-photo--portrait {
@@ -158,7 +157,7 @@
   gap: 1.3rem;
   align-items: center;
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 3.5vw, 3.6rem);
+  font-size: clamp(2.5rem, 4.5vw, 4.75rem);
   line-height: 1;
 }
 .collection-number > span {
@@ -169,7 +168,7 @@
 }
 .collection-note h3 {
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 2.6vw, 2.8rem);
+  font-size: clamp(1.9rem, 3vw, 3.3rem);
   font-weight: 400;
   line-height: 1.12;
   margin: 1rem 0;
@@ -193,22 +192,22 @@
   grid-row: 2;
 }
 .collection-spread--moments {
-  padding-top: 0;
+  padding-block: 2vw 7vw;
 }
 .collection-spread--moments .collection-photo--lead {
-  grid-column: 1 / 7;
+  grid-column: 6 / 13;
   grid-row: 1 / 3;
 }
 .collection-spread--moments .collection-note {
-  grid-column: 8 / 12;
+  grid-column: 1 / 5;
 }
 .collection-spread--moments .collection-photo--detail {
-  grid-column: 7 / 9;
+  grid-column: 1 / 3;
   grid-row: 2;
   align-self: end;
 }
 .collection-spread--moments .collection-photo--landscape {
-  grid-column: 9 / 13;
+  grid-column: 3 / 6;
   grid-row: 2;
   margin-top: 1vw;
 }
@@ -216,37 +215,21 @@
   padding-top: 5vw;
 }
 .collection-spread--wander .collection-note {
-  grid-column: 1 / 5;
+  grid-column: 9 / 13;
   grid-row: 1;
 }
 .collection-spread--wander .collection-photo--lead {
-  grid-column: 5 / 13;
+  grid-column: 1 / 9;
   grid-row: 1 / 3;
 }
 .collection-photo--street {
-  grid-column: 1 / 3;
+  grid-column: 9 / 11;
   grid-row: 2;
 }
 .collection-photo--postcard {
-  grid-column: 3 / 5;
+  grid-column: 11 / 13;
   grid-row: 2;
   margin-top: 2vw;
-}
-.collection-favorite {
-  position: relative;
-  margin-top: 1vw;
-  display: grid;
-  margin-inline: 3vw;
-}
-.collection-photo--cinematic {
-  grid-column: 1;
-}
-.collection-favorite .collection-note {
-  margin: 2rem 3vw 0;
-  max-width: 42rem;
-}
-.collection-favorite .collection-note p {
-  max-width: 42ch;
 }
 .collection-details {
   margin: 7vw 8vw 0;
@@ -262,23 +245,20 @@
 .collection-photo--keepsake {
   grid-column: span 4;
 }
-.keepsake-0 {
-  grid-column: 1 / 5;
+.collection-photo--keepsake:last-child:nth-child(3n + 1) {
+  grid-column: 5 / span 4;
 }
-.keepsake-1 {
-  margin-top: 3vw;
+.collection-photo--keepsake:nth-last-child(2):nth-child(3n + 1) {
+  grid-column: 3 / span 4;
 }
-.keepsake-2 {
-  grid-column: 9 / 13;
-  width: 85%;
-  justify-self: end;
+.collection-photo--keepsake:last-child:nth-child(3n + 2) {
+  grid-column: 7 / span 4;
 }
-.keepsake-3 {
-  grid-column: 2 / 6;
-}
-.keepsake-4 {
-  grid-column: 8 / 12;
-  margin-top: 3vw;
+.collection-photo--keepsake figcaption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.3;
 }
 .collection-closing {
   position: relative;
@@ -295,8 +275,9 @@
   margin: 1.5rem auto;
 }
 .collection-closing p {
-  font-size: 0.85rem;
-  line-height: 1.7;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.1vw, 2rem);
+  line-height: 1.35;
   max-width: 40ch;
   margin: auto;
   color: var(--text-secondary);
@@ -396,16 +377,6 @@
     width: 38%;
     margin: 1.5rem 0 0 auto;
   }
-  .collection-favorite .collection-note {
-    margin: 1.5rem var(--gutter) 0;
-  }
-  .collection-favorite .collection-note h3 {
-    font-size: 2rem;
-    margin-block: 0.7rem;
-  }
-  .collection-favorite .collection-note p {
-    font-size: 0.8rem;
-  }
   .collection-details {
     margin: 3rem var(--gutter) 0;
   }
@@ -420,13 +391,8 @@
     width: 45%;
     margin: 0;
   }
-  .keepsake-0 {
-    width: 55%;
-    margin: 0 0 0.5rem;
-  }
-  .keepsake-2,
-  .keepsake-4 {
-    margin-top: 2rem;
+  .collection-photo--keepsake:last-child:nth-child(odd) {
+    margin-inline: auto;
   }
   .collection-closing {
     padding: 4rem var(--gutter) 5rem;

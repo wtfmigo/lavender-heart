@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { ChapterScene } from './ChapterScene'
 import type {
   ExperienceMemory,
@@ -71,7 +71,10 @@ function MemoryPhoto({
   className?: string
 }) {
   return (
-    <figure className={`chapter-photo ${className}`}>
+    <figure
+      className={`chapter-photo ${className}`}
+      style={{ '--photo-ratio': photo.width / photo.height } as CSSProperties}
+    >
       <div className="photo-window">
         <img
           src={photo.src}
@@ -130,7 +133,13 @@ function StoryMemory({
   )
 }
 
-function MemoryDate({ item }: { item: ExperienceMemory }) {
+function MemoryDate({
+  item,
+  showYear = true,
+}: {
+  item: ExperienceMemory
+  showYear?: boolean
+}) {
   if (!item.date)
     return item.dateLabel ? (
       <strong className="date-presentation">{item.dateLabel}</strong>
@@ -138,7 +147,7 @@ function MemoryDate({ item }: { item: ExperienceMemory }) {
   const date = new Date(`${item.date}T12:00:00Z`)
   return (
     <time dateTime={item.date}>
-      <strong>{date.getUTCFullYear()}</strong>
+      {showYear && <strong>{date.getUTCFullYear()}</strong>}
       <span>
         {new Intl.DateTimeFormat('en', {
           month: 'long',
@@ -201,18 +210,20 @@ export function FullWidthMemory({
       aria-label={content.caption || 'Memory'}
     >
       {photo && (
-        <img
-          className="memory-image"
-          src={photo.src}
-          alt={photo.alt}
-          width={photo.width}
-          height={photo.height}
-          loading="lazy"
-          decoding="async"
-          style={{
-            objectPosition: `${photo.focalX * 100}% ${photo.focalY * 100}%`,
-          }}
-        />
+        <div className="memory-depth">
+          <img
+            className="memory-image"
+            src={photo.src}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            loading="lazy"
+            decoding="async"
+            style={{
+              objectPosition: `${photo.focalX * 100}% ${photo.focalY * 100}%`,
+            }}
+          />
+        </div>
       )}
       <div className="full-memory-copy">
         <DateLabel date={content.date} />
@@ -279,7 +290,7 @@ export function TimelineChapter({
         {items.map((item) => (
           <article className="timeline-moment" key={item.id}>
             <div className="timeline-date">
-              <MemoryDate item={item} />
+              <MemoryDate item={item} showYear={false} />
             </div>
             <div
               className={`timeline-content${item.photo ? '' : ' timeline-content--text'}`}

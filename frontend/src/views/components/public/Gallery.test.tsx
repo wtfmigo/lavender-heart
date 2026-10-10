@@ -77,14 +77,14 @@ it.each([1, 2, 7, 16, 23])(
       expect(container.querySelectorAll('.collection-spread')).toHaveLength(3)
       expect(
         container.querySelector('.collection-favorite .gallery-photo'),
-      ).toBeInTheDocument()
+      ).not.toBeInTheDocument()
       expect(
         container.querySelectorAll('.collection-details .gallery-photo'),
-      ).toHaveLength(count - 11)
+      ).toHaveLength(count - 10)
     }
   },
 )
-it('paces little details in ordered groups of at most five without losing photo captions', () => {
+it('paces details in ordered three-by-three groups without losing photo captions', () => {
   const items = Array.from({ length: 23 }, (_, index) => ({
     ...photos[0],
     id: `memory-${index}`,
@@ -97,7 +97,7 @@ it('paces little details in ordered groups of at most five without losing photo 
   const groups = container.querySelectorAll('.collection-detail-spread')
   expect(
     Array.from(groups, (group) => group.querySelectorAll('figure').length),
-  ).toEqual([5, 5, 2])
+  ).toEqual([9, 4])
   expect(
     Array.from(container.querySelectorAll('.gallery-photo button'), (button) =>
       button.getAttribute('aria-label'),
@@ -108,5 +108,5 @@ it('paces little details in ordered groups of at most five without losing photo 
       container.querySelectorAll('.collection-details figcaption'),
       (caption) => caption.textContent,
     ),
-  ).toEqual(items.slice(11).map((item) => item.caption))
+  ).toEqual(items.slice(10).map((item) => item.caption))
 })

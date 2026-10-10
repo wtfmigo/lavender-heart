@@ -523,17 +523,6 @@
       "focalY": 0.5
     },
     {
-      "id": "gallery-11",
-      "src": "/photos/personal/dsc03391.jpg",
-      "smallSrc": "/photos/personal/dsc03391-small.jpg",
-      "alt": "Jeriann Alexa and Jalebong standing together outdoors at night",
-      "width": 1600,
-      "height": 1200,
-      "caption": "Still you. Always you.\nI will keep choosing you, Jeriann Alexa.",
-      "focalX": 0.5,
-      "focalY": 0.5
-    },
-    {
       "id": "gallery-12",
       "src": "/photos/personal/dsc03945.jpg",
       "smallSrc": "/photos/personal/dsc03945-small.jpg",
@@ -667,27 +656,27 @@
   "timeline": [
     {
       "id": "moment-1",
-      "title": "Our first day together",
+      "title": "One of my favorite photos of us.",
       "date": "2025-05-18",
       "message": {
-        "blocks": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "text": "Waiting for you by Lawson, taking a Grab to QC, and trying Chick Chicken together. It became our favorite—and that day became the first of many."
-              }
-            ]
-          }
-        ]
+        "blocks": []
       },
-      "photo": null,
+      "photo": {
+        "id": "gallery-11",
+        "src": "/photos/personal/dsc03391.jpg",
+        "smallSrc": "/photos/personal/dsc03391-small.jpg",
+        "alt": "Jeriann Alexa and Jalebong standing together outdoors at night",
+        "width": 1600,
+        "height": 1200,
+        "caption": "",
+        "focalX": 0.5,
+        "focalY": 0.5
+      },
       "position": 0
     },
     {
       "id": "moment-2",
-      "title": "Our first kiss",
+      "title": "An evening I'll always remember",
       "date": "2025-05-29",
       "message": {
         "blocks": [
@@ -717,22 +706,22 @@
     },
     {
       "id": "moment-3",
-      "title": "The day we became us",
+      "title": "So pretty, even through a screen.",
       "date": "2025-07-17",
       "message": {
-        "blocks": [
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "text",
-                "text": "From talking online to spending days together, we kept getting closer. On this day, we became us."
-              }
-            ]
-          }
-        ]
+        "blocks": []
       },
-      "photo": null,
+      "photo": {
+        "id": "img_3772",
+        "src": "/photos/personal/img_3772.jpg",
+        "smallSrc": "/photos/personal/img_3772.jpg",
+        "alt": "Jeriann Alexa smiling during a video call with Jalebong",
+        "width": 1284,
+        "height": 2778,
+        "caption": "",
+        "focalX": 0.5,
+        "focalY": 0.5
+      },
       "position": 2
     }
   ]

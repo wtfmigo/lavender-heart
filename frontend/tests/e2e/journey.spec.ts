@@ -341,7 +341,7 @@ test('phone heart remains centered at introductions and fades during reading', a
           const heartBounds = element.getBoundingClientRect()
           return [
             ...document.querySelectorAll(
-              '.timeline-date strong, .timeline-content img, .love-entry h3',
+              '.timeline-date time, .timeline-content img, .love-entry h3',
             ),
           ].some((content) => {
             const bounds = content.getBoundingClientRect()

@@ -52,9 +52,22 @@ export function useJourneyAnimation(
       heart.dispatchEvent(new CustomEvent('heartvisibility', { detail: true }))
       if (reducedMotion) return
       const lenis = new Lenis({ anchors: true, lerp: 0.085, syncTouch: false })
+      let heartAnchors: { top: number; chapter: number }[] = []
       const tick = (time: number) => {
         lenis.raf(time * 1000)
-        progressRef.current = window.scrollY / window.innerHeight
+        const scroll = window.scrollY
+        const next = heartAnchors.findIndex((anchor) => anchor.top > scroll)
+        if (next > 0) {
+          const previous = heartAnchors[next - 1]
+          const following = heartAnchors[next]
+          progressRef.current =
+            previous.chapter +
+            ((following.chapter - previous.chapter) * (scroll - previous.top)) /
+              Math.max(1, following.top - previous.top)
+        } else if (heartAnchors.length) {
+          progressRef.current =
+            next === 0 ? heartAnchors[0].chapter : heartAnchors.at(-1)!.chapter
+        }
       }
       const unsubscribe = lenis.on('scroll', ScrollTrigger.update)
       gsap.ticker.add(tick)
@@ -77,30 +90,6 @@ export function useJourneyAnimation(
           const finaleSpace = container.current?.querySelector<HTMLElement>(
             '.finale-heart-space',
           )
-          const memory = container.current?.querySelector('#memory')
-          const memoryImage =
-            memory?.querySelector<HTMLElement>('.memory-image')
-          if (
-            memoryImage &&
-            !memory?.classList.contains('full-memory--portrait') &&
-            !memoryImage.getAttribute('src')?.startsWith('/photos/personal/')
-          ) {
-            gsap.fromTo(
-              memoryImage,
-              { yPercent: -12, scale: 1.18 },
-              {
-                yPercent: 12,
-                scale: 1.18,
-                ease: 'none',
-                scrollTrigger: {
-                  trigger: memory,
-                  start: 'top bottom',
-                  end: 'bottom top',
-                  scrub: 0.7,
-                },
-              },
-            )
-          }
           const stage =
             container.current?.querySelector<HTMLElement>('.story-stage')
           const track = stage?.querySelector<HTMLElement>('.story-track')
@@ -109,6 +98,7 @@ export function useJourneyAnimation(
             stage.dataset.storyFlow = 'vertical'
             gsap.set(track, { x: 0 })
           }
+          let storyPan: gsap.core.Tween | undefined
           if (
             desktop &&
             stage &&
@@ -117,7 +107,7 @@ export function useJourneyAnimation(
           )
             nativeStory()
           else if (desktop && stage && track) {
-            gsap.to(track, {
+            storyPan = gsap.to(track, {
               x: () => -Math.max(0, track.scrollWidth - stage.clientWidth),
               ease: 'none',
               scrollTrigger: {
@@ -137,6 +127,63 @@ export function useJourneyAnimation(
               },
             })
           }
+          track
+            ?.querySelectorAll<HTMLElement>('.story-spread')
+            .forEach((spread, index) => {
+              const composition = spread.querySelector('.story-memory')
+              if (!composition) return
+              const pinned = () =>
+                !!storyPan?.scrollTrigger &&
+                stage?.dataset.storyFlow !== 'vertical'
+              const focus = () =>
+                (storyPan?.scrollTrigger?.start ?? 0) +
+                index * stage!.clientWidth
+              const sceneTrigger = {
+                trigger: spread,
+                start: () =>
+                  pinned()
+                    ? focus() - stage!.clientWidth * 0.85
+                    : 'clamp(top 95%)',
+                end: () =>
+                  pinned()
+                    ? focus() - stage!.clientWidth * 0.1
+                    : 'clamp(top 65%)',
+                scrub: true,
+                invalidateOnRefresh: true,
+              }
+              gsap.fromTo(
+                composition,
+                {
+                  y: desktop ? 64 : 24,
+                  scale: desktop ? 0.94 : 1,
+                  clipPath: spread.classList.contains('story-spread--date')
+                    ? 'inset(100% 0 0 0)'
+                    : 'inset(0 100% 0 0)',
+                },
+                {
+                  y: 0,
+                  scale: 1,
+                  clipPath: 'inset(0% 0% 0% 0%)',
+                  ease: 'power2.out',
+                  scrollTrigger: sceneTrigger,
+                },
+              )
+              gsap.fromTo(
+                spread,
+                { '--story-depth': '36px' },
+                {
+                  '--story-depth': '-36px',
+                  ease: 'none',
+                  scrollTrigger: {
+                    ...sceneTrigger,
+                    start: () =>
+                      pinned() ? focus() - stage!.clientWidth : 'top bottom',
+                    end: () =>
+                      pinned() ? focus() + stage!.clientWidth : 'bottom top',
+                  },
+                },
+              )
+            })
           const loveStage =
             container.current?.querySelector<HTMLElement>('.love-stage')
           const loveSequence =
@@ -177,6 +224,49 @@ export function useJourneyAnimation(
                 },
               },
             })
+          }
+          const memory = container.current?.querySelector('#memory')
+          const memoryImage =
+            memory?.querySelector<HTMLElement>('.memory-image')
+          const memoryDepth = memory?.querySelector('.memory-depth')
+          if (memoryDepth) {
+            gsap.fromTo(
+              memoryDepth,
+              { scale: desktop ? 1.08 : 1.025, yPercent: desktop ? 2 : 1 },
+              {
+                scale: 1,
+                yPercent: desktop ? -2 : -1,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: memory,
+                  start: 'top bottom',
+                  end: 'bottom top',
+                  scrub: true,
+                  invalidateOnRefresh: true,
+                },
+              },
+            )
+          }
+          if (
+            memoryImage &&
+            !memory?.classList.contains('full-memory--portrait') &&
+            !memoryImage.getAttribute('src')?.startsWith('/photos/personal/')
+          ) {
+            gsap.fromTo(
+              memoryImage,
+              { yPercent: -12, scale: 1.18 },
+              {
+                yPercent: 12,
+                scale: 1.18,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: memory,
+                  start: 'top bottom',
+                  end: 'bottom top',
+                  scrub: 0.7,
+                },
+              },
+            )
           }
           // Earlier pinned chapters must exist before measuring collection cloud triggers.
           container.current
@@ -234,6 +324,10 @@ export function useJourneyAnimation(
             )
           motionTargets?.forEach((element) => {
             const collection = !!element.closest('#gallery')
+            const headline = element.matches(
+              '.chapter-heading, .timeline-date, .full-memory-copy',
+            )
+            const frame = element.matches('.gallery-photo, .chapter-photo')
             const story = element.closest('.story-spread')
             // A spread travels as one composition; its photo and words never reveal separately.
             if (story) return
@@ -245,10 +339,7 @@ export function useJourneyAnimation(
             const pinnedLove = !!lovePan && love
             const scrollTrigger = {
               trigger:
-                (collection &&
-                  element.closest(
-                    '.collection-spread, .collection-favorite',
-                  )) ||
+                (collection && element.closest('.collection-spread')) ||
                 element,
               start: pinnedLove
                 ? () => loveStart() - window.innerHeight * 0.85
@@ -263,13 +354,19 @@ export function useJourneyAnimation(
               element,
               {
                 opacity: collection ? 0 : 0.08,
-                y: collection ? 18 : desktop ? 24 : 16,
-                ...(collection ? { clipPath: 'inset(8% 0 0 0)' } : {}),
+                y: headline ? 64 : frame ? 44 : desktop ? 24 : 16,
+                ...(frame ? { scale: desktop ? 0.96 : 1 } : {}),
+                ...(headline || collection || frame
+                  ? { clipPath: `inset(${headline ? 100 : 18}% 0 0 0)` }
+                  : {}),
               },
               {
                 opacity: 1,
                 y: 0,
-                ...(collection ? { clipPath: 'inset(0% 0 0 0)' } : {}),
+                ...(frame ? { scale: 1 } : {}),
+                ...(headline || collection || frame
+                  ? { clipPath: 'inset(0% 0 0 0)' }
+                  : {}),
                 ease: 'none',
                 scrollTrigger,
               },
@@ -402,6 +499,15 @@ export function useJourneyAnimation(
               journey.set(heart, position(visibleChapters[0].id), 0)
             const documentTop = (element: Element) =>
               element.getBoundingClientRect().top + window.scrollY
+            heartAnchors = visibleChapters.map(({ id, section }) => ({
+              chapter: chapters.indexOf(id),
+              top:
+                id === 'home'
+                  ? 0
+                  : id === 'story' && storyPan?.scrollTrigger
+                    ? storyPan.scrollTrigger.start
+                    : Math.min(scrollLimit(), documentTop(section!)),
+            }))
             const transition = (
               id: string,
               top: number,

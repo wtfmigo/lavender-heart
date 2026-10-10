@@ -4,7 +4,8 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import process from 'node:process'
 import assert from 'node:assert/strict'
 const before = process.argv.includes('before')
-const output = '../docs/evidence/scroll-gallery-repair'
+const output =
+  process.env.QA_DIRECTORY || '../docs/evidence/scroll-gallery-repair'
 await mkdir(output, { recursive: true })
 const browser = await chromium.launch()
 const results = []
@@ -27,6 +28,10 @@ try {
     await page.locator('.opening').waitFor({ state: 'hidden', timeout: 15000 })
     await page.evaluate(() => document.fonts.ready)
     await page.waitForTimeout(1000)
+    await page.screenshot({ path: `${output}/after-home-${width}.png` })
+    await page.locator('#intro').scrollIntoViewIfNeeded()
+    await page.waitForTimeout(700)
+    await page.screenshot({ path: `${output}/after-intro-${width}.png` })
     await page
       .locator('.story-stage')
       .evaluate((e) =>
@@ -60,9 +65,7 @@ try {
         const start = await page.evaluate(() => window.scrollY)
         const count = metrics.spreads.length
         for (const index of [
-          0,
-          Math.floor(count / 2),
-          count - 1,
+          ...Array.from({ length: count }, (_, index) => index),
           Math.floor(count / 2),
           0,
         ]) {
@@ -100,10 +103,15 @@ try {
     })
     if (!before) {
       for (const [name, selector] of [
+        ['exit', '#memory'],
         ['spread', '.collection-spread'],
-        ['favorite', '.collection-favorite'],
+        ['detail-entry', '.collection-detail-spread'],
         ['details', '.collection-details'],
         ['closing', '.collection-closing'],
+        ['love', '#love'],
+        ['timeline', '#timeline'],
+        ['timeline-photos', '.timeline-moment'],
+        ['timeline-call', '.timeline-moment:nth-child(3)'],
         ['letter', '#letter'],
         ['finale', '#finale'],
       ]) {

@@ -204,7 +204,7 @@ test('personal photographs keep their full frame without image zoom or parallax 
   ).toBe(false)
   expect(
     mocks.fromTo.mock.calls.some(([element]) =>
-      element.classList.contains('photo-window'),
+      element.classList.contains('chapter-photo'),
     ),
   ).toBe(true)
 })
@@ -217,8 +217,8 @@ test('hidden chapters connect adjacent visible heart positions and release Lenis
   expect(heartCalls).toHaveLength(3)
   expect(mocks.timeline).toHaveBeenCalledOnce()
   expect(heartCalls[0][1].width).toBe(140)
-  expect(heartCalls[0][1].opacity).toBe(0.5)
-  expect(heartCalls[1][1].opacity).toBe(0.85)
+  expect(heartCalls[0][1].opacity).toBe(0)
+  expect(heartCalls[1][1].opacity).toBe(0)
   expect(heartCalls[2][1].left).toBe('50%')
   expect(
     mocks.fromTo.mock.calls.some(([element]) =>
@@ -239,44 +239,29 @@ test('hidden chapters connect adjacent visible heart positions and release Lenis
   expect(mocks.revert).toHaveBeenCalledOnce()
 })
 
-test('each desktop chapter has its own companion scale and the finale dominates', () => {
+test('reading chapters use one small centered heart and hide it over photographs and letters', () => {
   render(<Journey complete />)
   const states = mocks.journeyTo.mock.calls.map(([, state]) => state)
-  expect(states.some((state) => state.width === 350 && state.opacity > 0)).toBe(
-    true,
-  )
+  expect(states.every((state) => state.left === '50%')).toBe(true)
   expect(
-    states.filter(
-      (state) =>
-        state.width > 300 && state.left.endsWith('%') && state.opacity > 0,
-    ).length,
+    states.filter((state) => state.opacity > 0 && state.width <= 180).length,
+  ).toBeGreaterThanOrEqual(4)
+  expect(
+    states.filter((state) => state.opacity === 0).length,
   ).toBeGreaterThanOrEqual(3)
-  expect(
-    states.some((state) => state.width > 300 && state.left === '24%'),
-  ).toBe(true)
-  expect(
-    states.some((state) => state.width === 160 && state.left === '50%'),
-  ).toBe(true)
-  expect(
-    states.some(
-      (state) =>
-        state.opacity === 0.85 &&
-        state.top === '50%' &&
-        state.left.startsWith('calc('),
-    ),
-  ).toBe(true)
   expect(states.at(-1).height).toBe(window.innerHeight * 0.72)
 })
 
-test('phone companions recur in chapter introductions and recede during reading', () => {
+test('phone hearts remain centered and hide during reading', () => {
   mocks.desktop = false
   render(<Journey complete />)
   const states = mocks.journeyTo.mock.calls.map(([, state]) => state)
+  expect(states.every((state) => state.left === '50%')).toBe(true)
   expect(
-    states.filter((state) => state.width === 110 && state.opacity > 0).length,
-  ).toBeGreaterThanOrEqual(5)
+    states.filter((state) => state.width === 90 && state.opacity > 0).length,
+  ).toBeGreaterThanOrEqual(4)
   expect(
-    states.filter((state) => state.width === 110 && state.opacity === 0).length,
+    states.filter((state) => state.opacity === 0).length,
   ).toBeGreaterThanOrEqual(4)
   expect(states.at(-1).height).toBe(window.innerHeight * 0.62)
 })
@@ -314,7 +299,7 @@ test('desktop Love pins measured vertical travel through one statement at a time
 test('live heart suppresses an onscreen chapter echo even at a different anchor', () => {
   const { container } = render(<Journey complete />)
   mocks.tickerAdd.mock.calls.at(-1)![0]()
-  expect(container.querySelector('#gallery')).toHaveAttribute(
+  expect(container.querySelector('#story')).toHaveAttribute(
     'data-live-heart',
     'true',
   )

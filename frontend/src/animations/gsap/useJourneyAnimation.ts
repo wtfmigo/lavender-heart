@@ -1,4 +1,4 @@
-import type { RefObject } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -24,6 +24,24 @@ export function useJourneyAnimation(
   progressRef: RefObject<number>,
   reducedMotion: boolean,
 ) {
+  const [viewportRevision, setViewportRevision] = useState(0)
+  const restoreScroll = useRef<number | null>(null)
+  useEffect(() => {
+    let timer = 0
+    const resize = () => {
+      window.clearTimeout(timer)
+      timer = window.setTimeout(() => {
+        restoreScroll.current = window.scrollY
+        // A rapid resize can return to the original dimensions after the old pin fell back.
+        setViewportRevision((revision) => revision + 1)
+      }, 120)
+    }
+    window.addEventListener('resize', resize)
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
   useGSAP(
     () => {
       const heart =
@@ -34,26 +52,9 @@ export function useJourneyAnimation(
       heart.dispatchEvent(new CustomEvent('heartvisibility', { detail: true }))
       if (reducedMotion) return
       const lenis = new Lenis({ anchors: true, lerp: 0.085, syncTouch: false })
-      let closingStart = Infinity
-      let closingEnd = Infinity
       const tick = (time: number) => {
         lenis.raf(time * 1000)
-        const travel = window.scrollY / window.innerHeight
-        const closingProgress = Math.min(
-          1,
-          Math.max(
-            0,
-            (window.scrollY - closingStart) /
-              Math.max(1, closingEnd - closingStart),
-          ),
-        )
-        const startPhase = closingStart / window.innerHeight
-        const frontPhase =
-          (Math.ceil((startPhase * 1.8) / (Math.PI * 2)) * Math.PI * 2) / 1.8
-        progressRef.current =
-          window.scrollY > closingStart
-            ? startPhase + (frontPhase - startPhase) * closingProgress
-            : travel
+        progressRef.current = window.scrollY / window.innerHeight
       }
       const unsubscribe = lenis.on('scroll', ScrollTrigger.update)
       gsap.ticker.add(tick)
@@ -63,8 +64,8 @@ export function useJourneyAnimation(
         window.cancelAnimationFrame(refreshFrame)
         refreshFrame = window.requestAnimationFrame(() => {
           if (!disposed) {
-            lenis.resize()
             ScrollTrigger.refresh()
+            lenis.resize()
           }
         })
       }
@@ -103,7 +104,6 @@ export function useJourneyAnimation(
           const stage =
             container.current?.querySelector<HTMLElement>('.story-stage')
           const track = stage?.querySelector<HTMLElement>('.story-track')
-          let storyPan: gsap.core.Tween | undefined
           const nativeStory = () => {
             if (!stage || !track) return
             stage.dataset.storyFlow = 'vertical'
@@ -117,16 +117,16 @@ export function useJourneyAnimation(
           )
             nativeStory()
           else if (desktop && stage && track) {
-            storyPan = gsap.to(track, {
+            gsap.to(track, {
               x: () => -Math.max(0, track.scrollWidth - stage.clientWidth),
               ease: 'none',
               scrollTrigger: {
                 trigger: stage,
                 start: 'top top',
                 end: () =>
-                  `+=${Math.max(window.innerHeight, track.scrollWidth - stage.clientWidth)}`,
+                  `+=${Math.max(1, track.scrollWidth - stage.clientWidth)}`,
                 pin: true,
-                scrub: 0.7,
+                scrub: true,
                 invalidateOnRefresh: true,
                 onRefresh: (self) => {
                   if (track.scrollHeight <= window.innerHeight + 2) return
@@ -230,14 +230,13 @@ export function useJourneyAnimation(
             })
           const motionTargets =
             container.current?.querySelectorAll<HTMLElement>(
-              '.gallery-photo, .collection-note, .collection-closing > p, .chapter-photo, .chapter-scene .chapter-heading, .intro-support, .story-copy > *, .full-memory-copy, .love-entry > *, .timeline-date, .timeline-copy > *, .letter-introduction, .letter-opening, .letter-body > *, .letter-signature, .finale h2, .finale-message, .finale-signature',
+              '.gallery-photo, .collection-note, .collection-closing > p, .chapter-photo, .chapter-scene .chapter-heading, .intro-support, .full-memory-copy, .love-entry > *, .timeline-date, .timeline-copy > *, .letter-introduction, .letter-opening, .letter-body > *, .letter-signature, .finale h2, .finale-message, .finale-signature',
             )
           motionTargets?.forEach((element) => {
             const collection = !!element.closest('#gallery')
-            const photoFrame = element.querySelector<HTMLElement>(
-              'button, .photo-window',
-            )
             const story = element.closest('.story-spread')
+            // A spread travels as one composition; its photo and words never reveal separately.
+            if (story) return
             const love = element.closest<HTMLElement>('.love-entry')
             const loveStart = () =>
               (lovePan?.scrollTrigger?.start ?? 0) +
@@ -245,26 +244,26 @@ export function useJourneyAnimation(
               loveSequence!.getBoundingClientRect().top
             const pinnedLove = !!lovePan && love
             const scrollTrigger = {
-              trigger: element,
+              trigger:
+                (collection &&
+                  element.closest(
+                    '.collection-spread, .collection-favorite',
+                  )) ||
+                element,
               start: pinnedLove
                 ? () => loveStart() - window.innerHeight * 0.85
-                : story && storyPan
-                  ? 'left 95%'
-                  : 'clamp(top 95%)',
+                : 'clamp(top 95%)',
               end: pinnedLove
                 ? () => loveStart() - window.innerHeight * 0.45
-                : story && storyPan
-                  ? 'left 65%'
-                  : 'clamp(top 65%)',
-              ...(story && storyPan ? { containerAnimation: storyPan } : {}),
+                : 'clamp(top 65%)',
               scrub: 0.45,
               invalidateOnRefresh: true,
             }
             gsap.fromTo(
-              photoFrame ?? element,
+              element,
               {
                 opacity: collection ? 0 : 0.08,
-                y: collection ? 18 : desktop ? 110 : 64,
+                y: collection ? 18 : desktop ? 24 : 16,
                 ...(collection ? { clipPath: 'inset(8% 0 0 0)' } : {}),
               },
               {
@@ -285,40 +284,27 @@ export function useJourneyAnimation(
               gsap.fromTo(
                 image,
                 {
-                  yPercent: collection ? -1 : -12,
-                  scale: collection ? 1.05 : 1.42,
+                  yPercent: -1,
+                  scale: 1.05,
                 },
                 {
-                  yPercent: collection ? 1 : 12,
-                  scale: collection ? 1.025 : 1.3,
+                  yPercent: 1,
+                  scale: 1.025,
                   ease: 'none',
                   scrollTrigger: {
                     ...scrollTrigger,
-                    start: story && storyPan ? 'left right' : 'top bottom',
-                    end: story && storyPan ? 'right left' : 'bottom top',
+                    start: 'top bottom',
+                    end: 'bottom top',
                   },
                 },
               )
           })
-          const position = (id: string, reading: boolean | 'text' = false) => {
-            const chapterWidth = Math.min(500, window.innerWidth * 0.36)
-            const letterWidth = Math.min(
-              300,
-              (window.innerWidth - 680) / 2 - 32,
-            )
-            const companion = (
-              width: number,
-              opacity: number,
-              left = false,
-            ) => ({
-              left: desktop
-                ? left
-                  ? '110px'
-                  : 'calc(100% - 110px)'
-                : 'calc(100% - 72px)',
-              top: desktop ? '32%' : '28%',
-              width: desktop ? width : 110,
-              height: desktop ? width * 1.25 : 145,
+          const position = (id: string, reading = false) => {
+            const small = (width: number, opacity: number) => ({
+              left: '50%',
+              top: '10%',
+              width: desktop ? width : 90,
+              height: desktop ? width * 1.25 : 112.5,
               opacity,
               rotation: 0,
             })
@@ -333,39 +319,13 @@ export function useJourneyAnimation(
                 opacity: 1,
                 rotation: 0,
               },
-              intro: {
-                ...companion(350, 0.9),
-                left: desktop ? '77%' : 'calc(100% - 72px)',
-                top: desktop ? '45%' : '28%',
-              },
-              story: {
-                ...companion(chapterWidth, desktop ? 0.9 : 0.8),
-                left: desktop ? '76%' : 'calc(100% - 72px)',
-                top: desktop ? '50%' : '28%',
-              },
-              memory: companion(140, 0.5),
-              gallery: {
-                ...companion(160, 0.75),
-                left: desktop ? '50%' : 'calc(100% - 72px)',
-                top: desktop ? '24%' : '18%',
-              },
-              love: {
-                ...companion(chapterWidth, desktop ? 0.9 : 0.85, desktop),
-                left: desktop ? '24%' : 'calc(100% - 72px)',
-                top: desktop ? '50%' : '28%',
-              },
-              timeline: {
-                ...companion(chapterWidth, desktop ? 0.85 : 0.75),
-                left: desktop ? '77%' : 'calc(100% - 72px)',
-                top: desktop ? '50%' : '28%',
-              },
-              letter: {
-                ...companion(letterWidth, desktop ? 0.85 : 0),
-                left: desktop
-                  ? `calc(100% - ${letterWidth / 2 + 16}px)`
-                  : 'calc(100% - 72px)',
-                top: desktop ? '50%' : '28%',
-              },
+              intro: { ...small(180, 0.75), top: '20%' },
+              story: small(140, desktop ? 0.55 : 0.45),
+              memory: small(140, 0),
+              gallery: small(140, 0),
+              love: small(140, 0.55),
+              timeline: small(140, 0.55),
+              letter: small(140, 0),
               finale: {
                 left: '50%',
                 top: finaleSpace
@@ -382,34 +342,10 @@ export function useJourneyAnimation(
                 rotation: 0,
               },
             }
-            if (desktop && reading === 'text')
-              return {
-                ...companion(chapterWidth, 0.9),
-                left: '72%',
-                top: '50%',
-                height: Math.min(
-                  chapterWidth * 1.25,
-                  window.innerHeight * 0.65,
-                ),
-              }
-            if (
-              desktop &&
-              reading &&
-              ['story', 'love', 'timeline'].includes(id)
-            )
-              return {
-                ...companion(
-                  id === 'timeline' ? 160 : 320,
-                  id === 'timeline' ? 0.85 : 0.78,
-                ),
-                left:
-                  id === 'timeline'
-                    ? 'calc(100% - 90px)'
-                    : 'calc(100% - 160px)',
-                top: id === 'timeline' ? '50%' : '20%',
-                height: id === 'timeline' ? 200 : 320,
-              }
-            return states[id as keyof typeof states]
+            const state = states[id as keyof typeof states]
+            return reading && (!desktop || id === 'love' || id === 'timeline')
+              ? { ...state, opacity: 0 }
+              : state
           }
           const visibleChapters = chapters
             .map((id) => ({
@@ -426,12 +362,9 @@ export function useJourneyAnimation(
               yPercent: -50,
             })
           let visible = true
-          const echoes = visibleChapters.flatMap(({ section }) => {
-            const element =
-              section!.querySelector<HTMLElement>('.chapter-heart')
-            return element
-              ? [{ section: section!, element, top: 0, bottom: 0 }]
-              : []
+          // Only the collection opening retains its static editorial heart motif.
+          visibleChapters.forEach(({ section }) => {
+            section!.dataset.liveHeart = String(section!.id !== 'gallery')
           })
           const setHeartY = gsap.quickSetter(heart, 'y', 'px')
           let finaleFollowStart = Infinity
@@ -443,20 +376,6 @@ export function useJourneyAnimation(
                 : 0,
             )
             const next = Number(gsap.getProperty(heart, 'opacity')) > 0.04
-            const candidates = next
-              ? echoes.filter(
-                  (echo) =>
-                    echo.top < window.scrollY + window.innerHeight &&
-                    echo.bottom > window.scrollY,
-                )
-              : []
-            echoes.forEach(({ section, element }) => {
-              const live = candidates.some(
-                (candidate) => candidate.element === element,
-              )
-              if (section.dataset.liveHeart !== String(live))
-                section.dataset.liveHeart = String(live)
-            })
             if (next === visible) return
             visible = next
             heart.dataset.heartVisible = String(visible)
@@ -473,23 +392,12 @@ export function useJourneyAnimation(
           const rebuild = () => {
             journey.clear()
             const closing = container.current?.querySelector('#finale')
-            closingStart = closing
-              ? closing.getBoundingClientRect().top +
-                window.scrollY -
-                window.innerHeight * 0.3
-              : Infinity
-            closingEnd = scrollLimit()
             if (closing && finaleSpace) {
               finaleFollowStart =
                 closing.getBoundingClientRect().top +
                 window.scrollY -
                 window.innerHeight * 0.1
             }
-            echoes.forEach((echo) => {
-              const bounds = echo.element.getBoundingClientRect()
-              echo.top = bounds.top + window.scrollY
-              echo.bottom = bounds.bottom + window.scrollY
-            })
             if (visibleChapters.length)
               journey.set(heart, position(visibleChapters[0].id), 0)
             const documentTop = (element: Element) =>
@@ -498,7 +406,7 @@ export function useJourneyAnimation(
               id: string,
               top: number,
               opacity?: number,
-              reading: boolean | 'text' = false,
+              reading = false,
             ) => {
               const entry = !desktop && opacity === undefined && id !== 'finale'
               const start = Math.min(
@@ -561,79 +469,8 @@ export function useJourneyAnimation(
                 section!.querySelector('.intro-reading, .full-memory-copy')
               if (desktop && body && ['story', 'love', 'timeline'].includes(id))
                 transition(id, documentTop(body), undefined, true)
-              if (desktop && id === 'story' && stage && track) {
-                const pin = storyPan?.scrollTrigger
-                const distance = Math.max(
-                  1,
-                  track.scrollWidth - stage.clientWidth,
-                )
-                section!
-                  .querySelectorAll<HTMLElement>('.story-spread')
-                  .forEach((spread) => {
-                    const top = pin
-                      ? pin.start +
-                        ((spread.offsetLeft - track.offsetLeft) / distance) *
-                          (pin.end - pin.start) +
-                        window.innerHeight * 0.35
-                      : documentTop(spread)
-                    transition(
-                      id,
-                      top,
-                      undefined,
-                      spread.querySelector('.chapter-photo') ? true : 'text',
-                    )
-                  })
-              }
-              if (desktop && id === 'timeline')
-                section!
-                  .querySelectorAll<HTMLElement>('.timeline-content')
-                  .forEach((content) => {
-                    const moment =
-                      content.closest<HTMLElement>('.timeline-moment')
-                    if (moment?.querySelector('.timeline-date strong'))
-                      transition(id, documentTop(moment), undefined, true)
-                    transition(
-                      id,
-                      documentTop(content),
-                      undefined,
-                      content.classList.contains('timeline-content--text')
-                        ? 'text'
-                        : true,
-                    )
-                  })
-              if (
-                desktop ||
-                id === 'home' ||
-                id === 'letter' ||
-                id === 'finale'
-              )
-                return
-              if (body) transition(id, documentTop(body), 0)
-              else if (id === 'intro' || id === 'memory')
-                transition(
-                  id,
-                  documentTop(section!) + window.innerHeight * 0.7,
-                  0,
-                )
-              section!
-                .querySelectorAll('.timeline-moment')
-                .forEach((moment) => {
-                  transition(id, documentTop(moment))
-                  const reading = moment.querySelector(
-                    '.timeline-date strong, .timeline-content',
-                  )
-                  transition(
-                    id,
-                    reading
-                      ? documentTop(reading)
-                      : documentTop(moment) +
-                          Math.min(
-                            moment.getBoundingClientRect().height * 0.45,
-                            window.innerHeight * 0.65,
-                          ),
-                    0,
-                  )
-                })
+              if (body && !desktop && id !== 'finale')
+                transition(id, documentTop(body), 0, true)
             })
             journey.set({}, {}, scrollLimit())
           }
@@ -666,13 +503,27 @@ export function useJourneyAnimation(
       }
       const target = container.current
       target?.addEventListener('load', loaded, true)
+      const resizeObserver =
+        typeof ResizeObserver === 'undefined'
+          ? undefined
+          : new ResizeObserver(scheduleRefresh)
+      target
+        ?.querySelectorAll('.story-track, .love-sequence')
+        .forEach((element) => resizeObserver?.observe(element))
       void document.fonts?.ready.then(() => {
         if (!disposed) scheduleRefresh()
       })
+      if (restoreScroll.current !== null) {
+        ScrollTrigger.refresh()
+        lenis.resize()
+        lenis.scrollTo(restoreScroll.current, { immediate: true, force: true })
+        restoreScroll.current = null
+      }
       return () => {
         disposed = true
         window.cancelAnimationFrame(refreshFrame)
         target?.removeEventListener('load', loaded, true)
+        resizeObserver?.disconnect()
         match.revert()
         gsap.ticker.remove(tick)
         unsubscribe()
@@ -680,6 +531,10 @@ export function useJourneyAnimation(
         progressRef.current = 0
       }
     },
-    { scope: container, dependencies: [reducedMotion], revertOnUpdate: true },
+    {
+      scope: container,
+      dependencies: [reducedMotion, viewportRevision],
+      revertOnUpdate: true,
+    },
   )
 }

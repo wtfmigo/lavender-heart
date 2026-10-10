@@ -489,6 +489,35 @@
   .story-spread {
     width: 100vw;
   }
+  .experience[data-motion='full'] .story-spread {
+    padding: 20svh 8vw 6svh;
+  }
+  .story-spread .story-memory {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 6vw;
+  }
+  .story-spread .story-copy h3 {
+    font-size: clamp(2.7rem, 4vw, 4rem);
+  }
+  .story-spread .chapter-photo img {
+    height: auto;
+    max-height: 60svh;
+    object-fit: contain;
+  }
+  .story-spread--portrait .chapter-photo img {
+    height: 60svh;
+  }
+  .story-spread--date .chapter-photo {
+    align-self: center;
+  }
+  .story-spread .story-memory--text {
+    display: block;
+    max-width: 58ch;
+    margin-inline: auto;
+  }
+  .experience[data-motion='full'] .story-memory--text .story-copy {
+    max-width: 58ch;
+  }
 }
 @media (max-width: 1023px) {
   .story-spread {

@@ -24,7 +24,9 @@ test('hidden chapters and empty collections have no navigation or animation targ
       .getByRole('navigation')
       .locator('a[href="#intro"], a[href="#gallery"], a[href="#letter"]'),
   ).toHaveCount(0)
-  await expect(page.locator('.story-copy h3').first()).toHaveText('Memory 01')
+  await expect(page.locator('.story-copy h3').first()).toHaveText(
+    [...data.story].sort((a, b) => a.position - b.position)[0].title,
+  )
   await page.locator('#finale').scrollIntoViewIfNeeded()
   await expect(page.locator('#finale')).toBeInViewport()
   expect(errors).toEqual([])
@@ -106,20 +108,7 @@ for (const width of [1440, 390]) {
             Number(getComputedStyle(element).opacity),
           ),
         )
-        .toBeCloseTo(
-          id === 'finale'
-            ? 1
-            : id === 'letter'
-              ? width >= 1024
-                ? 0.85
-                : 0
-              : id === 'gallery'
-                ? 0.75
-                : width >= 1024
-                  ? 0.5
-                  : 0,
-          1,
-        )
+        .toBeCloseTo(id === 'finale' ? 1 : 0, 1)
       if (id === 'finale') {
         await expect
           .poll(() =>
@@ -303,7 +292,7 @@ test('late overflow rebuilds downstream pins and Finale after Story and Love ret
     .toBeCloseTo(720, 0)
 })
 
-test('phone heart returns at chapter introductions and timeline bridges, then fades for photos', async ({
+test('phone heart remains centered at introductions and fades during reading', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
@@ -330,20 +319,14 @@ test('phone heart returns at chapter introductions and timeline bridges, then fa
       )
       .toBeCloseTo(value, 1)
   }
-  for (const id of ['story', 'gallery', 'timeline']) {
+  for (const id of ['story', 'timeline']) {
     await position(`#${id}`)
     await expect
       .poll(() =>
         heart.evaluate((element) => Number(getComputedStyle(element).opacity)),
       )
-      .toBeGreaterThan(0.5)
+      .toBeGreaterThan(0.3)
   }
-  await position('.timeline-moment', -180)
-  await expect
-    .poll(() =>
-      heart.evaluate((element) => Number(getComputedStyle(element).opacity)),
-    )
-    .toBeGreaterThan(0.3)
   for (const selector of [
     '.timeline-moment',
     '.timeline-moment:nth-child(2)',
@@ -376,6 +359,6 @@ test('phone heart returns at chapter introductions and timeline bridges, then fa
   await position('.timeline-content', 100)
   await opacity(0)
   await position('#gallery')
-  await opacity(0.75)
+  await opacity(0)
   await expect(page.locator('canvas')).toHaveCount(1)
 })

@@ -72,7 +72,7 @@ test('story preserves supplied owner order and lazy photo metadata', () => {
   expect(screen.getByText('Supplied caption')).toBeVisible()
 })
 
-test('story pairs two memories without losing or repeating supplied content', () => {
+test('story gives each memory its own spread without losing or repeating supplied content', () => {
   const memories = Array.from({ length: 8 }, (_, index) => ({
     ...items[index % items.length],
     id: `memory-${index}`,
@@ -94,10 +94,12 @@ test('story pairs two memories without losing or repeating supplied content', ()
       .getAllByRole('heading', { level: 3 })
       .map((heading) => heading.textContent),
   ).toEqual(memories.map((memory) => memory.title))
-  expect(container.querySelectorAll('.story-spread')).toHaveLength(7)
-  expect(
-    container.querySelectorAll('.story-spread--paired .story-copy h3'),
-  ).toHaveLength(2)
+  expect(container.querySelectorAll('.story-spread')).toHaveLength(8)
+  container
+    .querySelectorAll('.story-spread')
+    .forEach((spread) =>
+      expect(spread.querySelectorAll('.story-memory')).toHaveLength(1),
+    )
   memories.forEach((_, index) =>
     expect(screen.getAllByText(`Words ${index + 1}`)).toHaveLength(1),
   )

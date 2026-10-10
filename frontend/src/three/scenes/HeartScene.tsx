@@ -15,6 +15,7 @@ import {
   type Mesh,
 } from 'three'
 import { createHeartGeometry } from '@/three/utils/heartGeometry'
+import { heartYaw } from '@/three/utils/heartMotion'
 import { HeartFallback } from '@/three/components/HeartFallback'
 
 type Props = {
@@ -48,10 +49,9 @@ function Sculpture({
   useEffect(() => {
     invalidate()
   }, [reducedMotion, invalidate])
-  useFrame((_, delta) => {
+  useFrame(({ clock }, delta) => {
     if (!mesh.current) return
-    const travel = reducedMotion ? 0 : progress.current
-    const angle = -0.24 - travel * 1.8
+    const angle = heartYaw(progress.current, clock.elapsedTime, reducedMotion)
     mesh.current.rotation.y = reducedMotion
       ? angle
       : MathUtils.damp(mesh.current.rotation.y, angle, 8, delta)

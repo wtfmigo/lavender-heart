@@ -157,19 +157,7 @@ export function StoryChapter({
   heading: string
   items: ExperienceMemory[]
 }) {
-  const spreads: {
-    index: number
-    variant: string
-    memories: ExperienceMemory[]
-  }[] = []
-  const variants = ['portrait', 'wide', 'date', 'paired', 'float', 'cinematic']
-  for (let index = 0; index < items.length; index += index === 3 ? 2 : 1) {
-    spreads.push({
-      index,
-      variant: variants[Math.min(spreads.length, variants.length - 1)],
-      memories: items.slice(index, index + (index === 3 ? 2 : 1)),
-    })
-  }
+  const variants = ['portrait', 'wide', 'date', 'cinematic']
   return (
     <section
       id="story"
@@ -184,14 +172,13 @@ export function StoryChapter({
       />
       <div className="story-stage">
         <div className="story-track">
-          {spreads.map(({ memories, index, variant }) => (
+          {items.map((item, index) => (
             <article
-              className={`story-spread story-spread--${variant}`}
-              key={memories[0].id}
+              className={`story-spread story-spread--${variants[index % variants.length]}`}
+              key={item.id}
+              data-memory-id={item.id}
             >
-              {memories.map((item, offset) => (
-                <StoryMemory key={item.id} item={item} index={index + offset} />
-              ))}
+              <StoryMemory item={item} index={index} />
             </article>
           ))}
         </div>

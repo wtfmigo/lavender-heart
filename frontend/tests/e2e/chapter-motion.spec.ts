@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test'
 
 for (const width of [1440, 390]) {
-  test(`photos pan with scroll and reverse at ${width}px`, async ({ page }) => {
+  test(`photo frames reveal gently with their captions and reverse at ${width}px`, async ({
+    page,
+  }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/')
     await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
@@ -20,19 +22,19 @@ for (const width of [1440, 390]) {
           top - offset,
         )
         await page.waitForTimeout(1000)
-        return image.evaluate(
-          (element) =>
-            new DOMMatrixReadOnly(getComputedStyle(element).transform).m42,
+        return frame.evaluate((element) =>
+          Number(getComputedStyle(element).opacity),
         )
       }
-      await sample(650)
-      const first = await sample(650)
+      await sample(1100)
+      const first = await sample(1100)
       const second = await sample(150)
-      const height = await image.evaluate((element) => element.clientHeight)
-      expect(Math.abs(second - first)).toBeGreaterThan(
-        height * (selector === '.gallery-photo' ? 0.002 : 0.055),
-      )
-      expect(await sample(650)).toBeCloseTo(first, 0)
+      expect(second).toBeGreaterThan(first + 0.2)
+      expect(await sample(1100)).toBeCloseTo(first, 1)
+      // Personal photographs retain their full image frame; only the captioned figure reveals.
+      expect(
+        await image.evaluate((element) => getComputedStyle(element).transform),
+      ).toBe('none')
       await expect(image).toBeVisible()
     }
   })

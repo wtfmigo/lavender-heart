@@ -71,7 +71,7 @@ export function PhotoGalaxy({
     const tick = (time: number) => {
       if (previous !== undefined)
         rotate(
-          angle.current.yaw + Math.min(time - previous, 50) * 0.004,
+          angle.current.yaw + Math.min(time - previous, 50) * 0.012,
           angle.current.pitch,
         )
       previous = time
@@ -195,7 +195,7 @@ export function PhotoGalaxy({
             {
               '--galaxy-yaw': '0deg',
               '--galaxy-pitch': '0deg',
-              '--galaxy-card-width': `${Math.max(44, Math.min(120, 420 / Math.sqrt(photos.length)))}px`,
+              '--galaxy-card-width': `${Math.max(52, Math.min(160, 560 / Math.sqrt(photos.length)))}px`,
             } as CSSProperties
           }
         >

@@ -10,6 +10,29 @@ for (const width of [1440, 390, 320]) {
     const galaxy = page.locator('.photo-galaxy')
     await expect(galaxy).toHaveAttribute('data-view', 'sphere')
     await galaxy.scrollIntoViewIfNeeded()
+    expect(
+      await galaxy
+        .locator('.photo-galaxy-controls')
+        .evaluate((e) => e.getBoundingClientRect().height),
+    ).toBe(1)
+    expect(
+      await galaxy
+        .locator('.photo-galaxy-instructions')
+        .evaluate((e) => e.getBoundingClientRect().height),
+    ).toBe(1)
+    if (width === 1440) {
+      expect(
+        await galaxy.evaluate((e) =>
+          getComputedStyle(e).getPropertyValue('--galaxy-radius'),
+        ),
+      ).toContain('340px')
+      expect(
+        await galaxy
+          .locator('.photo-galaxy-position')
+          .first()
+          .evaluate((e) => e.getBoundingClientRect().width),
+      ).toBeGreaterThan(140)
+    }
     const stage = galaxy.locator('.photo-galaxy-stage')
     const rotor = galaxy.locator('.photo-galaxy-rotor')
     const before = await rotor.evaluate((e) => getComputedStyle(e).transform)
@@ -68,7 +91,18 @@ for (const width of [1440, 390, 320]) {
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBe(width)
     await page.evaluate(() => (document.activeElement as HTMLElement)?.blur())
+    const galaxyBox = await galaxy.boundingBox()
+    for (const photo of await galaxy.locator('.gallery-photo').all()) {
+      const photoBox = await photo.boundingBox()
+      expect(photoBox!.y).toBeGreaterThanOrEqual(galaxyBox!.y)
+      expect(photoBox!.y + photoBox!.height).toBeLessThanOrEqual(
+        galaxyBox!.y + galaxyBox!.height,
+      )
+    }
     await galaxy.screenshot({ path: `test-results/photo-galaxy-${width}.png` })
+    await galaxy
+      .getByRole('button', { name: 'Show photo list', exact: true })
+      .focus()
     await galaxy
       .getByRole('button', { name: 'Show photo list', exact: true })
       .click()
@@ -83,6 +117,9 @@ for (const width of [1440, 390, 320]) {
     await expect(dialog.getByText('12 / 20', { exact: true })).toBeVisible()
     await page.keyboard.press('Escape')
     await expect(photos.first()).toBeFocused()
+    await galaxy
+      .getByRole('button', { name: 'Show galaxy', exact: true })
+      .focus()
     await galaxy
       .getByRole('button', { name: 'Show galaxy', exact: true })
       .click()
@@ -104,11 +141,17 @@ test('automatic sphere rotation honors its pause and global motion pause', async
   await expect.poll(rotation).not.toBe(initial)
   await galaxy
     .getByRole('button', { name: 'Pause rotation', exact: true })
+    .focus()
+  await galaxy
+    .getByRole('button', { name: 'Pause rotation', exact: true })
     .click()
   await page.mouse.move(0, 0)
   const paused = await rotation()
   await page.waitForTimeout(150)
   expect(await rotation()).toBe(paused)
+  await galaxy
+    .getByRole('button', { name: 'Resume rotation', exact: true })
+    .focus()
   await galaxy
     .getByRole('button', { name: 'Resume rotation', exact: true })
     .click()

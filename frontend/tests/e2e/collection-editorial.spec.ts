@@ -54,6 +54,9 @@ test('long owner captions stay inside the normal-size photo frame', async ({
   await page.goto('/')
   await page
     .getByRole('button', { name: 'Show photo list', exact: true })
+    .focus()
+  await page
+    .getByRole('button', { name: 'Show photo list', exact: true })
     .click()
   const scene = page.locator('.collection-details .gallery-photo').first()
   await scene.scrollIntoViewIfNeeded()
@@ -157,6 +160,9 @@ for (const [width, height] of [
       gallery.locator('.collection-details .gallery-photo'),
     ).toHaveCount(10)
     await expect(gallery.locator('.photo-galaxy')).toHaveCount(1)
+    await gallery
+      .getByRole('button', { name: 'Show photo list', exact: true })
+      .focus()
     await gallery
       .getByRole('button', { name: 'Show photo list', exact: true })
       .click()

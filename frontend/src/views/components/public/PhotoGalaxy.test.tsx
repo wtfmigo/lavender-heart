@@ -123,6 +123,15 @@ it('opens list photos after a touch drag that produces no click', () => {
   fireEvent.click(photo, { detail: 1 })
   expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledOnce()
 })
+it('rotates at twelve degrees per second while visible', () => {
+  const { rotor } = mount()
+  enter()
+  act(() => frame(100))
+  act(() => frame(150))
+  expect(parseFloat(rotor.style.getPropertyValue('--galaxy-yaw'))).toBeCloseTo(
+    0.6,
+  )
+})
 it('starts only onscreen and stops for pause, hidden tabs, lightbox, and unmount', () => {
   const { unmount } = mount()
   expect(window.requestAnimationFrame).not.toHaveBeenCalled()

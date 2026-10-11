@@ -31,12 +31,21 @@ function subscribeMobile(onChange: () => void) {
   media.addEventListener('change', onChange)
   return () => media.removeEventListener('change', onChange)
 }
+function subscribeLightweight(onChange: () => void) {
+  const media = window.matchMedia('(max-width: 1023px)')
+  media.addEventListener('change', onChange)
+  return () => media.removeEventListener('change', onChange)
+}
 
 function Sculpture({
   reducedMotion,
   progress,
   mobile,
-}: Pick<Props, 'reducedMotion' | 'progress'> & { mobile: boolean }) {
+  lightweight,
+}: Pick<Props, 'reducedMotion' | 'progress'> & {
+  mobile: boolean
+  lightweight: boolean
+}) {
   const mesh = useRef<Mesh>(null)
   const invalidate = useThree((state) => state.invalidate)
   const cloud = useTexture(
@@ -119,8 +128,8 @@ function Sculpture({
       <mesh ref={mesh} geometry={geometry} rotation={[0.06, -0.24, -0.08]}>
         <MeshTransmissionMaterial
           background={backdrop}
-          samples={4}
-          resolution={mobile ? 256 : 512}
+          samples={lightweight ? 2 : 4}
+          resolution={lightweight ? 256 : 512}
           backside={false}
           chromaticAberration={0}
           distortion={0}
@@ -203,6 +212,11 @@ export default function HeartScene({
     () => window.matchMedia('(max-width: 768px)').matches,
     () => true,
   )
+  const lightweight = useSyncExternalStore(
+    subscribeLightweight,
+    () => window.matchMedia('(max-width: 1023px)').matches,
+    () => true,
+  )
   return (
     <Canvas
       // Keep the GPU viewport stable while the chapter frame animates its size.
@@ -216,7 +230,7 @@ export default function HeartScene({
         transform: 'translate(-50%, -50%) scale(var(--heart-render-scale, 1))',
       }}
       camera={{ position: [0, 0, 5.1], fov: mobile ? 42 : 32 }}
-      dpr={mobile ? [1, 1.25] : [1, 1.75]}
+      dpr={[1, 1.25]}
       frameloop={active && !reducedMotion ? 'always' : 'demand'}
       gl={{ alpha: true, antialias: true, powerPreference: 'low-power' }}
       fallback={<HeartFallback />}
@@ -225,6 +239,7 @@ export default function HeartScene({
         reducedMotion={reducedMotion}
         progress={progress}
         mobile={mobile}
+        lightweight={lightweight}
       />
       <ContextLifecycle onReady={onReady} onFailure={onFailure} />
     </Canvas>

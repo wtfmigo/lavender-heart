@@ -310,6 +310,8 @@ Reference tools may use Tailwind's 40rem/48rem/64rem/80rem/96rem breakpoints, bu
 
 Mobile must preserve content order, hierarchy, photographs, messages, and pacing. Do not merely scale the entire desktop stage down. Account for variable viewport height, portrait/landscape orientation, text zoom, long content, and touch use without clipped stages or unwanted page-level horizontal overflow.
 
+Short screens retain the staggered opening names and centered heart within the available height. Landscape keepsake spheres scale their radius and photo cards with viewport height; photo viewers allow natural scrolling. Changing orientation should retain the current reading location when cinematic stages switch to vertical flow.
+
 ## 25. Accessibility and Reduced Motion
 
 Require sufficient contrast, meaningful hierarchy, semantic headings, readable body sizing, visible keyboard focus, and touch-friendly controls. Pale lavender aesthetics must not compromise readability.

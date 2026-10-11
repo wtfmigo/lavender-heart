@@ -25,13 +25,25 @@ export function useJourneyAnimation(
   reducedMotion: boolean,
 ) {
   const [viewportRevision, setViewportRevision] = useState(0)
-  const restoreScroll = useRef<number | null>(null)
+  const resizing = useRef(false)
+  const reading = useRef<{
+    element: HTMLElement
+    fraction: number
+  } | null>(null)
+  const restoreScroll = useRef<{
+    top: number
+    reading: typeof reading.current
+  } | null>(null)
   useEffect(() => {
     let timer = 0
     const resize = () => {
+      resizing.current = true
       window.clearTimeout(timer)
       timer = window.setTimeout(() => {
-        restoreScroll.current = window.scrollY
+        restoreScroll.current = {
+          top: window.scrollY,
+          reading: reading.current,
+        }
         // A rapid resize can return to the original dimensions after the old pin fell back.
         setViewportRevision((revision) => revision + 1)
       }, 120)
@@ -50,12 +62,39 @@ export function useJourneyAnimation(
       progressRef.current = 0
       heart.dataset.heartVisible = 'true'
       heart.dispatchEvent(new CustomEvent('heartvisibility', { detail: true }))
-      if (reducedMotion) return
+      if (reducedMotion) {
+        reading.current = null
+        restoreScroll.current = null
+        resizing.current = false
+        return
+      }
       const lenis = new Lenis({ anchors: true, lerp: 0.085, syncTouch: false })
+      const viewport = { width: window.innerWidth, height: window.innerHeight }
       let heartAnchors: { top: number; chapter: number }[] = []
+      let readingAnchors: {
+        element: HTMLElement
+        top: number
+        height: number
+      }[] = []
       const tick = (time: number) => {
         lenis.raf(time * 1000)
         const scroll = window.scrollY
+        // Keep the last reading position before matchMedia removes the old pins.
+        if (
+          !resizing.current &&
+          window.innerWidth === viewport.width &&
+          window.innerHeight === viewport.height
+        ) {
+          const anchor = readingAnchors.findLast((entry) => entry.top <= scroll)
+          if (anchor)
+            reading.current = {
+              element: anchor.element,
+              fraction: Math.max(
+                0,
+                Math.min(1, (scroll - anchor.top) / anchor.height),
+              ),
+            }
+        }
         const next = heartAnchors.findIndex((anchor) => anchor.top > scroll)
         if (next > 0) {
           const previous = heartAnchors[next - 1]
@@ -500,6 +539,39 @@ export function useJourneyAnimation(
               journey.set(heart, position(visibleChapters[0].id), 0)
             const documentTop = (element: Element) =>
               element.getBoundingClientRect().top + window.scrollY
+            readingAnchors = [
+              ...container.current!.querySelectorAll<HTMLElement>(
+                `${chapters.map((id) => `#${id}`).join(',')}, .story-spread, .love-entry, .collection-spread, .photo-galaxy, .timeline-moment, .letter-body`,
+              ),
+            ]
+              .map((element) => {
+                const pinnedStory =
+                  element.matches('.story-spread') &&
+                  storyPan?.scrollTrigger &&
+                  stage?.dataset.storyFlow !== 'vertical'
+                const pinnedLove =
+                  element.matches('.love-entry') &&
+                  lovePan?.scrollTrigger &&
+                  loveStage?.dataset.loveFlow !== 'vertical'
+                return {
+                  element,
+                  top: pinnedStory
+                    ? storyPan!.scrollTrigger!.start +
+                      [...track!.children].indexOf(element) * stage!.clientWidth
+                    : pinnedLove
+                      ? lovePan!.scrollTrigger!.start +
+                        element.getBoundingClientRect().top -
+                        loveSequence!.getBoundingClientRect().top
+                      : documentTop(element),
+                  height: Math.max(
+                    1,
+                    pinnedStory
+                      ? stage!.clientWidth
+                      : element.getBoundingClientRect().height,
+                  ),
+                }
+              })
+              .sort((a, b) => a.top - b.top)
             heartAnchors = visibleChapters.map(({ id, section }) => ({
               chapter: chapters.indexOf(id),
               top:
@@ -623,9 +695,19 @@ export function useJourneyAnimation(
       if (restoreScroll.current !== null) {
         ScrollTrigger.refresh()
         lenis.resize()
-        lenis.scrollTo(restoreScroll.current, { immediate: true, force: true })
+        const saved = restoreScroll.current
+        const anchor = readingAnchors.find(
+          (entry) => entry.element === saved.reading?.element,
+        )
+        lenis.scrollTo(
+          anchor && saved.reading
+            ? anchor.top + anchor.height * saved.reading.fraction
+            : saved.top,
+          { immediate: true, force: true },
+        )
         restoreScroll.current = null
       }
+      resizing.current = false
       return () => {
         disposed = true
         window.cancelAnimationFrame(refreshFrame)

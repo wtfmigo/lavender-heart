@@ -646,13 +646,14 @@ a:hover {
   }
 }
 
-@media (max-height: 600px) and (min-width: 769px) {
+@media (max-height: 600px) {
   .hero {
     height: auto;
   }
   .hero-stage {
     position: relative;
-    height: 800px;
+    min-height: 100svh;
+    height: 100svh;
   }
 }
 
@@ -752,4 +753,25 @@ a:hover {
   inset: 0;
   height: 100%;
   object-fit: contain;
+}
+@media (max-height: 600px) {
+  .hero[data-long-name='false'] .hero-type-travel {
+    top: 20%;
+  }
+  .hero[data-long-name='false'] h1 {
+    font-size: clamp(2rem, min(12vw, 11svh), 4rem);
+    gap: 26svh;
+  }
+  .hero-for {
+    font-size: 0.875rem;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+  .hero-love {
+    top: auto;
+    bottom: 18%;
+  }
+  .hero-footnote {
+    bottom: 1.5rem;
+  }
 }

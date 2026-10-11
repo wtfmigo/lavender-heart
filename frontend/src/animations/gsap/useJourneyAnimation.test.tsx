@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import { useRef } from 'react'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -9,6 +9,7 @@ const mocks = vi.hoisted(() => ({
   to: vi.fn(),
   destroy: vi.fn(),
   resize: vi.fn(),
+  scrollTo: vi.fn(),
   unsubscribe: vi.fn(),
   tickerAdd: vi.fn(),
   tickerRemove: vi.fn(),
@@ -62,6 +63,7 @@ vi.mock('lenis', () => ({
     }
     raf() {}
     resize = mocks.resize
+    scrollTo = mocks.scrollTo
     destroy = mocks.destroy
   },
 }))
@@ -130,6 +132,7 @@ function Journey({
                 ref={(element) => {
                   if (element)
                     Object.defineProperty(element, 'clientHeight', {
+                      configurable: true,
                       value: window.innerHeight,
                     })
                 }}
@@ -139,6 +142,7 @@ function Journey({
                   ref={(element) => {
                     if (element)
                       Object.defineProperty(element, 'scrollHeight', {
+                        configurable: true,
                         value: window.innerHeight * 3,
                       })
                   }}
@@ -195,7 +199,64 @@ beforeEach(() => {
   })
 })
 
-afterEach(() => vi.restoreAllMocks())
+afterEach(() => {
+  vi.restoreAllMocks()
+  vi.useRealTimers()
+  mocks.to.mockReset()
+})
+
+test('rotation preserves the same story memory across pinned and vertical layouts', () => {
+  vi.useFakeTimers()
+  vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1180)
+  vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(820)
+  const scroll = vi.spyOn(window, 'scrollY', 'get').mockReturnValue(0)
+  mocks.to.mockImplementation((element) =>
+    element.classList.contains('story-track')
+      ? { scrollTrigger: { start: 1000 } }
+      : undefined,
+  )
+  const { container } = render(<Journey complete />)
+  const stage = container.querySelector('.story-stage')!
+  Object.defineProperty(stage, 'clientWidth', { value: 1180 })
+  const track = container.querySelector('.story-track')!
+  for (let index = 0; index < 3; index++) {
+    const spread = document.createElement('div')
+    spread.className = 'story-spread'
+    spread.getBoundingClientRect = () =>
+      ({ top: 1800 + index * 1200 - window.scrollY, height: 1200 }) as DOMRect
+    track.append(spread)
+  }
+  for (const section of container.querySelectorAll('section'))
+    section.getBoundingClientRect = () =>
+      ({ top: 9000 - window.scrollY, height: 1000 }) as DOMRect
+  vi.mocked(ScrollTrigger.create).mock.calls.at(-1)![0]!.onRefresh!({
+    progress: 0,
+  } as unknown as ScrollTrigger)
+  scroll.mockReturnValue(3360)
+  mocks.tickerAdd.mock.calls[0][0](0)
+  vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(820)
+  vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(1180)
+  mocks.desktop = false
+  scroll.mockReturnValue(0)
+  fireEvent(window, new Event('resize'))
+  act(() => vi.advanceTimersByTime(120))
+  expect(mocks.scrollTo).toHaveBeenLastCalledWith(4200, {
+    immediate: true,
+    force: true,
+  })
+  vi.useRealTimers()
+})
+
+test('resizing with motion paused does not restore stale scroll when resumed', () => {
+  vi.useFakeTimers()
+  const scroll = vi.spyOn(window, 'scrollY', 'get').mockReturnValue(3000)
+  const { rerender } = render(<Journey reduced />)
+  fireEvent(window, new Event('resize'))
+  act(() => vi.advanceTimersByTime(120))
+  scroll.mockReturnValue(7000)
+  rerender(<Journey />)
+  expect(mocks.scrollTo).not.toHaveBeenCalled()
+})
 
 test('personal photographs keep their full frame without image zoom or parallax cropping', () => {
   render(<Journey personalPhotos />)

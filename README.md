@@ -1,59 +1,72 @@
 # Lavender Heart
 
-Status: **Phase 0 — technical foundation only.** Independent apps: `frontend/` (React/TypeScript/Vite) and `backend/` (Laravel REST API). No product or final design is implemented.
+A personal birthday website with a lavender crystal heart, cloud and text parallax, horizontal storytelling, an interactive photo sphere, a timeline, and a birthday letter.
 
-Prerequisites: Node 22.12+ or 24+, npm, Composer, PHP 8.2+ with Laravel extensions, and XAMPP MySQL/MariaDB. Laravel 12 supports the installed PHP 8.2; Laravel 13 needs PHP 8.3+. Enable PHP ZIP for Composer archives or use `php -d extension=zip C:\ProgramData\ComposerSetup\bin\composer.phar` instead of `composer` on this XAMPP installation. On Windows with restricted PowerShell execution, use `npm.cmd` / `npx.cmd`.
+**Current architecture: frontend only.** The React/TypeScript/Vite website loads validated local JSON and local image assets. It has no backend server, database, login, or admin editor. The earlier Laravel foundation was removed because the current website does not use it.
 
-From the project root:
+## Run locally
 
-```powershell
-cd backend
-composer install
-Copy-Item .env.example .env
-php artisan key:generate
-php artisan serve
-```
-
-In another terminal:
+Install Node.js 22.12+ or 24+ and npm. Clone the repository, then use **one terminal**:
 
 ```powershell
+git clone https://github.com/wtfmigo/lavender-heart.git
+cd lavender-heart
 cd frontend
-npm ci
-Copy-Item .env.example .env
-# Set VITE_API_BASE_URL=http://localhost:8000/api/ in .env.
-npm run dev
+npm.cmd ci
+npm.cmd run dev
 ```
 
-Open the Vite URL. The plain `/` screen shows frontend and API status. Development-only `/__smoke/three` renders a primitive with a WebGL fallback; it is excluded from production routing/bundles.
+Open the URL printed by Vite. On macOS/Linux, use `npm` instead of `npm.cmd`. PHP, Composer, MySQL, and a second terminal are unnecessary. No `.env` file is required.
 
-Set backend `APP_URL`, `FRONTEND_URL` (comma-separated permitted origins), and `SANCTUM_STATEFUL_DOMAINS` (hosts with ports, no scheme) to match your local hosts. Use the same hostname for both apps for future first-party Sanctum cookies. CORS accepts configured origins and credentials. Sanctum is installed with stateful API middleware, configuration, and an unexecuted token migration; no login or auth flow exists.
+If you already have the repository, start with `cd frontend` from its root. For a phone or tablet on the same network, run `npm.cmd run dev -- --host=0.0.0.0` and open Vite's Network URL on that device.
 
-Configure private backend `.env` with your XAMPP database credentials. If needed, create only the project database yourself through phpMyAdmin or MySQL:
+“Project root” means this repository folder, where this README and `frontend/` live. The previous “In another terminal” instruction started a separate Laravel API; it no longer applies.
 
-```sql
-CREATE DATABASE lavender_heart CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
+## Edit content
 
-Then run `php artisan migrate` when ready. Bootstrap does not create databases or run migrations. Health checks need no database; sessions/cache use files and queues use sync. Root `.htaccess` denies direct Apache access because this workspace is inside XAMPP htdocs; use the separate Vite/artisan servers. For Apache hosting, point a virtual host only at `backend/public/` and keep private project files outside the served document root.
+- Main content, chapter visibility, photo assignments, and dates: `frontend/public/content/experience.json`.
+- Gallery introduction and closing copy: `frontend/src/features/public/collectionContent.ts`.
+- Images, clouds, and self-hosted fonts: `frontend/public/`.
 
-Quality checks:
+Save changes and reload the page. Content is validated with Zod; invalid content shows a recoverable loading error. Hero and Final Closing remain required. See [content editing](docs/birthday-content-editing.md) for field details.
+
+**Personal photo derivatives in `frontend/public/photos/personal/` are ignored by Git.** Restore them separately after cloning; otherwise the photos referenced by the JSON will be missing. Keep original photographs and their backups outside generated build output.
+
+To make your own version:
+
+1. Back up the JSON, then replace the recipient name, birthday, messages, letter, and signature.
+2. Add your own images to `frontend/public/photos/` and update `src`, optional `smallSrc`, `alt`, actual `width`/`height`, captions, and focal positions in the JSON. For example, `public/photos/my-photo.webp` becomes `/photos/my-photo.webp`.
+3. Change the Gallery introduction/closing in `collectionContent.ts`. Keep Hero and Final Closing visible and preserve the nine-chapter order.
+4. Reload, check the photos and text on your target devices, then rebuild before deploying.
+
+This checkout keeps the original gift content; it is not a generic sample-content edition. Replace that content before sharing your own version. Local development photo provenance is recorded in [media assets](docs/birthday-media-assets.md).
+
+## Experience and animation
+
+The nine chapters run from Hero and Intro through horizontal Story, full-width Memory, Gallery, Things I Love About You, Timeline, Letter, and Final Closing. Phone and tablet portrait/landscape retain the desktop composition and choreography at an appropriate scale.
+
+The browser owns scrolling. Native sticky stages provide horizontal Story and staged Love statements. GSAP/ScrollTrigger drives cloud, text, photo, and chapter parallax; React Three Fiber/Three.js renders the crystal heart, including horizontal turns synchronized with scroll. Motion handles small UI transitions, and the photo sphere uses projected transforms with automatic rotation and drag/touch exploration. Pause and reduced motion provide a readable static experience; oversized content can use vertical reading.
+
+## Build and check
+
+Run from `frontend/`:
 
 ```powershell
-cd frontend
-npm run typecheck
-npm run lint
-npm run format:check
-npm run test
-npm run build
-npx playwright install chromium
-npm run e2e
-
-cd ../backend
-composer test
-composer lint
-composer check-platform-reqs
+npm.cmd run typecheck
+npm.cmd run lint
+npm.cmd run format:check
+npm.cmd run test -- --maxWorkers=1
+npm.cmd run build
+npx.cmd playwright install chromium
+npm.cmd run e2e
 ```
 
-Playwright starts separate frontend/API servers on ports 5174/8001 and checks real CORS connectivity plus development WebGL rendering. Unit tests run in Vitest/RTL; Laravel uses PHPUnit (isolated SQLite memory settings, no MySQL access). `npm run format` and `composer format` apply formatting. API health: `GET /api/health` returns `{"status":"ok"}`.
+Playwright starts **only Vite** on port 5174. The tests cover public content, scrolling, responsive layouts, animations, photo interactions, and WebGL fallback. `npm.cmd run preview` previews the build locally.
 
-React responsibilities: models = types/schemas; views = pages/layouts/components; controllers = hooks/orchestration; services = HTTP/API; stores = shared client state only; TanStack Query = server state. The public page uses native browser scrolling, CSS scroll timelines for horizontal Story and cloud/text parallax at all screen sizes, one-time chapter entrances, R3F for its visible hero heart, Motion for small UI transitions, and CSS transforms for the interactive photo sphere. Passive, visible-only fallbacks support browsers without scroll timelines. GSAP and Lenis remain installed but no longer drive the public journey after the responsive/performance refinement.
+For hosting, serve the contents of `frontend/dist/` at the domain root with SPA fallback to `index.html`; deploy the JSON and referenced assets together. The repository's root `.htaccess` denies Apache access to private workspace files inside XAMPP. It is not the configuration for the built static website.
+
+## Project documents
+
+[PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) describes the current scope; [DESIGN.md](DESIGN.md) records the visual direction; [AGENTS.md](AGENTS.md) guides maintenance. Older phase reports and proposals under `docs/` are historical, not current setup instructions.
+
+The GitHub repository is private. A deployed website is accessible to anyone with its URL; `noindex` discourages indexing but does not enforce access control.

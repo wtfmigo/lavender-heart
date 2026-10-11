@@ -1,9 +1,5 @@
 import { z } from 'zod'
-import {
-  dateOnlySchema,
-  themePresetSchema,
-  versionedContentSchema,
-} from './identifiers'
+import { dateOnlySchema, themePresetSchema } from './identifiers'
 import { limitedRichTextDocumentSchema } from './rich-text'
 
 const nullableDate = dateOnlySchema.nullable()
@@ -16,11 +12,6 @@ export const publicSiteSettingsSchema = z.strictObject({
   relationshipCounterVisible: z.boolean(),
   closingSignature: z.string(),
   themePreset: themePresetSchema,
-})
-
-export const adminSiteSettingsSchema = publicSiteSettingsSchema.extend({
-  ...versionedContentSchema.shape,
-  ownerUserId: z.number().int().positive().nullable(),
 })
 
 const headingContent = z.strictObject({ heading: z.string() })
@@ -101,9 +92,3 @@ const sectionSchemas = [
 ] as const
 
 export const publicSectionSchema = z.discriminatedUnion('key', sectionSchemas)
-export const adminSectionSchema = z.discriminatedUnion('key', [
-  sectionSchemas[0].extend(versionedContentSchema.shape),
-  ...sectionSchemas
-    .slice(1)
-    .map((schema) => schema.extend(versionedContentSchema.shape)),
-])

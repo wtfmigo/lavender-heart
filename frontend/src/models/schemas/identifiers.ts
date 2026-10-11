@@ -20,5 +20,3 @@ export const themePresetSchema = z.enum([
 
 export const defaultThemePreset = themePresetSchema.enum.lavender_mist
 export const dateOnlySchema = z.iso.date()
-export const versionSchema = z.number().int().positive()
-export const versionedContentSchema = z.strictObject({ version: versionSchema })

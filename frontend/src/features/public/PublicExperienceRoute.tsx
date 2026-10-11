@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { PublicExperiencePage } from '@/views/pages/PublicExperiencePage'
-import { getExperience } from '@/services/api/experience'
+import { getExperience } from '@/services/experience'
 import type { PublicExperience } from './experience'
 
 export function Component() {

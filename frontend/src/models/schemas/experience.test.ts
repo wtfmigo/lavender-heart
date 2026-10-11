@@ -1,31 +1,21 @@
 // @vitest-environment node
 /// <reference types="node" />
-import { readFileSync } from 'node:fs'
 import { describe, expect, expectTypeOf, test } from 'vitest'
 import {
   dateOnlySchema,
   defaultThemePreset,
   sectionKeySchema,
   themePresetSchema,
-  versionedContentSchema,
 } from './identifiers'
 import { limitedRichTextDocumentSchema } from './rich-text'
-import {
-  adminSectionSchema,
-  adminSiteSettingsSchema,
-  publicSectionSchema,
-  publicSiteSettingsSchema,
-} from './experience'
-import type { AdminSection, PublicSection } from '../types/experience'
+import { publicSectionSchema, publicSiteSettingsSchema } from './experience'
+import type { PublicSection } from '../types/experience'
 
 const schemas = {
   dateOnlySchema,
   sectionKeySchema,
   themePresetSchema,
-  versionedContentSchema,
   limitedRichTextDocumentSchema,
-  adminSectionSchema,
-  adminSiteSettingsSchema,
   publicSectionSchema,
   publicSiteSettingsSchema,
 }
@@ -90,25 +80,11 @@ describe('finite identifiers', () => {
       expect(parses('themePresetSchema', value)).toBe(false)
     },
   )
-  test.each(['SectionKey', 'ThemePreset'])(
-    '%s matches PHP exact ordered literals',
-    (name) => {
-      const url = new URL(
-        `../../../../backend/app/Enums/${name}.php`,
-        import.meta.url,
-      )
-      const values = [
-        ...readFileSync(url, 'utf8').matchAll(/case\s+\w+\s*=\s*'([^']+)'/g),
-      ].map((match) => match[1])
-      const options =
-        name === 'SectionKey'
-          ? sectionKeySchema.options
-          : themePresetSchema.options
-      expect(options).toEqual(name === 'SectionKey' ? keys : presets)
-      expect(values).toEqual(options)
-      expect(defaultThemePreset).toBe('lavender_mist')
-    },
-  )
+  test('retains the curated chapter order and default theme', () => {
+    expect(sectionKeySchema.options).toEqual(keys)
+    expect(themePresetSchema.options).toEqual(presets)
+    expect(defaultThemePreset).toBe('lavender_mist')
+  })
 })
 
 describe('editor-independent rich text', () => {
@@ -175,7 +151,7 @@ describe('editor-independent rich text', () => {
   })
 })
 
-describe('date-only and resource versions', () => {
+describe('date-only content', () => {
   test.each(['2026-10-08', '2024-02-29', '2000-02-29'])(
     'accepts real canonical date %s',
     (value) => {
@@ -196,18 +172,6 @@ describe('date-only and resource versions', () => {
   ])('rejects invalid date %s', (value) => {
     expect(parses('dateOnlySchema', value)).toBe(false)
   })
-  test.each([1, 2, Number.MAX_SAFE_INTEGER])(
-    'accepts positive safe version %s',
-    (version) => {
-      expect(parses('versionedContentSchema', { version })).toBe(true)
-    },
-  )
-  test.each([0, -1, 1.5, '1', NaN, Infinity, Number.MAX_SAFE_INTEGER + 1])(
-    'rejects invalid version %s',
-    (version) => {
-      expect(parses('versionedContentSchema', { version })).toBe(false)
-    },
-  )
 })
 
 describe('bounded settings and chapter contracts', () => {
@@ -217,27 +181,12 @@ describe('bounded settings and chapter contracts', () => {
       visible: true
       content: { title: string; subtitle: string }
     }>()
-    expectTypeOf<Extract<AdminSection, { key: 'hero' }>>().toEqualTypeOf<{
-      key: 'hero'
-      visible: true
-      content: { title: string; subtitle: string }
-      version: number
-    }>()
   })
-  test('supports unpersonalized public settings and versioned admin settings', () => {
+  test('supports public settings and real relationship dates', () => {
     expect(parses('publicSiteSettingsSchema', settings)).toBe(true)
     expect(
-      parses('adminSiteSettingsSchema', {
+      parses('publicSiteSettingsSchema', {
         ...settings,
-        ownerUserId: null,
-        version: 1,
-      }),
-    ).toBe(true)
-    expect(
-      parses('adminSiteSettingsSchema', {
-        ...settings,
-        ownerUserId: 1,
-        version: 2,
         birthdayDate: '2024-02-29',
         relationshipStartDate: '2020-01-01',
       }),
@@ -251,7 +200,7 @@ describe('bounded settings and chapter contracts', () => {
       ).toBe(false)
     },
   )
-  test('validates settings dates, theme and admin metadata', () => {
+  test('validates public settings dates and theme', () => {
     expect(
       parses('publicSiteSettingsSchema', {
         ...settings,
@@ -270,33 +219,13 @@ describe('bounded settings and chapter contracts', () => {
         themePreset: 'custom',
       }),
     ).toBe(false)
-    expect(
-      parses('adminSiteSettingsSchema', {
-        ...settings,
-        ownerUserId: 0,
-        version: 1,
-      }),
-    ).toBe(false)
-    expect(
-      parses('adminSiteSettingsSchema', {
-        ...settings,
-        ownerUserId: null,
-        version: 0,
-      }),
-    ).toBe(false)
   })
   test.each(keys)(
-    '%s has bounded empty content and a versioned admin form',
+    '%s accepts bounded content and rejects extra or missing fields',
     (key) => {
       const section = { key, visible: true, content: contents[key] }
       expect(parses('publicSectionSchema', section)).toBe(true)
-      expect(parses('adminSectionSchema', { ...section, version: 1 })).toBe(
-        true,
-      )
       expect(parses('publicSectionSchema', { ...section, version: 1 })).toBe(
-        false,
-      )
-      expect(parses('adminSectionSchema', { ...section, version: 0 })).toBe(
         false,
       )
       expect(

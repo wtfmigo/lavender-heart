@@ -1,6 +1,6 @@
 # Lavender Heart — Design Specification
 
-**Status:** Phase 2 design specification, awaiting review and explicit approval. No website implementation is included in this phase.
+**Status:** Current visual direction, synchronized 2026-10-12 with the frontend-only site. Later approved motion and responsive refinements, especially Section 11, supersede earlier proposals.
 
 `PROJECT_CONTEXT.md` controls product scope, users, behavior, editing, architecture, and V1 boundaries. This document defines visual identity, composition, motion, and responsive presentation. It does not change product requirements or authorize implementation.
 
@@ -38,15 +38,15 @@ Avoid childish or overly cute styling, dominant pink, generic Valentine's imager
 
 The narrative is a progression inside **one global preset**, not a set of independently selectable section themes.
 
-| Story phase | Atmosphere and surface direction |
-| --- | --- |
-| Opening, Hero, Intro | Warm ivory, pearl, pale lavender; soft studio light |
-| Horizontal Story | Neutral space gradually gains lavender depth; photographs stay natural |
-| Full-Width Memory | The photograph supplies the dominant color; surrounding atmosphere bridges chapters |
-| Gallery | Pale/richer lavender surroundings balanced with neutral negative space |
-| Things I Love About You, Timeline | Lilac and dusty-purple atmosphere gradually deepen toward plum |
-| Birthday Letter | Warm neutral reading surface within the deepening surroundings; readable calm pause |
-| Finale | Deep plum, charcoal violet, night plum; the full heart returns |
+| Story phase                       | Atmosphere and surface direction                                                    |
+| --------------------------------- | ----------------------------------------------------------------------------------- |
+| Opening, Hero, Intro              | Warm ivory, pearl, pale lavender; soft studio light                                 |
+| Horizontal Story                  | Neutral space gradually gains lavender depth; photographs stay natural              |
+| Full-Width Memory                 | The photograph supplies the dominant color; surrounding atmosphere bridges chapters |
+| Gallery                           | Pale/richer lavender surroundings balanced with neutral negative space              |
+| Things I Love About You, Timeline | Lilac and dusty-purple atmosphere gradually deepen toward plum                      |
+| Birthday Letter                   | Warm neutral reading surface within the deepening surroundings; readable calm pause |
+| Finale                            | Deep plum, charcoal violet, night plum; the full heart returns                      |
 
 Use gradual tonal bridges and selected chapter transitions rather than hard background switches. The letter's light reading surface is a deliberate island of readability, not an abrupt reset of the whole page to the opening atmosphere. If sections are hidden, adjacent visible chapters still transition coherently.
 
@@ -56,11 +56,11 @@ Most surfaces should not be saturated purple. Dusty-purple accents and gradients
 
 **Lavender Mist is the default.** All presets share typography, section order, compositions, interaction behavior, and motion language. Selecting a preset changes the coherent palette globally; it never changes layout or exposes per-section theme controls.
 
-| Preset | Character |
-| --- | --- |
-| Lavender Mist | Warm ivory/pearl opening, pale lavender atmosphere, soft lilac middle, deep plum finale |
+| Preset         | Character                                                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Lavender Mist  | Warm ivory/pearl opening, pale lavender atmosphere, soft lilac middle, deep plum finale                                              |
 | Lavender Night | Cooler, duskier opening with stronger lavender contrast and a deeper violet finale; still progresses from lighter beginning to night |
-| Pearl Lavender | Brighter pearl surfaces, quieter lavender accents, and a softened plum finale; preserves depth rather than staying white throughout |
+| Pearl Lavender | Brighter pearl surfaces, quieter lavender accents, and a softened plum finale; preserves depth rather than staying white throughout  |
 
 Section 29 defines the complete preliminary palette for each preset. Do not scatter arbitrary purple values through components. Photography keeps its own colors across presets.
 
@@ -103,37 +103,37 @@ The primary object is a **3D translucent lavender crystal/glass heart**: an eleg
 
 Avoid bright red, cartoon geometry, glossy plastic, neon glow, rainbow refraction, and excessive bloom. Clear silhouette and controlled lighting matter more than expensive effects.
 
-| Placement | Intended presence |
-| --- | --- |
-| Hero | Dominant central visual anchor; full heart |
-| Intro | Smaller calm presence near upper-center |
-| Story | Small upper-center supporting sculpture in reserved negative space; hidden during phone reading |
+| Placement                          | Intended presence                                                                                |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Hero                               | Dominant central visual anchor; full heart                                                       |
+| Intro                              | Smaller calm presence near upper-center                                                          |
+| Story                              | Small upper-center supporting sculpture in reserved negative space; hidden during phone reading  |
 | Full-Width Memory, Gallery, Letter | Persistent sculpture recedes completely; Gallery opening retains its small static lavender motif |
-| Little things, Timeline | Small controlled upper-center introduction; recedes during reading |
-| Finale | Full heart returns centrally |
+| Little things, Timeline            | Small controlled upper-center introduction; recedes during reading                               |
+| Finale                             | Full heart returns centrally                                                                     |
 
 Do not keep the heart permanently visible or repeat the complete object after every chapter. Transition fragments should never compete with photographs or readability.
 
 The owner's October 10, 2026 repair direction uses stable center-based choreography. Idle and scroll rotation remain subtle and bounded so the silhouette stays recognizable; no pointer rotation, camera wandering, full spins, or arbitrary side-to-side travel. Size and visibility interpolate reversibly through one chapter controller. Retain the normal system cursor.
 
-Adaptive 3D preserves the heart's identity. Capable devices retain real 3D; mobile may reduce DPR, lights, shader/material complexity, particles, and rendering cost. Weak or unsupported devices receive a lightweight static/rendered heart fallback. A failed WebGL scene must never leave an empty hero or finale. No fallback assets are created in this phase.
+Adaptive 3D preserves the heart's identity. Capable devices retain real 3D; mobile may reduce DPR, lights, shader/material complexity, particles, and rendering cost. Weak or unsupported devices receive a lightweight static/rendered heart fallback. A failed WebGL scene must never leave an empty hero or finale. Preserve the implemented heart fallback.
 
 ## 11. Motion Language and Ownership
 
 Motion is graceful, deliberate, fluid, calm, and responsive. It must never block reading, introduce cartoon bounce/elastic motion, or keep every element moving.
 
-| Visual responsibility | Owner |
-| --- | --- |
-| Horizontal Story and staged Love progression | Native sticky stages and CSS scroll timelines; passive transform fallback where needed |
-| Opening, scroll reveals, parallax and chapter heart travel | GSAP + ScrollTrigger |
-| Heart, camera, light, material, WebGL scene | Three.js / React Three Fiber |
-| Menu drawer, lightbox, modals, small React state transitions | Motion |
-| Hover/focus/color | CSS |
-| Scrolling | Native browser scrolling without wheel/touch interception or ScrollTrigger refresh loops |
+| Visual responsibility                                        | Owner                                                                                    |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| Horizontal Story and staged Love progression                 | Native sticky stages and CSS scroll timelines; passive transform fallback where needed   |
+| Opening, scroll reveals, parallax and chapter heart travel   | GSAP + ScrollTrigger                                                                     |
+| Heart, camera, light, material, WebGL scene                  | Three.js / React Three Fiber                                                             |
+| Menu drawer, lightbox, modals, small React state transitions | Motion                                                                                   |
+| Hover/focus/color                                            | CSS                                                                                      |
+| Scrolling                                                    | Native browser scrolling without wheel/touch interception or ScrollTrigger refresh loops |
 
 The owner's latest responsive/performance direction preserves the desktop composition and original animation choreography across phone/tablet portrait and landscape: staggered names, side-by-side editorial spreads, independently moving cloud layers, cloud drift, text mask exits/entrances, reversible photo curtains, cinematic depth, and the persistent animated heart's chapter/finale return. Story moves horizontally and Love stages statements one at a time as the visitor scrolls down, using native sticky stages rather than GSAP pins; reduced motion and genuinely oversized content retain accessible vertical reading. GSAP owns the reveals and parallax at every viewport; optimization preserves their visual behavior. Pause/reduced-motion restores static, readable content. Cloud-only passage screens remain removed; clouds beside the Gallery closing message remain. The sphere retains its quiet static constellation and soft lavender highlights, without orbital rings.
 
-Do not let multiple systems compete over the same visual property. Detailed coding rules belong in future `AGENTS.md` work.
+Do not let multiple systems compete over the same visual property. Detailed maintenance and verification rules belong in `AGENTS.md`.
 
 ### Shared reveal language
 
@@ -180,7 +180,7 @@ A minimal first-visit “Scroll” cue with a thin line/understated arrow disapp
 - **Typography:** name-focused Cormorant Garamond display; “FOR / [HER NAME] / WITH LOVE” is compositional guidance, not hardcoded final copy. Birthday context uses smaller supporting copy/date rather than a dominant generic “HAPPY BIRTHDAY.” All actual copy stays editable.
 - **Photography role:** none required; the heart is the visual anchor.
 - **Atmosphere:** soft ivory/lavender studio background, radial illumination, faint grain/haze; no illustrated landscape.
-- **Motion:** slow idle rotation/float, slight pointer response, controlled scroll-reactive camera/scale/angle, then exit through a layered, full-width cloud passage before the next visible chapter. Skip the passage in paused/reduced motion. The scroll cue is secondary.
+- **Motion:** slow idle rotation/float, slight pointer response, controlled scroll-reactive camera/scale/angle, then follow the approved chapter travel and return. Extra cloud-only passage screens remain removed. The scroll cue is secondary.
 - **Responsive behavior:** recompose split text above/below the heart as needed; do not hide or crop long names. Use adaptive 3D or the fallback. Reduced motion settles the object without unnecessary camera travel.
 - **Avoid:** red/cartoon heart, plastic/neon material, aggressive spinning, oversized pointer effects, unreadable overlap, or a giant CTA.
 
@@ -197,12 +197,12 @@ A minimal first-visit “Scroll” cue with a thin line/understated arrow disapp
 ## 16. Section 3 — Horizontal Photo + Message Story
 
 - **Visual purpose:** let shared memories unfold as editorial spreads; a signature interaction.
-- **Layout:** desktop/capable large viewports use pinned horizontal storytelling driven by vertical scrolling, with one memory per viewport spread in saved order. Keep its photograph and message together on one stable editorial canvas; alternate portrait, wide, date, and cinematic arrangements within a consistent grid.
+- **Layout:** all normal viewports use native sticky horizontal storytelling driven by vertical scrolling, with one memory per viewport spread in saved order. Keep its photograph and message together on one stable editorial canvas; alternate portrait, wide, date, and cinematic arrangements within a consistent grid.
 - **Typography:** serif editorial titles/selected statements, Inter dates/captions/messages; longer memories retain readable columns.
 - **Photography role:** primary; vary image sizes and portrait/landscape framing within equal viewport canvases, preserving complete personal photographs and supplied focal metadata.
-- **Motion:** GSAP/ScrollTrigger horizontal progression with restrained major reveals. Preserve the saved content order and understandable reading flow.
-- **Responsive behavior:** phones use the same memories in vertical editorial storytelling, preserving order, hierarchy, images, messages, and pacing. Narrow/weaker tablets may also use vertical flow. Reduced motion uses natural vertical flow without strong pinning. Content that cannot fit a pinned stage must remain readable in flow.
-- **Avoid:** conventional carousel, generic swipe carousel on mobile, repeated product slides, scroll traps, or horizontally forced phone navigation.
+- **Motion:** Native sticky horizontal progression with GSAP-owned restrained major reveals. Preserve the saved content order and understandable reading flow.
+- **Responsive behavior:** phones and tablets preserve horizontal progression and the side-by-side editorial composition in both orientations, scaling dimensions to fit. Pause, reduced motion, and genuinely oversized content use readable natural flow.
+- **Avoid:** conventional carousel, generic swipe carousel on mobile, repeated product slides, scroll traps, or intercepted wheel/touch navigation.
 
 ## 17. Section 4 — Full-Width Parallax Memory
 
@@ -217,7 +217,7 @@ A minimal first-visit “Scroll” cue with a thin line/understated arrow disapp
 ## 18. Section 5 — Curated Gallery and Lightbox
 
 - **Visual purpose:** present authentic photographs as an editorial collection rather than a social feed.
-- **Layout:** art-directed memory chapter: a large serif opening with separate portrait/detail frames and a lavender motif, three distinct numbered spreads, a near-full-width favorite view with adjacent caption, small detail groups of up to five images, and a quiet closing. Use mixed sizing, asymmetry, and generous spacing without overlapping photographs, repeated large pairs, or uniform thumbnails. Recompose into a vertical editorial sequence on mobile in saved photo order. Soft cloud banks frame the opening and closing without covering photographs or copy.
+- **Layout:** art-directed memory chapter: a large serif opening with separate portrait/detail frames and a lavender motif, three distinct numbered spreads, a near-full-width favorite view with adjacent caption, small detail groups of up to five images, and a quiet closing. Use mixed sizing, asymmetry, and generous spacing without overlapping photographs, repeated large pairs, or uniform thumbnails. Preserve the editorial spread composition on phones and tablets, fitting images and copy to available space in saved photo order. Soft cloud banks frame the opening and closing without covering photographs or copy.
 - **Typography:** quiet Inter captions/dates where present; chapter heading uses Cormorant Garamond.
 - **Photography role:** central; mixed framing, natural colors, and intentional crops rather than uniform thumbnails or card borders.
 - **Motion:** progressive subtle stagger, fade, and very small scale settling. Selected larger photos may have light depth/parallax. Desktop hover scale is approximately **1.02–1.04 maximum**, with a tiny depth shift or caption/date fade when useful.
@@ -246,8 +246,8 @@ Desktop supports keyboard access; mobile supports touch/swipe navigation while r
 - **Layout:** large ordinal number, large serif statement, and strong negative space; minimal supporting visual treatment. Numbers label entries, not statistics.
 - **Typography:** Cormorant Garamond statement and large editorial number; Inter supporting details when present. Example phrases are not final personal content.
 - **Photography role:** optional restrained backdrop/support; the words lead.
-- **Motion:** capable desktop uses a pinned **one-at-a-time** sequence: 01 reveals, transitions to 02, then 03. Background/photo may shift subtly. This section is never horizontal.
-- **Responsive behavior:** mobile, reduced motion, or unsuitable content height uses a normal vertical editorial sequence with every statement readable.
+- **Motion:** normal desktop, phone, and tablet viewports use a native sticky **one-at-a-time** sequence: 01 reveals, transitions to 02, then 03. Background/photo may shift subtly. This section is never horizontal.
+- **Responsive behavior:** preserve one-at-a-time staging on phones and tablets; Pause, reduced motion, or genuinely oversized content uses a readable vertical sequence.
 - **Avoid:** feature cards, icon grids, marketing claims, cramped repeated boxes, or a second horizontal story.
 
 ## 20. Section 7 — Relationship / Special Moments Timeline
@@ -282,9 +282,11 @@ Desktop supports keyboard access; mobile supports touch/swipe navigation while r
 
 The relationship counter, when configured and shown, is a small inline phrase such as a days-together message. It may sit near a chapter transition, timeline ending, or finale. It is not a metrics component and must not be repeated as a decorative statistic throughout the page.
 
-## 23. Admin Visual Direction
+## 23. Earlier Admin Visual Proposal (Outside Current Scope)
 
-The admin is **clean lavender editorial administration**, not the cinematic public experience. Use white and very light lavender, Inter, subtle accents, a clear section sidebar, readable forms, useful upload states, and practical preview. Keep decoration minimal and unnecessary motion almost absent; no 3D or GSAP spectacle.
+This section retains the earlier unimplemented CMS proposal as design reference only. There is no admin, owner login, upload service, or theme editor in the current frontend-only scope; implementation requires a new explicit request.
+
+The proposed admin is **clean lavender editorial administration**, not the cinematic public experience. Use white and very light lavender, Inter, subtle accents, a clear section sidebar, readable forms, useful upload states, and practical preview. Keep decoration minimal and unnecessary motion almost absent; no 3D or GSAP spectacle.
 
 The recommended areas in `PROJECT_CONTEXT.md` organize the interface. Panels/cards are appropriate only when they group related work; avoid excessive nested containers and floating glass fields. Moderate functional radius and subtle borders/shadows are acceptable.
 
@@ -304,18 +306,18 @@ Theme selection presents exactly Lavender Mist, Lavender Night, and Pearl Lavend
 
 Breakpoints respond to **available layout space and device capability**, not device labels alone. Tailwind breakpoints are implementation tools; no fixed “tablet equals desktop/mobile” rule applies.
 
-| Context | Intended adaptation |
-| --- | --- |
-| Small mobile, roughly below 360 CSS px | Same desktop arrangement with fluid display type, safe gutters, bounded images and accessible long-content fallback |
-| Mobile | Same staggered opening and side-by-side photo/text spreads; horizontal Story, native chapter scrolling, independent heart/sphere animation |
-| Tablet / narrow desktop | Preserve desktop compositions and horizontal Story in both orientations; scale images, type and sphere to available space |
-| Full desktop / capable wide viewport | Generous spreads, floating navigation, horizontal memories in a native sticky stage and restrained chapter entrances |
+| Context                                | Intended adaptation                                                                                                                        |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Small mobile, roughly below 360 CSS px | Same desktop arrangement with fluid display type, safe gutters, bounded images and accessible long-content fallback                        |
+| Mobile                                 | Same staggered opening and side-by-side photo/text spreads; horizontal Story, native chapter scrolling, independent heart/sphere animation |
+| Tablet / narrow desktop                | Preserve desktop compositions and horizontal Story in both orientations; scale images, type and sphere to available space                  |
+| Full desktop / capable wide viewport   | Generous spreads, floating navigation, horizontal memories in a native sticky stage and restrained chapter entrances                       |
 
 Reference tools may use Tailwind's 40rem/48rem/64rem/80rem/96rem breakpoints, but composition changes when it stops working, including at intermediate widths. A wide but weak device may still use simpler motion.
 
 Mobile must preserve content order, hierarchy, photographs, messages, and pacing. Do not merely scale the entire desktop stage down. Account for variable viewport height, portrait/landscape orientation, text zoom, long content, and touch use without clipped stages or unwanted page-level horizontal overflow.
 
-Short screens retain the staggered opening names and centered heart within the available height. Landscape keepsake spheres scale their radius and photo cards with viewport height; photo viewers allow natural scrolling. Changing orientation should retain the current reading location when cinematic stages switch to vertical flow.
+Short screens retain the staggered opening names and centered heart within the available height. Landscape keepsake spheres scale their radius and photo cards with viewport height; photo viewers allow natural scrolling. Changing orientation should retain the current reading location while stages resize; ordinary orientation changes preserve cinematic composition.
 
 The faceted heart uses translucent crystal shading with its existing lighting and reflections. Expensive framebuffer refraction is removed to keep rendering responsive during viewport changes; the heart's geometry, composition, and rotation are preserved.
 
@@ -342,7 +344,7 @@ Use responsive optimized image derivatives rather than original full-resolution 
 
 Avoid requirements for dozens of WebGL objects, hundreds of particles, giant moving blur layers, excessive backdrop-filter, always-running heavy effects, and stacked expensive glass/refraction/bloom passes. Reduce decorative cost before reducing readability or losing content. A static heart and simple editorial flow remain recognizably Lavender Heart.
 
-Future visual QA should judge deliberate spacing, clear hierarchy, fluid typography/long-name handling, subject-safe cropping, natural color, varied editorial rhythm, restrained motion, coherent Day → Night progression, responsive integrity, useful focus/contrast, and reference inspiration without copying. Hidden sections and reduced effects must still produce a complete story. Detailed testing procedures belong in future `AGENTS.md`, not this document.
+Future visual QA should judge deliberate spacing, clear hierarchy, fluid typography/long-name handling, subject-safe cropping, natural color, varied editorial rhythm, restrained motion, coherent Day → Night progression, responsive integrity, useful focus/contrast, and reference inspiration without copying. Hidden sections and reduced effects must still produce a complete story. Detailed testing procedures belong in `AGENTS.md`.
 
 ## 27. AI-Slop Prevention
 
@@ -360,56 +362,56 @@ Lavender Heart must be recognizable as its own design. Its authentic photographs
 
 ## 29. Preliminary Reusable Design Tokens
 
-These are design specifications only. No CSS, Tailwind configuration, fonts, or theme code is created here. Names are suitable for future Tailwind CSS + custom CSS use. Ranges guide responsive composition rather than forcing identical values across devices.
+These specifications guide the existing tokens, typography, and styling. Names are suitable for Tailwind CSS + custom CSS use. Ranges guide responsive composition rather than forcing identical values across devices.
 
 ### Palette primitives
 
 Lavender Mist uses the canonical approved palette exactly. Night and Pearl provide coherent whole-site variations.
 
-| Token | Canonical Mist name | Lavender Mist (default) | Lavender Night | Pearl Lavender |
-| --- | --- | --- | --- | --- |
-| `color-ivory` | Warm Ivory | `#F8F5FB` | `#E9E3F0` | `#FAF8FC` |
-| `color-pearl` | Pearl | `#FCFAFD` | `#F1ECF5` | `#FFFFFF` |
-| `color-lavender-pale` | Pale Lavender | `#EEE7F8` | `#D8CCE7` | `#F2EDF8` |
-| `color-lavender-mist` | Lavender Mist | `#D9C8F2` | `#BEA6DC` | `#E5DAF2` |
-| `color-lilac` | Soft Lilac | `#CBB4E8` | `#A78ACB` | `#D4C4E7` |
-| `color-purple-dusty` | Dusty Purple | `#A78BC7` | `#8D6BAF` | `#AD96C5` |
-| `color-plum-deep` | Deep Plum | `#5E4B73` | `#4B355A` | `#625170` |
-| `color-violet-charcoal` | Charcoal Violet | `#2D2434` | `#281E32` | `#312938` |
-| `color-plum-night` | Night Plum | `#1F1728` | `#16101F` | `#241C2D` |
+| Token                   | Canonical Mist name | Lavender Mist (default) | Lavender Night | Pearl Lavender |
+| ----------------------- | ------------------- | ----------------------- | -------------- | -------------- |
+| `color-ivory`           | Warm Ivory          | `#F8F5FB`               | `#E9E3F0`      | `#FAF8FC`      |
+| `color-pearl`           | Pearl               | `#FCFAFD`               | `#F1ECF5`      | `#FFFFFF`      |
+| `color-lavender-pale`   | Pale Lavender       | `#EEE7F8`               | `#D8CCE7`      | `#F2EDF8`      |
+| `color-lavender-mist`   | Lavender Mist       | `#D9C8F2`               | `#BEA6DC`      | `#E5DAF2`      |
+| `color-lilac`           | Soft Lilac          | `#CBB4E8`               | `#A78ACB`      | `#D4C4E7`      |
+| `color-purple-dusty`    | Dusty Purple        | `#A78BC7`               | `#8D6BAF`      | `#AD96C5`      |
+| `color-plum-deep`       | Deep Plum           | `#5E4B73`               | `#4B355A`      | `#625170`      |
+| `color-violet-charcoal` | Charcoal Violet     | `#2D2434`               | `#281E32`      | `#312938`      |
+| `color-plum-night`      | Night Plum          | `#1F1728`               | `#16101F`      | `#241C2D`      |
 
 ### Semantic color roles
 
-| Role | Palette mapping / rule |
-| --- | --- |
-| `surface-start` / `surface-reading` | `color-ivory` or `color-pearl` |
-| `surface-soft` | `color-lavender-pale` |
-| `surface-middle` | Pale lavender through mist/lilac, with neutral reading areas |
-| `surface-night` / `surface-overlay` | `color-plum-night` or `color-violet-charcoal` |
-| `text-on-light` | `color-violet-charcoal`; default on light and lavender reading surfaces |
-| `text-secondary-on-light` | `color-plum-deep` only when the actual surface maintains required contrast |
-| `text-on-dark` | `color-ivory` / `color-pearl` |
-| `text-secondary-on-dark` | `color-lavender-pale` with verified contrast |
-| `accent-atmosphere` | Mist/lilac/dusty purple; decoration rather than pale body text |
-| `focus-on-light` / `focus-on-dark` | Charcoal / pearl with a separated visible outline |
-| `border-subtle` | A restrained translucent text-color border for grouping; stronger contrast for meaningful control boundaries |
+| Role                                | Palette mapping / rule                                                                                       |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `surface-start` / `surface-reading` | `color-ivory` or `color-pearl`                                                                               |
+| `surface-soft`                      | `color-lavender-pale`                                                                                        |
+| `surface-middle`                    | Pale lavender through mist/lilac, with neutral reading areas                                                 |
+| `surface-night` / `surface-overlay` | `color-plum-night` or `color-violet-charcoal`                                                                |
+| `text-on-light`                     | `color-violet-charcoal`; default on light and lavender reading surfaces                                      |
+| `text-secondary-on-light`           | `color-plum-deep` only when the actual surface maintains required contrast                                   |
+| `text-on-dark`                      | `color-ivory` / `color-pearl`                                                                                |
+| `text-secondary-on-dark`            | `color-lavender-pale` with verified contrast                                                                 |
+| `accent-atmosphere`                 | Mist/lilac/dusty purple; decoration rather than pale body text                                               |
+| `focus-on-light` / `focus-on-dark`  | Charcoal / pearl with a separated visible outline                                                            |
+| `border-subtle`                     | A restrained translucent text-color border for grouping; stronger contrast for meaningful control boundaries |
 
 Body text must not rely on pale accents or dusty purple as a universal foreground. Text over photographs needs a verified clear region or restrained scrim; palette tokens alone cannot guarantee contrast over an image. Feedback states use explicit labels/icons and readable text, not color alone.
 
 ### Fonts and fluid type scale
 
-| Token | Recommendation |
-| --- | --- |
-| `font-display` | Cormorant Garamond, Georgia, serif |
-| `font-body` | Inter, system-ui, sans-serif |
-| `text-hero` | Fluid 3.5–10rem; roughly 0.95–1.05 line-height; cap by available width/content |
-| `text-chapter` | Fluid 2.5–6rem; roughly 1.05–1.15 line-height |
-| `text-statement` | Fluid 2–5rem; roughly 1.1–1.2 line-height |
-| `text-title` | Fluid 1.5–2.5rem; roughly 1.2 line-height |
-| `text-body` | 1–1.125rem; 1.6–1.75 line-height |
-| `text-letter` | 1.125–1.25rem where width allows; 1.7–1.85 line-height |
-| `text-caption` | 0.875–1rem; roughly 1.5 line-height |
-| `text-label` | 0.75–0.875rem; restrained uppercase only for short labels, approximately 0.08–0.12em tracking |
+| Token            | Recommendation                                                                                |
+| ---------------- | --------------------------------------------------------------------------------------------- |
+| `font-display`   | Cormorant Garamond, Georgia, serif                                                            |
+| `font-body`      | Inter, system-ui, sans-serif                                                                  |
+| `text-hero`      | Fluid 3.5–10rem; roughly 0.95–1.05 line-height; cap by available width/content                |
+| `text-chapter`   | Fluid 2.5–6rem; roughly 1.05–1.15 line-height                                                 |
+| `text-statement` | Fluid 2–5rem; roughly 1.1–1.2 line-height                                                     |
+| `text-title`     | Fluid 1.5–2.5rem; roughly 1.2 line-height                                                     |
+| `text-body`      | 1–1.125rem; 1.6–1.75 line-height                                                              |
+| `text-letter`    | 1.125–1.25rem where width allows; 1.7–1.85 line-height                                        |
+| `text-caption`   | 0.875–1rem; roughly 1.5 line-height                                                           |
+| `text-label`     | 0.75–0.875rem; restrained uppercase only for short labels, approximately 0.08–0.12em tracking |
 
 Hero type may reduce below its initial range on exceptionally narrow screens or long names to prevent clipping while retaining hierarchy. Do not horizontally squeeze lettering or force arbitrary fixed line breaks across all content.
 
@@ -417,78 +419,74 @@ Hero type may reduce below its initial range on exceptionally narrow screens or 
 
 Use a 0.25rem base step, with these reusable scale values:
 
-| Token | Value |
-| --- | --- |
-| `space-1` / `space-2` | 0.25rem / 0.5rem |
-| `space-3` / `space-4` | 0.75rem / 1rem |
-| `space-6` / `space-8` | 1.5rem / 2rem |
-| `space-12` / `space-16` | 3rem / 4rem |
-| `space-24` / `space-32` | 6rem / 8rem |
-| `space-48` / `space-64` | 12rem / 16rem |
+| Token                   | Value            |
+| ----------------------- | ---------------- |
+| `space-1` / `space-2`   | 0.25rem / 0.5rem |
+| `space-3` / `space-4`   | 0.75rem / 1rem   |
+| `space-6` / `space-8`   | 1.5rem / 2rem    |
+| `space-12` / `space-16` | 3rem / 4rem      |
+| `space-24` / `space-32` | 6rem / 8rem      |
+| `space-48` / `space-64` | 12rem / 16rem    |
 
-| Composition token | Recommended range / role |
-| --- | --- |
-| `gutter-small` | 1–1.5rem on very narrow screens |
-| `gutter-mobile` | 1.5–2rem |
-| `gutter-adaptive` | 2–3rem on intermediate widths |
-| `gutter-desktop` | 3–6rem on wide screens |
-| `section-gap-mobile` | Approximately 4–7rem; composition can breathe beyond this when useful |
-| `section-gap-desktop` | Approximately 8–15rem; adapt to viewport and chapter purpose |
-| `memory-gap` | Generous space from the shared scale, varying by spread/viewport; no identical card gutter requirement |
-| `width-reading` | Approximately 48–60ch for the letter |
-| `width-prose` | Up to approximately 65ch for general reading |
-| `width-editorial` | Up to approximately 84rem for broad spreads, with responsive gutters |
-| `width-cinematic` | Viewport-wide where approved; copy still uses safe gutters |
+| Composition token     | Recommended range / role                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------------------------ |
+| `gutter-small`        | 1–1.5rem on very narrow screens                                                                        |
+| `gutter-mobile`       | 1.5–2rem                                                                                               |
+| `gutter-adaptive`     | 2–3rem on intermediate widths                                                                          |
+| `gutter-desktop`      | 3–6rem on wide screens                                                                                 |
+| `section-gap-mobile`  | Approximately 4–7rem; composition can breathe beyond this when useful                                  |
+| `section-gap-desktop` | Approximately 8–15rem; adapt to viewport and chapter purpose                                           |
+| `memory-gap`          | Generous space from the shared scale, varying by spread/viewport; no identical card gutter requirement |
+| `width-reading`       | Approximately 48–60ch for the letter                                                                   |
+| `width-prose`         | Up to approximately 65ch for general reading                                                           |
+| `width-editorial`     | Up to approximately 84rem for broad spreads, with responsive gutters                                   |
+| `width-cinematic`     | Viewport-wide where approved; copy still uses safe gutters                                             |
 
 ### Corners, shadows, and surface restraint
 
-| Token | Recommendation |
-| --- | --- |
-| `radius-editorial` | 0–0.25rem for square/low-radius framing |
-| `radius-photo-soft` | 0.75–1.5rem, selected photographs only |
-| `radius-control` | 0.25–0.5rem |
-| `radius-admin` | 0.5–0.75rem where functional grouping benefits |
-| `shadow-soft` | Initial 0 0.5rem 1.75rem shadow, preset charcoal-violet at approximately 8% opacity; only for needed separation |
-| `shadow-none` | Default for editorial photos and public content surfaces |
+| Token               | Recommendation                                                                                                  |
+| ------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `radius-editorial`  | 0–0.25rem for square/low-radius framing                                                                         |
+| `radius-photo-soft` | 0.75–1.5rem, selected photographs only                                                                          |
+| `radius-control`    | 0.25–0.5rem                                                                                                     |
+| `radius-admin`      | 0.5–0.75rem where functional grouping benefits                                                                  |
+| `shadow-soft`       | Initial 0 0.5rem 1.75rem shadow, preset charcoal-violet at approximately 8% opacity; only for needed separation |
+| `shadow-none`       | Default for editorial photos and public content surfaces                                                        |
 
 No universal pill radius or glass-panel treatment. Blur and grain remain extremely subtle and removable; they are not structural dependencies.
 
 ### Motion categories
 
-| Token | Initial character |
-| --- | --- |
-| `motion-instant` | Immediate visibility/state change when motion is unnecessary |
-| `motion-fast` | Approximately 120–180ms for restrained CSS hover/focus/color |
-| `motion-ui` | Approximately 180–300ms for drawer/lightbox/modal state changes |
-| `motion-reveal` | Approximately 500–900ms for editorial heading/image entrances |
+| Token            | Initial character                                                                                                    |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `motion-instant` | Immediate visibility/state change when motion is unnecessary                                                         |
+| `motion-fast`    | Approximately 120–180ms for restrained CSS hover/focus/color                                                         |
+| `motion-ui`      | Approximately 180–300ms for drawer/lightbox/modal state changes                                                      |
+| `motion-reveal`  | Approximately 500–900ms for editorial heading/image entrances                                                        |
 | `motion-chapter` | Approximately 800–1400ms character for selected atmospheric transitions, or equivalent restrained scroll progression |
-| `motion-idle` | Very slow, low-amplitude heart motion; no fixed perpetual dramatic loop |
-| `ease-editorial` | Smooth ease-out or gentle ease-in-out; no bounce/elastic character |
+| `motion-idle`    | Very slow, low-amplitude heart motion; no fixed perpetual dramatic loop                                              |
+| `ease-editorial` | Smooth ease-out or gentle ease-in-out; no bounce/elastic character                                                   |
 
 Scroll-driven choreography follows the visitor rather than forcing these durations onto every scene. Reduced motion overrides these categories with static presentation or brief simple fades. Photo-hover scale remains 1.02–1.04 maximum.
 
 ### Layering philosophy
 
-| Token | Intended stacking role |
-| --- | --- |
-| `layer-background` (0) | Surface, grain, radial light |
-| `layer-media` (10) | Photography and scene media |
-| `layer-copy` (20) | Readable content |
-| `layer-sculpture` (30) | Selected hero/transition object layering, without obscuring readable text |
-| `layer-navigation` (40) | Floating navigation/top bar |
-| `layer-drawer` (50) | Menu drawer and its backdrop |
-| `layer-dialog` (60) | Lightbox or admin modal and its backdrop |
+| Token                   | Intended stacking role                                                    |
+| ----------------------- | ------------------------------------------------------------------------- |
+| `layer-background` (0)  | Surface, grain, radial light                                              |
+| `layer-media` (10)      | Photography and scene media                                               |
+| `layer-copy` (20)       | Readable content                                                          |
+| `layer-sculpture` (30)  | Selected hero/transition object layering, without obscuring readable text |
+| `layer-navigation` (40) | Floating navigation/top bar                                               |
+| `layer-drawer` (50)     | Menu drawer and its backdrop                                              |
+| `layer-dialog` (60)     | Lightbox or admin modal and its backdrop                                  |
 
 These values express a controlled hierarchy, not permission for arbitrary high z-index values. Focus indicators remain visible in their active layer. Decorative fragments must not intercept controls, and overlays must not compete for attention.
 
-## 30. Source-of-Truth Rules and Review Boundary
+## 30. Source-of-Truth Rules and Current Scope
 
-After approval, `PROJECT_CONTEXT.md` controls **what** the product is and `DESIGN.md` controls **how it should look and feel**. Product-context requirements win if visual decisions conflict. This document does not add public chapters, visitor features, editing freedom, or publishing steps.
+Latest explicit owner instructions take precedence. `PROJECT_CONTEXT.md` controls current product scope and architecture; this document controls visual direction, as amended by later approved refinements. Section 11's desktop-composition and animation requirements apply across phone/tablet portrait and landscape. Accessible reading alternatives remain for Pause, reduced motion, and genuinely oversized content.
 
-No conflict with the approved context is intended. The letter retains its neutral reading surface inside the Day → Night narrative; global presets change public atmosphere while the admin stays practical; cinematic desktop behavior has accessible vertical/static alternatives.
+The current application is frontend-only and uses Lavender Mist. The three palette proposals and earlier admin design remain reference material; they do not authorize a theme switcher, CMS, backend, or new visitor features. Personal media and writing come from the owner.
 
-Remaining genuine ambiguities are the exact The Diamond reference URL and the persistence/lifetime definition of first versus repeat visits. Neither blocks this specification. Specific scene geometry, material parameters, asset selection, capability thresholds, and implementation/testing rules remain for later approved work rather than being invented here.
-
-This phase creates **DESIGN.md only**. Existing application code, `PROJECT_CONTEXT.md`, configuration, dependencies, migrations, and assets remain unchanged. `SKILLS_INSTALL.md` is absent and is not recreated. No `AGENTS.md`, implementation plan, feature branch, components, heart asset, or animation implementation is created.
-
-**Stop after review. Wait for explicit approval before Phase 3.**
+Keep historical phase reports intact. Their earlier phase boundaries do not restrict later authorized work. Preserve visual requirements while documenting the current site; do not weaken them to justify bugs.

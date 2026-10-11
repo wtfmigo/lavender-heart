@@ -1,2 +1,2 @@
-# Development uses Vite and artisan serve. Protect private files inside XAMPP htdocs.
+# Development uses Vite. Protect private workspace files inside XAMPP htdocs.
 Require all denied

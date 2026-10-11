@@ -1,11 +1,12 @@
 import { expect, test } from '@playwright/test'
 
-test('public experience renders, styles load, and Laravel health remains intact', async ({
+test('public experience renders local content and styles without an API', async ({
   page,
-  request,
 }) => {
   const errors: string[] = []
+  const requests: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
+  page.on('request', (request) => requests.push(request.url()))
   await page.goto('/')
   await expect(
     page.getByRole('heading', { name: 'Jeriann Alexa', level: 1 }),
@@ -15,9 +16,12 @@ test('public experience renders, styles load, and Laravel health remains intact'
   await expect(page.locator('canvas[data-webgl="ready"]')).toBeVisible({
     timeout: 15000,
   })
+  expect(requests.some((url) => url.endsWith('/content/experience.json'))).toBe(
+    true,
+  )
   expect(
-    await (await request.get('http://127.0.0.1:8001/api/health')).json(),
-  ).toEqual({ status: 'ok' })
+    requests.filter((url) => new URL(url).pathname.startsWith('/api/')),
+  ).toEqual([])
   await expect(page.locator('body')).toHaveCSS(
     'font-family',
     'Inter, system-ui, sans-serif',

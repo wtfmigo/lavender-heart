@@ -1,5 +1,4 @@
 **/node_modules/
-**/vendor/
 **/.env
 **/.env.*
 !**/.env.example
@@ -14,17 +13,9 @@
 **/.idea/
 **/.vscode/
 **/*.tmp
-/backend/bootstrap/cache/*.php
-/backend/storage/*.key
-/backend/public/build/
-/backend/public/hot
-/backend/public/storage
-/backend/.phpunit.cache/
-/backend/.phpunit.result.cache
 
 # Machine-local agent configuration and downloaded tooling binaries.
 /.codex/config.toml
-/backend/.codex/config.toml
 /.agents/skills/impeccable/scripts/bin/
 /.impeccable/config.local.json
 /.impeccable/cache/
@@ -32,6 +23,7 @@
 
 # Personal photo derivatives stay local with their original owner files.
 /frontend/public/photos/personal/
+/.private-content/
 
 # Local visual-review captures contain personal photographs.
 /docs/evidence/scroll-gallery-repair/

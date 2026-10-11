@@ -4,6 +4,7 @@ import { readStoryPanel } from './storyPosition.js'
 for (const [chapter, selector] of [
   ['story', '.story-spread:nth-child(3)'],
   ['gallery', '.photo-galaxy'],
+  ['timeline', '.timeline-moment:nth-child(2)'],
   ['letter', '.letter-body'],
 ]) {
   test(`native orientation changes keep readers in ${chapter}`, async ({

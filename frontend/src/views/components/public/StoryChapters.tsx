@@ -312,14 +312,16 @@ export function TimelineChapter({
       <div className="timeline-moments journey-content">
         {items.map((item) => (
           <article className="timeline-moment" key={item.id}>
-            <div className="timeline-date">
-              <MemoryDate item={item} showYear={false} />
-            </div>
             <div
               className={`timeline-content${item.photo ? '' : ' timeline-content--text'}`}
             >
               {item.photo && <MemoryPhoto photo={item.photo} />}
               <div className="timeline-copy">
+                {(item.date || item.dateLabel) && (
+                  <div className="timeline-date">
+                    <MemoryDate item={item} showYear={false} />
+                  </div>
+                )}
                 <h3>{item.title}</h3>
                 <RichText document={item.message} />
               </div>

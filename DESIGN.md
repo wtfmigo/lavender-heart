@@ -253,11 +253,11 @@ Desktop supports keyboard access; mobile supports touch/swipe navigation while r
 ## 20. Section 7 — Relationship / Special Moments Timeline
 
 - **Visual purpose:** show meaningful relationship moments in a readable chronological story.
-- **Layout:** vertical editorial timeline; alternate left/right composition where space allows. Large date/year treatment, photograph, short personal memory, and generous spacing replace corporate timeline widgets.
+- **Layout:** owner-approved alternating editorial photo/caption spreads (2026-10-12). Place each genuine month/day immediately above its title, beside its photograph; alternate the photograph left/right in saved order. Fine horizontal dividers, ivory frames, soft lavender light, and subtle photo shadows provide structure. Preserve complete photographs; do not repeat years or invent date metadata. Keep the chapter introduction and traveling heart choreography.
 - **Typography:** expressive date/year and chapter heading may use Cormorant Garamond; labels/body use Inter.
 - **Photography role:** supports selected memories; preserve authentic crops and color.
 - **Motion:** subtle date/timeline progression as the visitor reaches each memory; text and photo can enter with slightly offset timing. Selected images may use mild parallax.
-- **Responsive behavior:** simplify into a single readable vertical composition; reduce depth and remove unnecessary motion while preserving chronology. An optional relationship counter near the ending is minimal inline text only.
+- **Responsive behavior:** retain alternating side-by-side photo/caption composition on phone and tablet portrait/landscape with fluid typography, gaps, and image dimensions. Rows expand for longer copy; text-only memories use the available reading width. Preserve date/text reveals and photo-frame parallax; reduced motion reveals the content directly. An optional relationship counter near the ending is minimal inline text only.
 - **Avoid:** project-management styling, progress bar, dashboard metrics, fake dates, or excessive connecting decoration.
 
 ## 21. Section 8 — Main Birthday Letter

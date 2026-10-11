@@ -28,7 +28,7 @@ One public page contains the following fixed chapter order:
 | 4     | Full-width Memory       | Large photograph with parallax and caption                               |
 | 5     | Gallery                 | Editorial photo spreads, interactive photo sphere, and a closing message |
 | 6     | Things I Love About You | Statements staged one at a time during scroll                            |
-| 7     | Timeline                | Vertical relationship moments with text and photographs                  |
+| 7     | Timeline                | Alternating photo/caption spreads with paired dates and photo parallax   |
 | 8     | Birthday Letter         | Calm, readable letter and signature                                      |
 | 9     | Final Closing           | Returning heart and closing message                                      |
 

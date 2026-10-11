@@ -99,6 +99,7 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
                   key={section.key}
                   heading={section.content.heading}
                   photos={data.gallery}
+                  reducedMotion={reducedMotion}
                 />
               )
             case 'things_i_love':

@@ -8,6 +8,9 @@ for (const width of [1864, 1440, 768, 414, 390, 375, 320]) {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
     await expect(page.locator('#gallery .gallery-photo')).toHaveCount(20)
+    await page
+      .getByRole('button', { name: 'Show photo list', exact: true })
+      .click()
     for (const image of await page
       .locator('img[src^="/photos/personal/"]:not(.gallery-lightbox img)')
       .all()) {

@@ -84,7 +84,7 @@ it.each([1, 2, 7, 16, 23])(
     }
   },
 )
-it('paces details in ordered three-by-three groups without losing photo captions', () => {
+it('places keepsakes in one galaxy with an accessible ordered list and existing lightbox', () => {
   const items = Array.from({ length: 23 }, (_, index) => ({
     ...photos[0],
     id: `memory-${index}`,
@@ -94,10 +94,12 @@ it('paces details in ordered three-by-three groups without losing photo captions
   const { container } = render(
     <Gallery heading="A little collection" photos={items} />,
   )
-  const groups = container.querySelectorAll('.collection-detail-spread')
-  expect(
-    Array.from(groups, (group) => group.querySelectorAll('figure').length),
-  ).toEqual([9, 4])
+  expect(container.querySelector('.photo-galaxy')).toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button', { name: 'Show photo list' }))
+  expect(container.querySelector('.photo-galaxy')).toHaveAttribute(
+    'data-view',
+    'list',
+  )
   expect(
     Array.from(container.querySelectorAll('.gallery-photo button'), (button) =>
       button.getAttribute('aria-label'),
@@ -109,4 +111,9 @@ it('paces details in ordered three-by-three groups without losing photo captions
       (caption) => caption.textContent,
     ),
   ).toEqual(items.slice(10).map((item) => item.caption))
+  const thumb = screen.getByRole('button', { name: 'Open photo 23: Memory 22' })
+  fireEvent.click(thumb)
+  expect(screen.getByText('23 / 23')).toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button', { name: 'Close photographs' }))
+  expect(thumb).toHaveFocus()
 })

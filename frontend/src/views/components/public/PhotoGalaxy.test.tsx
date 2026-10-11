@@ -1,0 +1,184 @@
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import { afterEach, beforeEach, expect, it, vi } from 'vitest'
+import { Gallery } from './Gallery'
+
+const photos = Array.from({ length: 13 }, (_, index) => ({
+  id: `photo-${index}`,
+  src: `/photo-${index}.webp`,
+  alt: `Memory ${index}`,
+  caption: `Caption ${index}`,
+  width: 1200,
+  height: 800,
+  focalX: 0.3,
+  focalY: 0.6,
+}))
+let visibility: IntersectionObserverCallback
+let frame: FrameRequestCallback
+const originalObserver = window.IntersectionObserver
+beforeEach(() => {
+  vi.stubGlobal('PointerEvent', MouseEvent)
+  window.IntersectionObserver = class {
+    constructor(callback: IntersectionObserverCallback) {
+      visibility = callback
+    }
+    observe() {}
+    disconnect() {}
+  } as unknown as typeof IntersectionObserver
+  vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+    frame = callback
+    return 1
+  })
+  vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {})
+  vi.spyOn(window, 'matchMedia').mockReturnValue({
+    matches: false,
+    addEventListener() {},
+    removeEventListener() {},
+  } as unknown as MediaQueryList)
+  Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
+    configurable: true,
+    value: vi.fn(),
+  })
+})
+afterEach(() => {
+  window.IntersectionObserver = originalObserver
+  vi.restoreAllMocks()
+  vi.unstubAllGlobals()
+})
+function mount(reducedMotion = false) {
+  const view = render(
+    <Gallery
+      heading="Collection"
+      photos={photos}
+      reducedMotion={reducedMotion}
+    />,
+  )
+  const stage = screen.getByRole('group', { name: 'Rotate photo galaxy' })
+  const rotor = view.container.querySelector(
+    '.photo-galaxy-rotor',
+  ) as HTMLElement
+  return { ...view, stage, rotor }
+}
+function enter() {
+  act(() =>
+    visibility(
+      [{ isIntersecting: true } as IntersectionObserverEntry],
+      {} as IntersectionObserver,
+    ),
+  )
+}
+it('rotates on both keyboard axes and keeps pause and list controls usable', () => {
+  const { stage, rotor, container } = mount()
+  const original = rotor.style.getPropertyValue('--galaxy-yaw')
+  fireEvent.keyDown(stage, { key: 'ArrowRight' })
+  expect(rotor.style.getPropertyValue('--galaxy-yaw')).not.toBe(original)
+  fireEvent.keyDown(stage, { key: 'ArrowUp' })
+  expect(rotor.style.getPropertyValue('--galaxy-pitch')).not.toBe('0deg')
+  fireEvent.click(screen.getByRole('button', { name: 'Pause rotation' }))
+  expect(
+    screen.getByRole('button', { name: 'Resume rotation' }),
+  ).toBeInTheDocument()
+  const buttons = [
+    ...container.querySelectorAll('.photo-galaxy .gallery-photo button'),
+  ]
+  fireEvent.click(screen.getByRole('button', { name: 'Show photo list' }))
+  expect([
+    ...container.querySelectorAll('.photo-galaxy .gallery-photo button'),
+  ]).toEqual(buttons)
+  expect(buttons).toHaveLength(3)
+})
+it('distinguishes a two-axis drag from a photo click', () => {
+  const { stage, rotor } = mount()
+  const button = screen.getByRole('button', {
+    name: 'Open photo 11: Memory 10',
+  })
+  fireEvent.pointerDown(button, { button: 0, clientX: 10, clientY: 10 })
+  fireEvent.pointerMove(stage, { clientX: 100, clientY: 80 })
+  fireEvent.pointerUp(stage)
+  fireEvent.click(button, { detail: 1 })
+  expect(HTMLDialogElement.prototype.showModal).not.toHaveBeenCalled()
+  expect(rotor.style.getPropertyValue('--galaxy-pitch')).not.toBe('0deg')
+  fireEvent.pointerDown(button, { button: 0, clientX: 10, clientY: 10 })
+  fireEvent.pointerUp(stage)
+  fireEvent.click(button)
+  expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledOnce()
+})
+it('brings a keyboard-focused sphere photo forward and pauses rotation', () => {
+  const { rotor } = mount()
+  enter()
+  fireEvent.focus(
+    screen.getByRole('button', { name: 'Open photo 12: Memory 11' }),
+  )
+  expect(rotor.style.getPropertyValue('--galaxy-yaw')).not.toBe('0deg')
+  expect(window.cancelAnimationFrame).toHaveBeenCalled()
+})
+it('opens list photos after a touch drag that produces no click', () => {
+  const { stage } = mount()
+  fireEvent.pointerDown(stage, { button: 0, clientX: 10, clientY: 10 })
+  fireEvent.pointerMove(stage, { clientX: 100, clientY: 80 })
+  fireEvent.pointerUp(stage)
+  fireEvent.click(screen.getByRole('button', { name: 'Show photo list' }))
+  const photo = screen.getByRole('button', { name: 'Open photo 11: Memory 10' })
+  fireEvent.pointerDown(photo, { button: 0, clientX: 10, clientY: 10 })
+  fireEvent.pointerUp(photo)
+  fireEvent.click(photo, { detail: 1 })
+  expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledOnce()
+})
+it('starts only onscreen and stops for pause, hidden tabs, lightbox, and unmount', () => {
+  const { unmount } = mount()
+  expect(window.requestAnimationFrame).not.toHaveBeenCalled()
+  enter()
+  expect(window.requestAnimationFrame).toHaveBeenCalledOnce()
+  act(() => frame(100))
+  fireEvent.click(screen.getByRole('button', { name: 'Pause rotation' }))
+  expect(window.cancelAnimationFrame).toHaveBeenCalled()
+  fireEvent.click(screen.getByRole('button', { name: 'Resume rotation' }))
+  const beforeHidden = vi.mocked(window.requestAnimationFrame).mock.calls.length
+  vi.spyOn(document, 'hidden', 'get').mockReturnValue(true)
+  const beforeHiddenCancel = vi.mocked(window.cancelAnimationFrame).mock.calls
+    .length
+  fireEvent(document, new Event('visibilitychange'))
+  expect(
+    vi.mocked(window.cancelAnimationFrame).mock.calls.length,
+  ).toBeGreaterThan(beforeHiddenCancel)
+  expect(vi.mocked(window.requestAnimationFrame).mock.calls.length).toBe(
+    beforeHidden,
+  )
+  vi.spyOn(document, 'hidden', 'get').mockReturnValue(false)
+  fireEvent(document, new Event('visibilitychange'))
+  const beforeLightboxCancel = vi.mocked(window.cancelAnimationFrame).mock.calls
+    .length
+  fireEvent.click(
+    screen.getByRole('button', { name: 'Open photo 11: Memory 10' }),
+  )
+  expect(
+    vi.mocked(window.cancelAnimationFrame).mock.calls.length,
+  ).toBeGreaterThan(beforeLightboxCancel)
+  const calls = vi.mocked(window.cancelAnimationFrame).mock.calls.length
+  unmount()
+  expect(
+    vi.mocked(window.cancelAnimationFrame).mock.calls.length,
+  ).toBeGreaterThanOrEqual(calls)
+})
+it('honors reduced motion and global pause while retaining manual rotation', () => {
+  const { stage, rerender } = mount(true)
+  enter()
+  expect(window.requestAnimationFrame).not.toHaveBeenCalled()
+  fireEvent.keyDown(stage, { key: 'ArrowLeft' })
+  expect(
+    screen.getByRole('button', { name: 'Show photo list' }),
+  ).toBeInTheDocument()
+  rerender(
+    <Gallery heading="Collection" photos={photos} reducedMotion={false} />,
+  )
+  expect(window.requestAnimationFrame).toHaveBeenCalledOnce()
+})
+it('keeps a single keepsake accessible without invalid sphere positions', () => {
+  const { container } = render(
+    <Gallery heading="Collection" photos={photos.slice(0, 11)} />,
+  )
+  expect(container.querySelector('.photo-galaxy')).toBeInTheDocument()
+  expect(
+    container.querySelectorAll('.photo-galaxy .gallery-photo button'),
+  ).toHaveLength(1)
+  expect(container.innerHTML).not.toMatch(/NaN|Infinity/)
+})

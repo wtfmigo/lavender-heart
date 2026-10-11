@@ -234,32 +234,6 @@
 .collection-details {
   margin: 7vw 8vw 0;
 }
-.collection-detail-spread {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: 3vw;
-  row-gap: 3vw;
-  align-items: start;
-  margin-bottom: 5vw;
-}
-.collection-photo--keepsake {
-  grid-column: span 4;
-}
-.collection-photo--keepsake:last-child:nth-child(3n + 1) {
-  grid-column: 5 / span 4;
-}
-.collection-photo--keepsake:nth-last-child(2):nth-child(3n + 1) {
-  grid-column: 3 / span 4;
-}
-.collection-photo--keepsake:last-child:nth-child(3n + 2) {
-  grid-column: 7 / span 4;
-}
-.collection-photo--keepsake figcaption {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(1rem, 1.3vw, 1.2rem);
-  line-height: 1.3;
-}
 .collection-closing {
   position: relative;
   isolation: isolate;
@@ -380,20 +354,6 @@
   .collection-details {
     margin: 3rem var(--gutter) 0;
   }
-  .collection-detail-spread {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 10%;
-    row-gap: 2rem;
-    margin-bottom: 3rem;
-  }
-  .collection-photo--keepsake {
-    width: 45%;
-    margin: 0;
-  }
-  .collection-photo--keepsake:last-child:nth-child(odd) {
-    margin-inline: auto;
-  }
   .collection-closing {
     padding: 4rem var(--gutter) 5rem;
   }
@@ -474,4 +434,210 @@
 
 .collection-cloud-passage {
   background: var(--surface-middle);
+}
+.photo-galaxy {
+  --galaxy-radius: clamp(85px, 25vw, 280px);
+  position: relative;
+  isolation: isolate;
+  margin: 5vw 0 0;
+  padding: 2rem var(--gutter);
+}
+.photo-galaxy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 55%,
+    color-mix(in srgb, var(--color-purple-dusty) 45%, transparent),
+    transparent 62%
+  );
+}
+.photo-galaxy-stage {
+  position: relative;
+  height: calc(var(--galaxy-radius) * 2 + 180px);
+  perspective: 1200px;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+.photo-galaxy-stage:active {
+  cursor: grabbing;
+}
+.photo-galaxy-stage::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--galaxy-radius) * 2);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: -1;
+  border: 1px solid
+    color-mix(in srgb, var(--color-purple-dusty) 24%, transparent);
+  background: radial-gradient(
+    circle at 36% 30%,
+    color-mix(in srgb, var(--color-purple-dusty) 14%, transparent),
+    transparent 70%
+  );
+  box-shadow:
+    inset -16px -12px 40px
+      color-mix(in srgb, var(--color-purple-dusty) 12%, transparent),
+    0 0 55px color-mix(in srgb, var(--color-purple-dusty) 18%, transparent);
+}
+.photo-galaxy-stage::before {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  pointer-events: none;
+  opacity: 0.45;
+  background:
+    radial-gradient(
+      circle at 12% 34%,
+      var(--color-purple-dusty) 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 72% 18%,
+      var(--color-purple-dusty) 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 87% 64%,
+      var(--color-purple-dusty) 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 28% 82%,
+      var(--color-purple-dusty) 1px,
+      transparent 2px
+    );
+  background-size:
+    180px 190px,
+    260px 230px,
+    290px 310px,
+    350px 270px;
+}
+.photo-galaxy-rotor {
+  position: absolute;
+  inset: 50% 0 auto;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--galaxy-pitch)) rotateY(var(--galaxy-yaw));
+}
+.photo-galaxy-position {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: clamp(44px, 12vw, var(--galaxy-card-width));
+  transform-style: preserve-3d;
+  transform: translate3d(
+    calc(var(--photo-x) * var(--galaxy-radius)),
+    calc(var(--photo-y) * var(--galaxy-radius)),
+    calc(var(--photo-z) * var(--galaxy-radius))
+  );
+}
+.photo-galaxy-facing {
+  transform: rotateY(calc(-1 * var(--galaxy-yaw)))
+    rotateX(calc(-1 * var(--galaxy-pitch))) translate(-50%, -50%);
+}
+.photo-galaxy-position:focus-within {
+  z-index: 2;
+}
+.photo-galaxy .collection-photo--keepsake {
+  width: 100%;
+  margin: 0;
+}
+.photo-galaxy .gallery-photo button {
+  min-height: 44px;
+  box-shadow: 0 8px 24px rgb(37 18 65 / 15%);
+}
+.photo-galaxy .gallery-photo img {
+  pointer-events: none;
+}
+.photo-galaxy[data-view='sphere'] figcaption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.photo-galaxy-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.photo-galaxy-controls button {
+  min-height: 44px;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid currentColor;
+  color: var(--text-on-light);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+.photo-galaxy-controls button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.photo-galaxy-instructions {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 1rem auto;
+  max-width: 40ch;
+}
+.photo-galaxy-stage:focus-visible,
+.photo-galaxy-controls button:focus-visible {
+  outline: 2px solid var(--text-on-light);
+  outline-offset: 5px;
+}
+.photo-galaxy[data-view='list'] .photo-galaxy-stage {
+  height: auto;
+  perspective: none;
+  touch-action: auto;
+  user-select: auto;
+  cursor: auto;
+}
+.photo-galaxy[data-view='list'] .photo-galaxy-stage::before,
+.photo-galaxy[data-view='list'] .photo-galaxy-stage::after {
+  display: none;
+}
+.photo-galaxy[data-view='list'] .photo-galaxy-rotor {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 2rem auto;
+  transform: none;
+}
+.photo-galaxy[data-view='list'] .photo-galaxy-position {
+  position: static;
+  width: auto;
+  transform: none;
+}
+.photo-galaxy[data-view='list'] .photo-galaxy-facing {
+  transform: none;
+}
+@media (max-width: 700px) {
+  .photo-galaxy {
+    padding-inline: 1rem;
+  }
+
+  .photo-galaxy[data-view='list'] .photo-galaxy-rotor {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 1rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-galaxy *,
+  .photo-galaxy *::before {
+    transition: none;
+  }
 }

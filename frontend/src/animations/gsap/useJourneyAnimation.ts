@@ -323,6 +323,7 @@ export function useJourneyAnimation(
               '.gallery-photo, .collection-note, .collection-closing > p, .chapter-photo, .chapter-scene .chapter-heading, .intro-support, .full-memory-copy, .love-entry > *, .timeline-date, .timeline-copy > *, .letter-introduction, .letter-opening, .letter-body > *, .letter-signature, .finale h2, .finale-message, .finale-signature',
             )
           motionTargets?.forEach((element) => {
+            if (element.closest('.photo-galaxy')) return
             const collection = !!element.closest('#gallery')
             const headline = element.matches(
               '.chapter-heading, .timeline-date, .full-memory-copy',
@@ -614,7 +615,7 @@ export function useJourneyAnimation(
           ? undefined
           : new ResizeObserver(scheduleRefresh)
       target
-        ?.querySelectorAll('.story-track, .love-sequence')
+        ?.querySelectorAll('.story-track, .love-sequence, .photo-galaxy')
         .forEach((element) => resizeObserver?.observe(element))
       void document.fonts?.ready.then(() => {
         if (!disposed) scheduleRefresh()

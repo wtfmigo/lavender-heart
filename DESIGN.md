@@ -219,6 +219,12 @@ A minimal first-visit “Scroll” cue with a thin line/understated arrow disapp
 - **Responsive behavior:** touch interaction does not depend on hover; captions needed for understanding remain available. Reduce stagger/depth on smaller or weaker devices and use simple/static reveals for reduced motion.
 - **Avoid:** identical cards, uniform thumbnail grid, chaotic motion, dramatic tilt, bounce, large zoom, or magnetic images.
 
+### Approved keepsake photo galaxy — 2026-10-11
+
+The gallery keeps its opening, first ten editorial photographs, and quiet closing. Remaining keepsake photographs form a slowly rotating spherical constellation, with a soft lavender nebula glow and decorative stars. Mouse and touch dragging rotate it on both axes; selecting a photograph opens the existing lightbox with its full image and caption.
+
+The sphere includes keyboard rotation, visible focus, pause/resume, and a photo-list view in saved order so every image and caption remains reachable. Reduced motion disables automatic rotation while retaining manual navigation. Global motion pause, an open lightbox, interaction, offscreen placement, and hidden tabs suspend automatic rotation. Mobile uses a viewport-fitted sphere and retains ordinary scrolling outside its interaction surface. The sphere overrides the earlier gallery detail-group layout and subtle reveal treatment only for these keepsake photographs.
+
 ### Minimal fullscreen lightbox
 
 Use a large centered photograph on a deep-plum/near-black backdrop, with optional caption/date and only Close, Previous, and Next controls. Preserve the full photograph rather than forcing its gallery crop in the lightbox. Controls are legible, understated, and touch-friendly.

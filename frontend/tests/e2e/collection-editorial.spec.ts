@@ -52,6 +52,9 @@ test('long owner captions stay inside the normal-size photo frame', async ({
     route.fulfill({ json: data }),
   )
   await page.goto('/')
+  await page
+    .getByRole('button', { name: 'Show photo list', exact: true })
+    .click()
   const scene = page.locator('.collection-details .gallery-photo').first()
   await scene.scrollIntoViewIfNeeded()
   const frame = await scene.boundingBox()
@@ -153,35 +156,10 @@ for (const [width, height] of [
     await expect(
       gallery.locator('.collection-details .gallery-photo'),
     ).toHaveCount(10)
-    await expect(gallery.locator('.collection-detail-spread')).toHaveCount(2)
-    await expect(
-      gallery.locator('.collection-detail-spread').first().locator('figure'),
-    ).toHaveCount(9)
-    await expect(
-      gallery.locator('.collection-detail-spread').last().locator('figure'),
-    ).toHaveCount(1)
-    if (width >= 701) {
-      const rows = await gallery
-        .locator('.collection-detail-spread')
-        .first()
-        .locator('figure')
-        .evaluateAll((figures) =>
-          figures.map((e) => e.getBoundingClientRect().top),
-        )
-      for (const start of [0, 3, 6])
-        expect(
-          Math.max(...rows.slice(start, start + 3)) -
-            Math.min(...rows.slice(start, start + 3)),
-        ).toBeLessThan(1)
-      const remaining = await gallery
-        .locator('.collection-detail-spread')
-        .last()
-        .locator('figure')
-        .boundingBox()
-      expect(
-        Math.abs(remaining!.x + remaining!.width / 2 - width / 2),
-      ).toBeLessThan(2)
-    }
+    await expect(gallery.locator('.photo-galaxy')).toHaveCount(1)
+    await gallery
+      .getByRole('button', { name: 'Show photo list', exact: true })
+      .click()
     expect(
       await gallery
         .locator('.gallery-photo img')

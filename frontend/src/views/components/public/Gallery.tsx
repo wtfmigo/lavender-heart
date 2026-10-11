@@ -5,19 +5,24 @@ import { useReducedMotion } from '@/controllers/hooks/useReducedMotion'
 import '@/styles/gallery.css'
 import { HeartFallback } from '@/three/components/HeartFallback'
 import { collectionContent } from '@/features/public/collectionContent'
+import { PhotoGalaxy } from './PhotoGalaxy'
 
 export function Gallery({
   heading,
   photos,
+  reducedMotion = false,
 }: {
   heading: string
   photos: ExperiencePhoto[]
+  reducedMotion?: boolean
 }) {
   const [selected, setSelected] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
   const dialog = useRef<HTMLDialogElement>(null)
   const returnFocus = useRef<HTMLButtonElement | null>(null)
   const touchStart = useRef<number | null>(null)
-  const reduced = useReducedMotion()
+  const prefersReducedMotion = useReducedMotion()
+  const reduced = prefersReducedMotion || reducedMotion
   if (!photos.length) return null
   const current = photos[selected] ?? photos[0]
   function move(offset: number) {
@@ -27,6 +32,7 @@ export function Gallery({
     returnFocus.current = button
     setSelected(index)
     dialog.current?.showModal()
+    setLightboxOpen(true)
   }
   function photo(index: number, role: string) {
     const item = photos[index]
@@ -40,6 +46,11 @@ export function Gallery({
         <button
           type="button"
           aria-label={`Open photo ${index + 1}: ${item.alt}`}
+          aria-describedby={
+            item.caption && role === 'keepsake'
+              ? `photo-caption-${item.id}`
+              : undefined
+          }
           onClick={(event) => open(index, event.currentTarget)}
         >
           <img
@@ -49,7 +60,11 @@ export function Gallery({
                 ? `${item.smallSrc} 600w, ${item.src} ${item.width}w`
                 : undefined
             }
-            sizes="(max-width: 700px) 90vw, 60vw"
+            sizes={
+              role === 'keepsake'
+                ? '(max-width: 700px) 45vw, 240px'
+                : '(max-width: 700px) 90vw, 60vw'
+            }
             width={item.width}
             height={item.height}
             alt={item.alt}
@@ -65,7 +80,9 @@ export function Gallery({
           />
         </button>
         {item.caption && role !== 'lead' && (
-          <figcaption>{item.caption}</figcaption>
+          <figcaption id={`photo-caption-${item.id}`}>
+            {item.caption}
+          </figcaption>
         )}
       </figure>
     )
@@ -135,20 +152,12 @@ export function Gallery({
             </article>
           )}
           {photos.length > 10 && (
-            <div className="collection-details">
-              {Array.from(
-                { length: Math.ceil((photos.length - 10) / 9) },
-                (_, group) => (
-                  <div className="collection-detail-spread" key={group}>
-                    {photos
-                      .slice(10 + group * 9, 19 + group * 9)
-                      .map((_, index) =>
-                        photo(10 + group * 9 + index, 'keepsake'),
-                      )}
-                  </div>
-                ),
-              )}
-            </div>
+            <PhotoGalaxy
+              photos={photos.slice(10)}
+              renderPhoto={(index) => photo(index + 10, 'keepsake')}
+              reducedMotion={reduced}
+              lightboxOpen={lightboxOpen}
+            />
           )}
         </div>
         <footer className="collection-closing">
@@ -173,7 +182,10 @@ export function Gallery({
           className="gallery-lightbox"
           aria-label="Photographs"
           data-lenis-prevent
-          onClose={() => returnFocus.current?.focus()}
+          onClose={() => {
+            setLightboxOpen(false)
+            returnFocus.current?.focus()
+          }}
           onKeyDown={(event) => {
             if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
               event.preventDefault()

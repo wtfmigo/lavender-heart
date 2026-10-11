@@ -123,6 +123,31 @@ it('opens list photos after a touch drag that produces no click', () => {
   fireEvent.click(photo, { detail: 1 })
   expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledOnce()
 })
+it('keeps rotating when the pointer enters the visible sphere', () => {
+  const { stage, rotor } = mount()
+  enter()
+  act(() => frame(100))
+  fireEvent.pointerEnter(stage)
+  expect(window.cancelAnimationFrame).not.toHaveBeenCalled()
+  act(() => frame(150))
+  expect(parseFloat(rotor.style.getPropertyValue('--galaxy-yaw'))).toBeCloseTo(
+    0.6,
+  )
+})
+it('resumes immediately after a drag even when its photo still has pointer focus', () => {
+  const { stage } = mount()
+  enter()
+  const photo = screen.getByRole('button', { name: 'Open photo 11: Memory 10' })
+  fireEvent.pointerDown(photo, { button: 0, clientX: 10, clientY: 10 })
+  act(() => photo.focus())
+  fireEvent.pointerMove(stage, { clientX: 40, clientY: 20 })
+  const beforeRelease = vi.mocked(window.requestAnimationFrame).mock.calls
+    .length
+  fireEvent.pointerUp(stage)
+  expect(
+    vi.mocked(window.requestAnimationFrame).mock.calls.length,
+  ).toBeGreaterThan(beforeRelease)
+})
 it('rotates at twelve degrees per second while visible', () => {
   const { rotor } = mount()
   enter()
@@ -131,6 +156,19 @@ it('rotates at twelve degrees per second while visible', () => {
   expect(parseFloat(rotor.style.getPropertyValue('--galaxy-yaw'))).toBeCloseTo(
     0.6,
   )
+})
+it('pauses for keyboard rotation after a drag has resumed automatic rotation', () => {
+  const { stage } = mount()
+  enter()
+  fireEvent.pointerDown(stage, { button: 0, clientX: 10, clientY: 10 })
+  act(() => stage.focus())
+  fireEvent.pointerUp(stage)
+  const beforeKeyboard = vi.mocked(window.cancelAnimationFrame).mock.calls
+    .length
+  fireEvent.keyDown(stage, { key: 'ArrowRight' })
+  expect(
+    vi.mocked(window.cancelAnimationFrame).mock.calls.length,
+  ).toBeGreaterThan(beforeKeyboard)
 })
 it('starts only onscreen and stops for pause, hidden tabs, lightbox, and unmount', () => {
   const { unmount } = mount()
@@ -179,6 +217,7 @@ it('honors reduced motion and global pause while retaining manual rotation', () 
   rerender(
     <Gallery heading="Collection" photos={photos} reducedMotion={false} />,
   )
+  fireEvent.blur(stage)
   expect(window.requestAnimationFrame).toHaveBeenCalledOnce()
 })
 it('keeps a single keepsake accessible without invalid sphere positions', () => {

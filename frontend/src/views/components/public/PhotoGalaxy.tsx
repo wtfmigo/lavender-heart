@@ -115,11 +115,9 @@ export function PhotoGalaxy({
         aria-describedby={instructions}
         tabIndex={list ? -1 : 0}
         data-lenis-prevent
-        onPointerEnter={() => setInteracting(true)}
-        onPointerLeave={() => {
-          if (!pointer.current) setInteracting(false)
+        onFocusCapture={() => {
+          if (!pointer.current) setInteracting(true)
         }}
-        onFocusCapture={() => setInteracting(true)}
         onBlurCapture={(event) => {
           if (!event.currentTarget.contains(event.relatedTarget))
             setInteracting(false)
@@ -133,6 +131,7 @@ export function PhotoGalaxy({
           )
             return
           event.preventDefault()
+          setInteracting(true)
           rotate(
             angle.current.yaw +
               (event.key === 'ArrowLeft'
@@ -173,7 +172,7 @@ export function PhotoGalaxy({
           pointer.current = null
           if (event.currentTarget.hasPointerCapture?.(event.pointerId))
             event.currentTarget.releasePointerCapture(event.pointerId)
-          setInteracting(event.currentTarget.contains(document.activeElement))
+          setInteracting(false)
         }}
         onPointerCancel={() => {
           pointer.current = null

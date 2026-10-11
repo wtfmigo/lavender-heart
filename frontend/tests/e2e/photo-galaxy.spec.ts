@@ -163,3 +163,41 @@ test('automatic sphere rotation honors its pause and global motion pause', async
   await page.waitForTimeout(150)
   expect(await rotation()).toBe(globalPaused)
 })
+
+test('starts with the mouse over it and resumes immediately after dragging a photo', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/')
+  await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
+  const galaxy = page.locator('.photo-galaxy')
+  await galaxy.scrollIntoViewIfNeeded()
+  const stage = galaxy.locator('.photo-galaxy-stage')
+  const rotor = galaxy.locator('.photo-galaxy-rotor')
+  const box = await stage.boundingBox()
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2)
+  const rotation = () => rotor.evaluate((e) => getComputedStyle(e).transform)
+  const hovered = await rotation()
+  await expect
+    .poll(rotation, { timeout: 1000, intervals: [50] })
+    .not.toBe(hovered)
+  const photo = galaxy.locator('.gallery-photo button').first()
+  await photo.focus()
+  const photoBox = await photo.boundingBox()
+  await page.mouse.move(
+    photoBox!.x + photoBox!.width / 2,
+    photoBox!.y + photoBox!.height / 2,
+  )
+  await page.mouse.down()
+  await page.mouse.move(
+    photoBox!.x + photoBox!.width / 2 + 50,
+    photoBox!.y + photoBox!.height / 2 + 20,
+    { steps: 5 },
+  )
+  await page.mouse.up()
+  await expect(page.getByRole('dialog', { name: 'Photographs' })).toBeHidden()
+  const released = await rotation()
+  await expect
+    .poll(rotation, { timeout: 1000, intervals: [50] })
+    .not.toBe(released)
+})

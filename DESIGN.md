@@ -227,6 +227,8 @@ The sphere includes keyboard rotation, visible focus, pause/resume, and a photo-
 
 The owner's latest 2026-10-11 refinement uses a slightly enlarged sphere and photo cards (maximum radius 340px, card width 160px), triples automatic rotation to twelve degrees per second, and removes the decorative galaxy background entirely: no nebula glow, stars, halo or orbit rings behind the photos. This overrides the earlier decorative backdrop. The toolbar and instructions are absent from the normal visual layout; instructions remain available to assistive technology and the existing pause/list controls appear only when reached with keyboard focus. The navigation's global motion pause remains available.
 
+Automatic rotation starts when the sphere enters view, with no intentional startup delay. Pointer hover does not pause it, and releasing a drag resumes it immediately. Keyboard focus/arrow-key interaction still pauses rotation for accurate navigation; leaving keyboard focus resumes it. Explicit pause, reduced motion, hidden/offscreen state and an open lightbox retain their existing suspension behavior.
+
 ### Minimal fullscreen lightbox
 
 Use a large centered photograph on a deep-plum/near-black backdrop, with optional caption/date and only Close, Previous, and Next controls. Preserve the full photograph rather than forcing its gallery crop in the lightbox. Controls are legible, understated, and touch-friendly.

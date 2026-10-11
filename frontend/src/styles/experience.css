@@ -125,7 +125,7 @@ a:hover {
 .hero-stage {
   position: sticky;
   top: 0;
-  min-height: 740px;
+  min-height: 100svh;
   height: 100svh;
   overflow: clip;
   isolation: isolate;
@@ -342,7 +342,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-32) 16% var(--space-24);
+  padding: clamp(64px, 9vw, 128px) 10% clamp(48px, 7vw, 96px);
   scroll-margin-top: 80px;
   background: radial-gradient(
     ellipse at 74% 32%,
@@ -352,7 +352,7 @@ a:hover {
 }
 .intro-reading {
   position: relative;
-  width: 55%;
+  width: 60%;
   max-width: 38rem;
 }
 .intro-haze {
@@ -368,7 +368,7 @@ a:hover {
 }
 .intro h2 {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 7.2vw, 7rem);
+  font-size: clamp(1.75rem, 7.2vw, 7rem);
   font-weight: 400;
   line-height: 1.04;
   letter-spacing: -0.035em;
@@ -458,21 +458,7 @@ a:hover {
 
 @media (max-width: 1024px) {
   .hero-stage {
-    min-height: 680px;
-  }
-  .hero-type-travel {
-    top: 24%;
-  }
-  .hero h1 {
-    font-size: 12.8vw;
-    gap: 70px;
-  }
-  .heart-travel {
-    width: 60%;
-    left: 62%;
-  }
-  .hero-love {
-    left: 12%;
+    min-height: 100svh;
   }
   .intro {
     padding-left: 10%;
@@ -480,10 +466,6 @@ a:hover {
   }
 }
 @media (max-width: 768px) {
-  .navigation[data-complete='true'] .nav-links a[href='#home'],
-  .navigation[data-complete='true'] .nav-links a[href='#intro'] {
-    display: none;
-  }
   .hero {
     height: auto;
   }
@@ -504,50 +486,7 @@ a:hover {
     margin-left: 0;
   }
   .hero-stage {
-    min-height: 740px;
-  }
-  .hero-type-travel {
-    top: 21%;
-    left: var(--space-6);
-    width: calc(100% - var(--space-12));
-  }
-  .hero-for {
-    margin-left: var(--space-1);
-  }
-  .hero h1 {
-    font-size: clamp(3.5rem, 17.5vw, 8rem);
-    gap: 260px;
-  }
-  .heart-travel {
-    width: 110%;
-    height: 61%;
-    top: 47%;
-    left: 53%;
-  }
-  .hero-love {
-    top: 73%;
-    left: var(--space-6);
-    z-index: 36;
-  }
-  .cloud-layer--background {
-    display: none;
-  }
-  .cloud-layer--midground {
-    width: 110%;
-    left: -60%;
-    top: 17%;
-  }
-  .cloud-layer--right {
-    left: 65%;
-    top: 29%;
-    width: 85%;
-    opacity: 0.5;
-  }
-  .cloud-layer--foreground {
-    width: 140%;
-    left: -50%;
-    top: 46%;
-    filter: none;
+    min-height: 100svh;
   }
   .hero-footnote {
     bottom: var(--space-6);
@@ -556,18 +495,6 @@ a:hover {
   .scroll-cue {
     align-items: end;
     font-size: 0.75rem;
-  }
-  .intro {
-    min-height: 100svh;
-    padding: var(--space-24) var(--space-6) var(--space-16);
-  }
-  .intro h2 {
-    font-size: clamp(3rem, 11.8vw, 5.5rem);
-    max-width: 14ch;
-  }
-  .intro-support {
-    margin: var(--space-6) 0 0 var(--space-6);
-    max-width: 28ch;
   }
   .intro-haze {
     background-image: url('/atmosphere/cloud-bank-small.webp');
@@ -589,19 +516,6 @@ a:hover {
   .motion-toggle {
     min-height: 44px;
     width: 44px;
-  }
-  .hero-type-travel {
-    top: 21%;
-  }
-  .hero h1 {
-    gap: 245px;
-  }
-}
-@media (min-width: 601px) and (max-width: 768px) {
-  .heart-travel {
-    height: 52%;
-    width: 100%;
-    left: 55%;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -629,23 +543,12 @@ a:hover {
 .experience[data-motion='reduced'] .hero {
   height: auto;
 }
-.experience[data-motion='reduced'] .hero-stage {
+.experience:is([data-motion='reduced'], [data-scroll='native']) .hero-stage {
   position: relative;
 }
 .experience[data-motion='reduced'] .opening {
   display: none;
 }
-@media (max-width: 1023px) {
-  .intro {
-    padding: 48svh var(--space-6) 12svh;
-    min-height: 100svh;
-  }
-  .intro-reading {
-    width: 100%;
-    max-width: none;
-  }
-}
-
 @media (max-height: 600px) {
   .hero {
     height: auto;
@@ -657,66 +560,12 @@ a:hover {
   }
 }
 
-.hero-cloud-passage {
-  position: relative;
-  height: 130svh;
-  overflow: clip;
-  pointer-events: none;
-  z-index: var(--layer-foreground);
-  background: var(--surface-start);
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    black 12%,
-    black 85%,
-    transparent
-  );
+.hero[data-long-name='false'] .hero-type-travel {
+  top: 10%;
 }
-.cloud-passage-bank {
-  position: absolute;
-  width: 135%;
-  height: 110%;
-  background: url('/atmosphere/cloud-bank.webp') center / cover no-repeat;
-  filter: saturate(0.2) brightness(1.12);
-}
-.cloud-passage-bank--back {
-  left: -45%;
-  top: -18%;
-  opacity: 0.8;
-  mask-image: linear-gradient(to right, black 45%, transparent 100%);
-}
-.cloud-passage-bank--front {
-  right: -40%;
-  top: 22%;
-  mask-image: linear-gradient(to left, black 45%, transparent 100%);
-}
-.experience[data-motion='reduced'] .hero-cloud-passage {
-  display: none;
-}
-@media (max-width: 768px) {
-  .hero-cloud-passage {
-    height: 110svh;
-  }
-  .cloud-passage-bank {
-    width: 200%;
-    background-image: url('/atmosphere/cloud-bank-small.webp');
-  }
-  .cloud-passage-bank--back {
-    left: -90%;
-  }
-  .cloud-passage-bank--front {
-    right: -80%;
-  }
-}
-
-@media (min-width: 769px) {
-  .hero[data-long-name='false'] .hero-type-travel {
-    top: 10%;
-  }
-  .hero[data-long-name='false'] h1 {
-    font-size: clamp(5rem, 10vw, 10rem);
-    gap: 44svh;
-  }
+.hero[data-long-name='false'] h1 {
+  font-size: clamp(2.5rem, 10vw, 10rem);
+  gap: 44svh;
 }
 .letter-signature p,
 .finale-signature {
@@ -724,21 +573,14 @@ a:hover {
 }
 
 /* Keep the original editorial frames; preserve complete story portraits. */
-@media (min-width: 1024px) {
-  .experience[data-motion='full'] .story-memory--text {
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  }
-  .experience[data-motion='full'] .story-memory--text .story-copy {
-    grid-column: 1;
-    max-width: 36ch;
-  }
-  .experience[data-motion='full'] .timeline-content--text {
-    display: block;
-  }
-  .experience[data-motion='full'] .timeline-content--text .timeline-copy {
-    width: 40%;
-  }
+.experience[data-motion='full'] .story-memory--text {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
 }
+.experience[data-motion='full'] .story-memory--text .story-copy {
+  grid-column: 1;
+  max-width: 36ch;
+}
+
 .experience .chapter-photo img[src^='/photos/personal/'] {
   object-fit: contain;
 }
@@ -756,7 +598,7 @@ a:hover {
 }
 @media (max-height: 600px) {
   .hero[data-long-name='false'] .hero-type-travel {
-    top: 20%;
+    top: 10%;
   }
   .hero[data-long-name='false'] h1 {
     font-size: clamp(2rem, min(12vw, 11svh), 4rem);

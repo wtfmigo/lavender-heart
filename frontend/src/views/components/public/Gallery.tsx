@@ -107,11 +107,11 @@ export function Gallery({
         className="gallery-chapter"
         aria-labelledby="gallery-heading"
       >
-        <div
-          className="collection-cloud collection-cloud--opening"
-          aria-hidden="true"
-        />
         <header className="collection-opening chapter-scene">
+          <div
+            className="collection-cloud collection-cloud--opening"
+            aria-hidden="true"
+          />
           <div className="collection-intro">
             <span className="chapter-scene-label">03 /</span>
             <h2 id="gallery-heading" className="chapter-heading">
@@ -181,7 +181,6 @@ export function Gallery({
           ref={dialog}
           className="gallery-lightbox"
           aria-label="Photographs"
-          data-lenis-prevent
           onClose={() => {
             setLightboxOpen(false)
             returnFocus.current?.focus()
@@ -248,13 +247,6 @@ export function Gallery({
           </div>
         </dialog>
       </section>
-      <div
-        className="hero-cloud-passage collection-cloud-passage"
-        aria-hidden="true"
-      >
-        <span className="cloud-passage-bank cloud-passage-bank--back" />
-        <span className="cloud-passage-bank cloud-passage-bank--front" />
-      </div>
     </>
   )
 }

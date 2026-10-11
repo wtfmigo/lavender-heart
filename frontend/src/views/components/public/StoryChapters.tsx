@@ -1,4 +1,5 @@
-import { useState, type CSSProperties } from 'react'
+import { useRef, useState, type CSSProperties } from 'react'
+import { useHorizontalStory } from '@/controllers/hooks/useHorizontalStory'
 import { ChapterScene } from './ChapterScene'
 import type {
   ExperienceMemory,
@@ -162,10 +163,14 @@ function MemoryDate({
 export function StoryChapter({
   heading,
   items,
+  reducedMotion = false,
 }: {
   heading: string
   items: ExperienceMemory[]
+  reducedMotion?: boolean
 }) {
+  const stage = useRef<HTMLDivElement>(null)
+  useHorizontalStory(stage, reducedMotion, items.length)
   const variants = ['portrait', 'wide', 'date', 'cinematic']
   return (
     <section
@@ -179,17 +184,27 @@ export function StoryChapter({
         label="Story"
         variant="story"
       />
-      <div className="story-stage">
-        <div className="story-track">
-          {items.map((item, index) => (
-            <article
-              className={`story-spread story-spread--${variants[index % variants.length]}`}
-              key={item.id}
-              data-memory-id={item.id}
-            >
-              <StoryMemory item={item} index={index} />
-            </article>
-          ))}
+      <div
+        className="story-stage"
+        ref={stage}
+        style={
+          {
+            '--story-distance': `${Math.max(0, items.length - 1) * 100}vw`,
+          } as CSSProperties
+        }
+      >
+        <div className="story-window">
+          <div className="story-track">
+            {items.map((item, index) => (
+              <article
+                className={`story-spread story-spread--${variants[index % variants.length]}`}
+                key={item.id}
+                data-memory-id={item.id}
+              >
+                <StoryMemory item={item} index={index} />
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

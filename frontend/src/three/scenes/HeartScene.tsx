@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect, useSyncExternalStore } from 'react'
+import { useMemo, useRef, useEffect } from 'react'
 import type { RefObject } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Lightformer } from '@react-three/drei'
@@ -13,12 +13,6 @@ type Props = {
   active: boolean
   onReady: () => void
   onFailure: () => void
-}
-
-function subscribeMobile(onChange: () => void) {
-  const media = window.matchMedia('(max-width: 768px)')
-  media.addEventListener('change', onChange)
-  return () => media.removeEventListener('change', onChange)
 }
 
 function Sculpture({
@@ -150,11 +144,6 @@ export default function HeartScene({
   onReady,
   onFailure,
 }: Props) {
-  const mobile = useSyncExternalStore(
-    subscribeMobile,
-    () => window.matchMedia('(max-width: 768px)').matches,
-    () => true,
-  )
   return (
     <Canvas
       // Keep the GPU viewport stable while the chapter frame animates its size.
@@ -167,7 +156,7 @@ export default function HeartScene({
         top: '50%',
         transform: 'translate(-50%, -50%) scale(var(--heart-render-scale, 1))',
       }}
-      camera={{ position: [0, 0, 5.1], fov: mobile ? 42 : 32 }}
+      camera={{ position: [0, 0, 5.1], fov: 32 }}
       dpr={[1, 1.25]}
       frameloop={active && !reducedMotion ? 'always' : 'demand'}
       gl={{ alpha: true, antialias: true, powerPreference: 'low-power' }}

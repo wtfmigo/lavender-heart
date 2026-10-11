@@ -49,9 +49,7 @@ test('medium multi-part names use readable natural flow around the crystal', asy
   await expect(page.locator('.hero-type-travel')).toHaveCSS('clip-path', 'none')
 })
 
-test('cloud travel, implemented anchors, focus protection and motion pause', async ({
-  page,
-}) => {
+test('native anchors, focus protection and motion pause', async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('.experience')).toBeVisible()
   await expect(page.locator('.opening')).toBeHidden({ timeout: 5000 })
@@ -70,7 +68,7 @@ test('cloud travel, implemented anchors, focus protection and motion pause', asy
   const travel = await page
     .locator('.cloud-layer--foreground')
     .evaluate((element) => getComputedStyle(element).transform)
-  expect(travel).not.toBe('none')
+  expect(travel).toBe('none')
   await page.getByRole('link', { name: 'Intro', exact: true }).focus()
   await expect(page.getByRole('navigation')).toHaveAttribute(
     'data-hidden',

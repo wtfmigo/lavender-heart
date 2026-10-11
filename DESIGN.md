@@ -124,11 +124,13 @@ Motion is graceful, deliberate, fluid, calm, and responsive. It must never block
 
 | Visual responsibility | Owner |
 | --- | --- |
-| Scroll choreography, pinning, horizontal story, parallax, major transitions, major text/image reveals | GSAP + ScrollTrigger |
+| Horizontal Story progression | Native sticky stage and CSS scroll timeline; passive transform fallback where needed |
 | Heart, camera, light, material, WebGL scene | Three.js / React Three Fiber |
 | Menu drawer, lightbox, modals, small React state transitions | Motion |
-| Simple hover, focus, color, and very small transitions | CSS |
-| Smooth scrolling | Lenis |
+| Hover/focus/color, one-time chapter entrances and visible crystal motion | CSS; IntersectionObserver activates entrances |
+| Scrolling | Native browser scrolling without wheel/touch interception or ScrollTrigger refresh loops |
+
+The owner's latest responsive/performance direction preserves the desktop composition across phone/tablet portrait and landscape: staggered names, side-by-side editorial spreads, crystal artwork and independent photo-sphere rotation. Story moves horizontally as the visitor scrolls down, using a native sticky stage rather than GSAP pins; reduced motion and genuinely oversized content retain accessible vertical reading. Love and the remaining chapters use native vertical flow with restrained one-time entrances. The same cloud/text parallax applies at every viewport using CSS view timelines, with a passive, visible-only fallback in unsupported browsers. Pause/reduced-motion restores static, readable content. The visible hero heart and photo sphere animate independently; chapter/finale crystal SVGs move only while visible. Cloud-only passage screens are removed; clouds beside the Gallery closing message remain. The sphere has a quiet static constellation drawing and soft lavender highlights, without orbital rings.
 
 Do not let multiple systems compete over the same visual property. Detailed coding rules belong in future `AGENTS.md` work.
 
@@ -301,10 +303,10 @@ Breakpoints respond to **available layout space and device capability**, not dev
 
 | Context | Intended adaptation |
 | --- | --- |
-| Small mobile, roughly below 360 CSS px | Safest gutters, smaller fluid display limits, single-column images where necessary, wrapped names/controls, natural vertical chapters |
-| Mobile | Art-directed vertical story and statements; top bar/drawer; simpler timeline; reduced parallax; adaptive heart; editorial spacing retained within the width |
-| Tablet / narrow desktop | Decide whether text, image stages, navigation, and capability actually support cinematic treatment; reduce pin distance/duration, parallax, complexity, or use vertical story |
-| Full desktop / capable wide viewport | Generous spreads, floating navigation, pinned horizontal memories, selected parallax, and one-at-a-time statements where content fits |
+| Small mobile, roughly below 360 CSS px | Same desktop arrangement with fluid display type, safe gutters, bounded images and accessible long-content fallback |
+| Mobile | Same staggered opening and side-by-side photo/text spreads; horizontal Story, native chapter scrolling, independent heart/sphere animation |
+| Tablet / narrow desktop | Preserve desktop compositions and horizontal Story in both orientations; scale images, type and sphere to available space |
+| Full desktop / capable wide viewport | Generous spreads, floating navigation, horizontal memories in a native sticky stage and restrained chapter entrances |
 
 Reference tools may use Tailwind's 40rem/48rem/64rem/80rem/96rem breakpoints, but composition changes when it stops working, including at intermediate widths. A wide but weak device may still use simpler motion.
 

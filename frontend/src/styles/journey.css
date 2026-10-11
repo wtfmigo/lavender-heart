@@ -12,7 +12,8 @@
 .persistent-heart canvas {
   pointer-events: none !important;
 }
-.experience[data-motion='reduced'] .persistent-heart {
+.experience:is([data-motion='reduced'], [data-scroll='native'])
+  .persistent-heart {
   position: absolute;
   top: 49svh;
 }
@@ -46,10 +47,4 @@
 }
 .story-stage[data-story-flow='vertical'] .story-spread {
   width: 100%;
-}
-@media (max-width: 1023px) {
-  .persistent-heart.heart-travel {
-    width: min(92vw, 440px);
-    height: 52svh;
-  }
 }

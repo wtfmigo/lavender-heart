@@ -1,0 +1,143 @@
+@keyframes chapter-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes crystal-sway {
+  0%,
+  100% {
+    transform: rotate(-5deg) translateY(0);
+  }
+  50% {
+    transform: rotate(4deg) translateY(-8px);
+  }
+}
+@keyframes scroll-parallax {
+  from {
+    translate: 0 var(--parallax-from);
+  }
+  to {
+    translate: 0 var(--parallax-to);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .experience[data-motion='full'] [data-entered='true'] {
+    animation: chapter-enter 850ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .experience[data-motion='full'] .chapter-heart[data-visible='true'] svg,
+  .experience[data-motion='full']
+    .finale-static-heart[data-visible='true']
+    svg {
+    animation: crystal-sway 8s ease-in-out infinite;
+  }
+  .experience[data-motion='full'][data-parallax]
+    :where(
+      .hero,
+      .intro,
+      .chapter-scene,
+      .collection-spread,
+      .collection-closing,
+      .full-memory,
+      .love-entry,
+      .timeline-moment,
+      .letter-introduction,
+      .finale
+    ) {
+    view-timeline: --chapter-parallax block;
+  }
+  .experience[data-motion='full'][data-parallax]
+    :where(
+      .cloud-layer,
+      .hero-type-travel,
+      .hero-love,
+      .intro-haze,
+      .intro-message-wrap,
+      .intro-support,
+      .chapter-heading,
+      .collection-cloud,
+      .collection-note,
+      .collection-closing > p,
+      .collection-photo--lead,
+      .full-memory-copy,
+      .love-entry h3,
+      .timeline-copy,
+      .letter-introduction > p,
+      .finale-message,
+      .finale-haze
+    ) {
+    --parallax-from: 24px;
+    --parallax-to: -24px;
+    translate: 0
+      calc(
+        var(--parallax-from) + (var(--parallax-to) - var(--parallax-from)) *
+          var(--parallax-progress, 0.5)
+      );
+  }
+  .experience[data-motion='full'][data-parallax] .hero {
+    --parallax-progress: 0;
+  }
+  .experience[data-motion='full'][data-parallax] .cloud-layer {
+    --parallax-from: 0px;
+    --parallax-to: 4svh;
+  }
+  .experience[data-motion='full'][data-parallax] .cloud-layer--background {
+    --parallax-to: 2svh;
+  }
+  .experience[data-motion='full'][data-parallax] .cloud-layer--foreground {
+    --parallax-to: 10svh;
+  }
+  .experience[data-motion='full'][data-parallax]
+    :is(.hero-type-travel, .hero-love) {
+    --parallax-from: 0px;
+    --parallax-to: -6svh;
+  }
+  .experience[data-motion='full'][data-parallax]
+    :is(.intro-haze, .collection-cloud, .finale-haze) {
+    --parallax-from: 5svh;
+    --parallax-to: -5svh;
+  }
+  @supports (animation-timeline: --chapter-parallax) {
+    .experience[data-motion='full'][data-parallax='native']
+      :where(
+        .cloud-layer,
+        .hero-type-travel,
+        .hero-love,
+        .intro-haze,
+        .intro-message-wrap,
+        .intro-support,
+        .chapter-heading,
+        .collection-cloud,
+        .collection-note,
+        .collection-closing > p,
+        .collection-photo--lead,
+        .full-memory-copy,
+        .love-entry h3,
+        .timeline-copy,
+        .letter-introduction > p,
+        .finale-message,
+        .finale-haze
+      ) {
+      animation: scroll-parallax 1s linear both;
+      animation-timeline: --chapter-parallax;
+      animation-range: cover;
+    }
+    .experience[data-motion='full'][data-parallax='native']
+      .hero
+      :is(.cloud-layer, .hero-type-travel, .hero-love) {
+      animation-range: exit;
+    }
+    .experience[data-motion='full'][data-parallax='native']
+      .finale-message[data-entered='true'] {
+      animation:
+        chapter-enter 850ms cubic-bezier(0.22, 1, 0.36, 1),
+        scroll-parallax 1s linear both;
+      animation-timeline: auto, --chapter-parallax;
+      animation-range: normal, cover;
+    }
+  }
+}

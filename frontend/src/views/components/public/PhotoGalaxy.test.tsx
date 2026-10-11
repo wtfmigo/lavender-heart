@@ -16,7 +16,16 @@ let visibility: IntersectionObserverCallback
 let frame: FrameRequestCallback
 const originalObserver = window.IntersectionObserver
 beforeEach(() => {
-  vi.stubGlobal('PointerEvent', MouseEvent)
+  vi.stubGlobal(
+    'PointerEvent',
+    class extends MouseEvent {
+      pointerType: string
+      constructor(type: string, init: PointerEventInit) {
+        super(type, init)
+        this.pointerType = init.pointerType ?? 'mouse'
+      }
+    },
+  )
   window.IntersectionObserver = class {
     constructor(callback: IntersectionObserverCallback) {
       visibility = callback
@@ -101,6 +110,42 @@ it('distinguishes a two-axis drag from a photo click', () => {
   fireEvent.pointerUp(stage)
   fireEvent.click(button)
   expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledOnce()
+})
+it('leaves vertical touch gestures to native page scrolling', () => {
+  const { stage, rotor } = mount()
+  fireEvent.pointerDown(stage, {
+    pointerType: 'touch',
+    button: 0,
+    clientX: 10,
+    clientY: 10,
+  })
+  const move = new PointerEvent('pointermove', {
+    pointerType: 'touch',
+    clientX: 15,
+    clientY: 90,
+    bubbles: true,
+    cancelable: true,
+  })
+  fireEvent(stage, move)
+  expect(move.defaultPrevented).toBe(false)
+  expect(rotor.style.getPropertyValue('--galaxy-yaw')).toBe('0deg')
+  expect(rotor.style.getPropertyValue('--galaxy-pitch')).toBe('0deg')
+})
+it('rotates horizontal touch gestures without tilting the sphere', () => {
+  const { stage, rotor } = mount()
+  fireEvent.pointerDown(stage, {
+    pointerType: 'touch',
+    button: 0,
+    clientX: 10,
+    clientY: 10,
+  })
+  fireEvent.pointerMove(stage, {
+    pointerType: 'touch',
+    clientX: 70,
+    clientY: 30,
+  })
+  expect(rotor.style.getPropertyValue('--galaxy-yaw')).not.toBe('0deg')
+  expect(rotor.style.getPropertyValue('--galaxy-pitch')).toBe('0deg')
 })
 it('brings a keyboard-focused sphere photo forward and pauses rotation', () => {
   const { rotor } = mount()

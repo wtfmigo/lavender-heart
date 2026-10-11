@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 for (const width of [1440, 390]) {
-  test(`photo frames reveal gently with their captions and reverse at ${width}px`, async ({
+  test(`photo frames remain visible with their captions while scrolling at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
@@ -29,7 +29,8 @@ for (const width of [1440, 390]) {
       await sample(1100)
       const first = await sample(1100)
       const second = await sample(150)
-      expect(second).toBeGreaterThan(first + 0.2)
+      expect(first).toBe(1)
+      expect(second).toBe(1)
       expect(await sample(1100)).toBeCloseTo(first, 1)
       // Personal photographs retain their full image frame; only the captioned figure reveals.
       expect(
@@ -62,7 +63,7 @@ test('reduced motion leaves photos and reading content fully visible and static'
   }
 })
 
-test('pinned statements and letter paragraphs reveal with scroll and reverse', async ({
+test('statements and letter paragraphs stay readable throughout scrolling', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -87,7 +88,8 @@ test('pinned statements and letter paragraphs reveal with scroll and reverse', a
       )
     }
     const before = await opacity(1250)
-    expect(await opacity(300)).toBeGreaterThan(before + 0.2)
+    expect(before).toBe(1)
+    expect(await opacity(300)).toBe(1)
     expect(await opacity(1250)).toBeCloseTo(before, 1)
   }
   await page.locator('.gallery-photo').first().scrollIntoViewIfNeeded()

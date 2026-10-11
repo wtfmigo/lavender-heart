@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { readStoryPanel } from './storyPosition.js'
 
-test('story has varied framed scenes and a reversible curtain entrance', async ({
+test('story has varied framed scenes and unmasked native reading', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -8,10 +9,6 @@ test('story has varied framed scenes and a reversible curtain entrance', async (
   await page.locator('.story-stage').waitFor()
   await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
   await page.evaluate(() => document.fonts.ready)
-  const stage = page.locator('.story-stage')
-  const start = await stage.evaluate(
-    (e) => e.getBoundingClientRect().top + window.scrollY,
-  )
   const first = page.locator('.story-spread').first()
   expect(
     await first
@@ -30,19 +27,10 @@ test('story has varied framed scenes and a reversible curtain entrance', async (
     )
   expect(new Set(grids).size).toBeGreaterThanOrEqual(3)
   const scene = page.locator('.story-spread').nth(2).locator('.story-memory')
-  for (const distance of [1440 * 1.4, 1440 * 2, 1440 * 1.4]) {
-    await page.evaluate(
-      (y) => window.scrollTo({ top: y, behavior: 'instant' }),
-      start + distance,
-    )
-    await page.waitForTimeout(300)
-    const mask = await scene.evaluate((e) => getComputedStyle(e).clipPath)
-    if (distance === 1440 * 2) {
-      expect(mask).toMatch(/^inset\(0%(?: 0%){0,3}\)$/)
-      await expect(scene.locator('img')).toBeInViewport({ ratio: 1 })
-      await expect(scene.locator('h3')).toBeInViewport()
-    } else expect(mask).not.toMatch(/^inset\(0%(?: 0%){0,3}\)$/)
-  }
+  await readStoryPanel(page, 2)
+  await expect(scene).toHaveCSS('clip-path', 'none')
+  await expect(scene.locator('img')).toBeVisible()
+  await expect(scene.locator('h3')).toBeVisible()
 })
 
 for (const width of [390, 320]) {
@@ -67,7 +55,7 @@ for (const width of [390, 320]) {
   })
 }
 
-test('the story exit hands off to the existing memory photo with reversible depth', async ({
+test('the story exit hands off to the existing memory photo without scroll-driven zoom', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -91,7 +79,7 @@ test('the story exit hands off to the existing memory photo with reversible dept
       ),
     )
   }
-  expect(samples[0] - samples[1]).toBeGreaterThan(0.015)
+  expect(samples).toEqual([1, 1, 1])
   expect(samples[2]).toBeCloseTo(samples[0], 2)
   await expect(photo.locator('img')).toHaveCSS('transform', 'none')
 })

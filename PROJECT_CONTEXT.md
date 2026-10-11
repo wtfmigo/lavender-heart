@@ -226,7 +226,7 @@ Preserve the separate React SPA in `lavender-heart/frontend/`. Use the existing 
 
 Strict TypeScript and the `@/*` alias are configured in TypeScript and Vite. Avoid unnecessary global stores; server state belongs to TanStack Query. The frontend communicates through the centralized environment-configured Axios client and never accesses the database directly.
 
-Animation responsibilities remain separate: GSAP + ScrollTrigger for scroll-driven cinematic animation, Three.js/R3F for WebGL scenes, Motion for small React UI transitions, CSS for simple hover/focus/color transitions, and Lenis for smooth scrolling. Do not create competing systems for the same responsibility.
+Animation responsibilities remain separate: native browser scrolling, CSS scroll timelines for the sticky horizontal Story and cloud/text parallax (passive, visible-only fallbacks where needed), Three.js/R3F for WebGL scenes, Motion for small React UI transitions, and CSS/IntersectionObserver for restrained chapter entrances. The owner's latest refinement preserves desktop arrangements, horizontal Story and parallax on phones/tablets in either orientation. Reduced motion and oversized content retain accessible vertical flow. The public journey uses no GSAP pins or Lenis interception; installed libraries remain available. Do not create competing systems for the same responsibility.
 
 ## 18. Backend Architecture
 

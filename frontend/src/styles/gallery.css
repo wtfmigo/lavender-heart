@@ -70,7 +70,7 @@
 .collection-intro .chapter-heading {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(4.5rem, 8.8vw, 9.5rem);
+  font-size: clamp(2rem, 8.8vw, 9.5rem);
   line-height: 0.88;
   letter-spacing: -0.055em;
   max-width: 9ch;
@@ -154,21 +154,21 @@
 }
 .collection-number {
   display: flex;
-  gap: 1.3rem;
+  gap: clamp(0.5rem, 1.5vw, 1.3rem);
   align-items: center;
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 4.5vw, 4.75rem);
+  font-size: clamp(1.5rem, 4.5vw, 4.75rem);
   line-height: 1;
 }
 .collection-number > span {
-  width: 3rem;
+  width: clamp(1rem, 3vw, 3rem);
   height: 1px;
   background: currentColor;
   opacity: 0.25;
 }
 .collection-note h3 {
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 3vw, 3.3rem);
+  font-size: clamp(1.15rem, 3vw, 3.3rem);
   font-weight: 400;
   line-height: 1.12;
   margin: 1rem 0;
@@ -269,7 +269,7 @@
 .collection-signoff::after {
   content: '';
   height: 1px;
-  width: 3rem;
+  width: clamp(1rem, 3vw, 3rem);
   background: currentColor;
   opacity: 0.3;
 }
@@ -278,84 +278,9 @@
   outline: 2px solid currentColor;
   outline-offset: 5px;
 }
-@media (max-width: 1023px) and (min-width: 701px) {
-  .collection-spread--air .collection-photo--support {
-    grid-column: 9 / 13;
-  }
-}
 @media (max-width: 700px) {
   .collection-cloud {
     --collection-cloud-image: url('/atmosphere/cloud-bank-small.webp');
-    width: 170%;
-  }
-  .collection-cloud--closing {
-    width: 100%;
-    bottom: -4rem;
-  }
-  .collection-opening.chapter-scene {
-    display: block;
-    padding: 6rem var(--gutter) 3rem;
-  }
-  .collection-intro .chapter-heading {
-    font-size: clamp(3.8rem, 17vw, 7rem);
-    margin-block: 1.5rem;
-  }
-  .collection-intro p {
-    font-size: 0.85rem;
-  }
-  .collection-opening .chapter-heart {
-    top: 2rem;
-    right: 8%;
-    width: 23%;
-  }
-  .collection-opening-photos {
-    margin-top: 2.5rem;
-  }
-  .collection-spread {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem 5%;
-    padding: 2rem var(--gutter) 3rem;
-  }
-  .collection-spread .collection-photo--lead {
-    width: 100%;
-    margin: 0;
-  }
-  .collection-spread .collection-note {
-    width: 100%;
-    padding: 0;
-  }
-  .collection-note h3 {
-    font-size: 2.2rem;
-  }
-  .collection-note p {
-    font-size: 0.85rem;
-    max-width: 32ch;
-  }
-  .collection-spread--air .collection-photo--support {
-    width: 46%;
-    margin: 0 0 0 auto;
-  }
-  .collection-spread--moments .collection-photo--detail {
-    width: 31%;
-    margin-top: 1.5rem;
-  }
-  .collection-spread--moments .collection-photo--landscape {
-    width: 64%;
-    margin-top: 0;
-  }
-  .collection-photo--street {
-    width: 45%;
-  }
-  .collection-photo--postcard {
-    width: 38%;
-    margin: 1.5rem 0 0 auto;
-  }
-  .collection-details {
-    margin: 3rem var(--gutter) 0;
-  }
-  .collection-closing {
-    padding: 4rem var(--gutter) 5rem;
   }
   .gallery-lightbox {
     padding-inline: 1rem;
@@ -432,11 +357,8 @@
   font-size: 0.8rem;
 }
 
-.collection-cloud-passage {
-  background: var(--surface-middle);
-}
 .photo-galaxy {
-  --galaxy-radius: clamp(90px, 27vw, 340px);
+  --galaxy-radius: clamp(80px, min(27vw, 34svh), 340px);
   position: relative;
   isolation: isolate;
   margin: 3vw 0 0;
@@ -444,9 +366,9 @@
 }
 .photo-galaxy-stage {
   position: relative;
-  height: calc(var(--galaxy-radius) * 2 + 360px);
-  perspective: 1200px;
-  touch-action: none;
+  height: calc(var(--galaxy-radius) * 3.1);
+  perspective: calc(var(--galaxy-radius) * 3.6);
+  touch-action: pan-y pinch-zoom;
   user-select: none;
   cursor: grab;
 }
@@ -463,7 +385,11 @@
   position: absolute;
   left: 50%;
   top: 0;
-  width: clamp(52px, 16vw, var(--galaxy-card-width));
+  width: clamp(
+    44px,
+    calc(var(--galaxy-radius) * var(--galaxy-card-ratio)),
+    160px
+  );
   transform-style: preserve-3d;
   transform: translate3d(
     calc(var(--photo-x) * var(--galaxy-radius)),
@@ -571,9 +497,6 @@
   .photo-galaxy {
     padding-inline: 1rem;
   }
-  .photo-galaxy-stage {
-    height: calc(var(--galaxy-radius) * 2 + 180px);
-  }
 
   .photo-galaxy[data-view='list'] .photo-galaxy-rotor {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -584,18 +507,6 @@
   .photo-galaxy *,
   .photo-galaxy *::before {
     transition: none;
-  }
-}
-@media (max-height: 600px) and (orientation: landscape) {
-  .photo-galaxy {
-    --galaxy-radius: clamp(70px, min(27vw, 23svh), 140px);
-    padding-block: 1.5rem;
-  }
-  .photo-galaxy-stage {
-    height: calc(var(--galaxy-radius) * 2 + 140px);
-  }
-  .photo-galaxy-position {
-    width: clamp(52px, min(16vw, 18svh), var(--galaxy-card-width));
   }
 }
 @media (max-height: 600px) {
@@ -612,4 +523,31 @@
   .gallery-lightbox figcaption {
     overflow-wrap: anywhere;
   }
+}
+
+.photo-galaxy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at 20% 25%,
+      rgb(252 250 253 / 55%),
+      transparent 42%
+    ),
+    radial-gradient(ellipse at 85% 70%, rgb(167 139 199 / 25%), transparent 45%);
+}
+.photo-galaxy-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  color: var(--color-plum-deep);
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.25;
 }

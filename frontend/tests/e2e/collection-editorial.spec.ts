@@ -67,7 +67,7 @@ test('long owner captions stay inside the normal-size photo frame', async ({
 })
 
 for (const width of [1440, 390]) {
-  test(`collection clouds follow scrolling and stop with motion paused at ${width}px`, async ({
+  test(`collection clouds follow native parallax and pause at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
@@ -99,9 +99,10 @@ for (const width of [1440, 390]) {
           .poll(() => page.evaluate(() => window.scrollY))
           .toBeCloseTo(position, 0)
         const translation = () =>
-          cloud.evaluate(
-            (element) =>
-              new DOMMatrixReadOnly(getComputedStyle(element).transform).m42,
+          cloud.evaluate((element) =>
+            Number.parseFloat(
+              getComputedStyle(element).translate.split(' ').at(-1)!,
+            ),
           )
         let previous = await translation()
         let stableSamples = 0
@@ -124,18 +125,16 @@ for (const width of [1440, 390]) {
       expect(
         Math.abs(after - before),
         `${selector}: top=${top}, before=${before}, after=${after}`,
-      ).toBeGreaterThan(10)
+      ).toBeGreaterThan(1)
       expect(await sample(top - 650)).toBeCloseTo(before, 0)
     }
     await page.getByRole('button', { name: 'Pause motion' }).click()
     const cloud = page.locator('.collection-cloud--opening')
-    const staticTransform = await cloud.evaluate(
-      (element) => getComputedStyle(element).transform,
-    )
+    await expect(cloud).toHaveCSS('translate', 'none')
     await page.locator('.collection-opening').scrollIntoViewIfNeeded()
     expect(
-      await cloud.evaluate((element) => getComputedStyle(element).transform),
-    ).toBe(staticTransform)
+      await cloud.evaluate((element) => getComputedStyle(element).translate),
+    ).toBe('none')
   })
 }
 

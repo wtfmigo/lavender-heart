@@ -1,19 +1,20 @@
 import { expect, test } from '@playwright/test'
 import content from '../../public/content/experience.json' with { type: 'json' }
+import { readStoryPanel } from './storyPosition.js'
 
-test('story restores its single horizontal owner after a short viewport returns to desktop height', async ({
+test('story keeps native flow through short and tall desktop resizes', async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/')
-  await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
-  const stage = page.locator('.story-stage')
-  await expect(stage).not.toHaveAttribute('data-story-flow', 'vertical')
-  await page.setViewportSize({ width: 1440, height: 400 })
-  await expect(stage).toHaveAttribute('data-story-flow', 'vertical')
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await expect(stage).not.toHaveAttribute('data-story-flow', 'vertical')
-  await expect(stage.locator('..')).toHaveClass(/pin-spacer/)
+  await expect(page.locator('#finale')).toBeAttached()
+  for (const height of [900, 400, 900]) {
+    await page.setViewportSize({ width: 1440, height })
+    await expect(page.locator('.pin-spacer')).toHaveCount(0)
+    await expect(page.locator('.story-stage')).toHaveAttribute(
+      'data-story-flow',
+      /horizontal|vertical/,
+    )
+  }
 })
 
 for (const [width, height] of [
@@ -27,30 +28,15 @@ for (const [width, height] of [
     await page.goto('/')
     await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
     await page.evaluate(() => document.fonts.ready)
-    const stage = page.locator('.story-stage')
-    await expect(stage).not.toHaveAttribute('data-story-flow', 'vertical')
     const memories = [...content.story].sort((a, b) => a.position - b.position)
     const spreads = page.locator('.story-spread')
     await expect(spreads).toHaveCount(memories.length)
-    const geometry = await stage.evaluate((e) => ({
-      start: e.getBoundingClientRect().top + window.scrollY,
-      travel: e.querySelector('.story-track')!.scrollWidth - e.clientWidth,
-    }))
-    expect(geometry.travel).toBe(width * (memories.length - 1))
     for (const index of [
       ...memories.keys(),
       ...[...memories.keys()].reverse(),
     ]) {
-      await page.evaluate(
-        (top) => window.scrollTo({ top, behavior: 'instant' }),
-        geometry.start + index * width,
-      )
       const spread = spreads.nth(index)
-      await expect
-        .poll(() =>
-          spread.evaluate((e) => Math.round(e.getBoundingClientRect().left)),
-        )
-        .toBe(0)
+      await readStoryPanel(page, index)
       await expect(spread.locator('h3')).toHaveText(memories[index].title)
       await expect(spread.locator('h3')).toBeInViewport()
       if (memories[index].photo) {
@@ -70,10 +56,6 @@ for (const [width, height] of [
         expect(box!.y + box!.height).toBeLessThanOrEqual(height + 1)
       } else await expect(spread.locator('img')).toHaveCount(0)
     }
-    await page.mouse.wheel(0, geometry.travel)
-    await expect(spreads.last()).toBeInViewport()
-    await page.mouse.wheel(0, -geometry.travel)
-    await expect(spreads.first()).toBeInViewport()
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth > window.innerWidth,
@@ -83,7 +65,7 @@ for (const [width, height] of [
 }
 
 for (const width of [390, 360, 320]) {
-  test(`phone story is vertical with intact media associations at ${width}px`, async ({
+  test(`phone story keeps horizontal memories with intact media associations at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 844 })
@@ -96,9 +78,10 @@ for (const width of [390, 360, 320]) {
       await page
         .locator('.story-track')
         .evaluate((e) => getComputedStyle(e).display),
-    ).toBe('block')
-    for (const spread of await page.locator('.story-spread').all()) {
-      await spread.scrollIntoViewIfNeeded()
+    ).toBe('flex')
+    const spreads = await page.locator('.story-spread').all()
+    for (const [index, spread] of spreads.entries()) {
+      await readStoryPanel(page, index)
       await expect(spread.locator('h3')).toBeVisible()
       for (const image of await spread.locator('img').all()) {
         await image.scrollIntoViewIfNeeded()

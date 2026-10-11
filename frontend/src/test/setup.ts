@@ -26,3 +26,18 @@ if (typeof window !== 'undefined')
       disconnect() {}
     },
   })
+
+if (typeof window !== 'undefined') {
+  Object.defineProperty(window, 'ResizeObserver', {
+    writable: true,
+    value: class {
+      observe() {}
+      disconnect() {}
+    },
+  })
+  Object.defineProperty(document, 'fonts', {
+    configurable: true,
+    value: { ready: Promise.resolve() },
+  })
+  document.elementFromPoint = () => null
+}

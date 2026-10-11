@@ -86,6 +86,34 @@ export function PhotoGalaxy({
       className="photo-galaxy collection-details"
       data-view={list ? 'list' : 'sphere'}
     >
+      <svg
+        className="photo-galaxy-backdrop"
+        viewBox="0 0 900 900"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path d="M80 280 135 160 235 205 315 105M610 130 750 210 805 355M90 610 170 735 300 795M600 795 735 685 825 725" />
+        <path d="m135 145 4 11 11 4-11 4-4 11-4-11-11-4 11-4Zm615 50 4 11 11 4-11 4-4 11-4-11-11-4 11-4ZM170 720l4 11 11 4-11 4-4 11-4-11-11-4 11-4ZM735 670l4 11 11 4-11 4-4 11-4-11-11-4 11-4Z" />
+        <g fill="currentColor" stroke="none">
+          {[
+            [80, 280],
+            [235, 205],
+            [315, 105],
+            [610, 130],
+            [805, 355],
+            [90, 610],
+            [300, 795],
+            [600, 795],
+            [825, 725],
+            [420, 55],
+            [480, 850],
+            [50, 450],
+            [850, 490],
+          ].map(([cx, cy]) => (
+            <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="2.5" />
+          ))}
+        </g>
+      </svg>
       <div className="photo-galaxy-controls">
         <button
           type="button"
@@ -114,7 +142,6 @@ export function PhotoGalaxy({
         aria-label="Rotate photo galaxy"
         aria-describedby={instructions}
         tabIndex={list ? -1 : 0}
-        data-lenis-prevent
         onFocusCapture={() => {
           if (!pointer.current) setInteracting(true)
         }}
@@ -162,10 +189,15 @@ export function PhotoGalaxy({
           if (!start) return
           const dx = event.clientX - start.x,
             dy = event.clientY - start.y
+          const touch = event.pointerType === 'touch'
+          if (touch && Math.abs(dy) > Math.abs(dx)) return
           if (Math.hypot(dx, dy) > 6) {
             dragged.current = true
             event.currentTarget.setPointerCapture?.(event.pointerId)
-            rotate(start.yaw + dx * 0.35, start.pitch - dy * 0.35)
+            rotate(
+              start.yaw + dx * 0.35,
+              touch ? start.pitch : start.pitch - dy * 0.35,
+            )
           }
         }}
         onPointerUp={(event) => {
@@ -194,7 +226,8 @@ export function PhotoGalaxy({
             {
               '--galaxy-yaw': '0deg',
               '--galaxy-pitch': '0deg',
-              '--galaxy-card-width': `${Math.max(52, Math.min(160, 560 / Math.sqrt(photos.length)))}px`,
+              '--galaxy-card-ratio':
+                Math.min(160, 560 / Math.sqrt(photos.length)) / 340,
             } as CSSProperties
           }
         >

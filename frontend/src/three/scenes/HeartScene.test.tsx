@@ -46,7 +46,7 @@ it.each([320, 768, 844, 1023, 1024, 1344])(
       children: ReactElement[]
     }
     expect(props.dpr).toEqual([1, 1.25])
-    expect(props.camera.fov).toBe(width <= 768 ? 42 : 32)
+    expect(props.camera.fov).toBe(32)
     expect(props.children[0].props).not.toHaveProperty('mobile')
     expect(props.children[0].props).not.toHaveProperty('lightweight')
   },

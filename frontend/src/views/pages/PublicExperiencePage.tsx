@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import type { PublicExperience } from '@/features/public/experience'
 import { sectionKeySchema } from '@/models/schemas/identifiers'
 import { Gallery } from '@/views/components/public/Gallery'
@@ -12,23 +12,27 @@ import {
 } from '@/views/components/public/StoryChapters'
 import { PersistentHeart } from '@/views/components/public/PersistentHeart'
 import { HeartFallback } from '@/three/components/HeartFallback'
-import { useJourneyAnimation } from '@/animations/gsap/useJourneyAnimation'
 import { useReducedMotion } from '@/controllers/hooks/useReducedMotion'
-import { useExperienceAnimation } from '@/animations/gsap/useExperienceAnimation'
 import { Hero } from '@/views/components/public/Hero'
 import { Intro } from '@/views/components/public/Intro'
 import { Navigation } from '@/views/components/public/Navigation'
+import { useChapterEntrances } from '@/controllers/hooks/useChapterEntrances'
+import { useReadingPosition } from '@/controllers/hooks/useReadingPosition'
+import { useScrollParallax } from '@/controllers/hooks/useScrollParallax'
+import '@/styles/chapter-motion.css'
 
 export function PublicExperiencePage({ data }: { data: PublicExperience }) {
-  const container = useRef<HTMLDivElement>(null)
+  const root = useRef<HTMLDivElement>(null)
   const progress = useRef(0)
   const prefersReducedMotion = useReducedMotion()
-  const [paused, setPaused] = useState(false)
-  const [canvasEnabled, setCanvasEnabled] = useState(false)
-  const revealCanvas = useCallback(() => setCanvasEnabled(true), [])
+  const [previewMotion] = useState(() =>
+    new URLSearchParams(window.location.search).get('motion'),
+  )
+  const [paused, setPaused] = useState(previewMotion === 'off')
   const reducedMotion = prefersReducedMotion || paused
-  useExperienceAnimation(container, progress, reducedMotion, revealCanvas)
-  useJourneyAnimation(container, progress, reducedMotion)
+  useChapterEntrances(root, reducedMotion)
+  useReadingPosition(root)
+  useScrollParallax(root, reducedMotion)
   const sections = sectionKeySchema.options.flatMap((key) =>
     data.sections.filter(
       (section) =>
@@ -44,9 +48,10 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
     [...items].sort((a, b) => a.position - b.position)
   return (
     <div
+      ref={root}
       className="experience"
-      ref={container}
       data-motion={reducedMotion ? 'reduced' : 'full'}
+      data-scroll="native"
     >
       <a href="#content" className="skip-link">
         Skip to content
@@ -59,7 +64,7 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
       <PersistentHeart
         reducedMotion={reducedMotion}
         progress={progress}
-        enabled={canvasEnabled}
+        enabled={previewMotion !== 'off' && previewMotion !== 'css'}
       />
       <main id="content" tabIndex={-1}>
         {sections.map((section) => {
@@ -72,7 +77,6 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
                   nextAnchor={`#${{ intro: 'intro', horizontal_story: 'story', full_width_memory: 'memory', gallery: 'gallery', things_i_love: 'love', timeline: 'timeline', birthday_letter: 'letter', final_closing: 'finale', hero: 'home' }[sections[1]?.key ?? 'final_closing']}`}
                   reducedMotion={reducedMotion}
                   progress={progress}
-                  canvasEnabled={canvasEnabled}
                 />
               )
             case 'intro':
@@ -83,6 +87,7 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
                   key={section.key}
                   heading={section.content.heading}
                   items={ordered(data.story)}
+                  reducedMotion={reducedMotion}
                 />
               )
             case 'full_width_memory':
@@ -125,11 +130,9 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
             case 'final_closing':
               return (
                 <div key={section.key} className="finale-wrap">
-                  {reducedMotion && (
-                    <div className="finale-static-heart" aria-hidden="true">
-                      <HeartFallback />
-                    </div>
-                  )}
+                  <div className="finale-static-heart" aria-hidden="true">
+                    <HeartFallback />
+                  </div>
                   <FinaleChapter
                     content={section.content}
                     settings={data.settings}
@@ -139,10 +142,6 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
           }
         })}
       </main>
-      <div className="opening" aria-hidden="true">
-        <p className="opening-label">For {data.settings.recipientName}</p>
-        <span className="opening-line" />
-      </div>
     </div>
   )
 }

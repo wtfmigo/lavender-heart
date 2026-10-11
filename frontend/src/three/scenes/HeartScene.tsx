@@ -1,19 +1,8 @@
 import { useMemo, useRef, useEffect, useSyncExternalStore } from 'react'
 import type { RefObject } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import {
-  Environment,
-  Lightformer,
-  MeshTransmissionMaterial,
-  useTexture,
-} from '@react-three/drei'
-import {
-  BackSide,
-  CanvasTexture,
-  MathUtils,
-  SRGBColorSpace,
-  type Mesh,
-} from 'three'
+import { Environment, Lightformer } from '@react-three/drei'
+import { BackSide, MathUtils, type Mesh } from 'three'
 import { createHeartGeometry } from '@/three/utils/heartGeometry'
 import { heartYaw } from '@/three/utils/heartMotion'
 import { HeartFallback } from '@/three/components/HeartFallback'
@@ -31,28 +20,13 @@ function subscribeMobile(onChange: () => void) {
   media.addEventListener('change', onChange)
   return () => media.removeEventListener('change', onChange)
 }
-function subscribeLightweight(onChange: () => void) {
-  const media = window.matchMedia('(max-width: 1023px)')
-  media.addEventListener('change', onChange)
-  return () => media.removeEventListener('change', onChange)
-}
 
 function Sculpture({
   reducedMotion,
   progress,
-  mobile,
-  lightweight,
-}: Pick<Props, 'reducedMotion' | 'progress'> & {
-  mobile: boolean
-  lightweight: boolean
-}) {
+}: Pick<Props, 'reducedMotion' | 'progress'>) {
   const mesh = useRef<Mesh>(null)
   const invalidate = useThree((state) => state.invalidate)
-  const cloud = useTexture(
-    mobile
-      ? '/atmosphere/cloud-bank-small.webp'
-      : '/atmosphere/cloud-bank.webp',
-  )
   const geometry = useMemo(() => createHeartGeometry(), [])
   useEffect(() => () => geometry.dispose(), [geometry])
   useEffect(() => {
@@ -93,30 +67,6 @@ function Sculpture({
       dusty: styles.getPropertyValue('--color-purple-dusty').trim(),
     }
   }, [])
-  const backdrop = useMemo(() => {
-    const image = cloud.image
-    if (!(image instanceof HTMLImageElement) || !image.naturalWidth)
-      throw new Error('Crystal cloud backdrop is unavailable')
-    const canvas = document.createElement('canvas')
-    canvas.width = mobile ? 256 : 512
-    canvas.height = Math.round(
-      (canvas.width * image.naturalHeight) / image.naturalWidth,
-    )
-    const context = canvas.getContext('2d', { alpha: false })
-    if (!context) throw new Error('Crystal backdrop canvas is unavailable')
-    context.fillStyle = palette.pearl
-    context.fillRect(0, 0, canvas.width, canvas.height)
-    context.filter = 'saturate(0.52)'
-    context.drawImage(image, 0, 0, canvas.width, canvas.height)
-    const texture = new CanvasTexture(canvas)
-    texture.colorSpace = SRGBColorSpace
-    return texture
-  }, [cloud, mobile, palette.pearl])
-  useEffect(() => {
-    invalidate()
-    return () => backdrop.dispose()
-  }, [backdrop, invalidate])
-  // ponytail: refraction contains the original cloud backdrop; DOM typography requires a future scene texture.
   return (
     <>
       <ambientLight intensity={0.2} />
@@ -126,21 +76,14 @@ function Sculpture({
         color={palette.pearl}
       />
       <mesh ref={mesh} geometry={geometry} rotation={[0.06, -0.24, -0.08]}>
-        <MeshTransmissionMaterial
-          background={backdrop}
-          samples={lightweight ? 2 : 4}
-          resolution={lightweight ? 256 : 512}
-          backside={false}
-          chromaticAberration={0}
-          distortion={0}
-          temporalDistortion={0}
-          color={palette.pearl}
+        <meshPhysicalMaterial
+          color={palette.tint}
           metalness={0}
-          roughness={0.045}
-          transmission={1}
-          thickness={1.2}
-          attenuationColor={palette.tint}
-          attenuationDistance={2}
+          roughness={0.1}
+          transparent
+          opacity={0.78}
+          depthWrite={false}
+          transmission={0}
           ior={1.58}
           clearcoat={1}
           clearcoatRoughness={0.045}
@@ -212,11 +155,6 @@ export default function HeartScene({
     () => window.matchMedia('(max-width: 768px)').matches,
     () => true,
   )
-  const lightweight = useSyncExternalStore(
-    subscribeLightweight,
-    () => window.matchMedia('(max-width: 1023px)').matches,
-    () => true,
-  )
   return (
     <Canvas
       // Keep the GPU viewport stable while the chapter frame animates its size.
@@ -235,12 +173,7 @@ export default function HeartScene({
       gl={{ alpha: true, antialias: true, powerPreference: 'low-power' }}
       fallback={<HeartFallback />}
     >
-      <Sculpture
-        reducedMotion={reducedMotion}
-        progress={progress}
-        mobile={mobile}
-        lightweight={lightweight}
-      />
+      <Sculpture reducedMotion={reducedMotion} progress={progress} />
       <ContextLifecycle onReady={onReady} onFailure={onFailure} />
     </Canvas>
   )

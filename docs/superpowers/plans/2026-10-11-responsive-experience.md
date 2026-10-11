@@ -14,10 +14,12 @@ Initial audit: chapter content has no horizontal overflow; short landscape openi
 
 Full-motion orientation reproduction also found a return-to-Home bug. Cache the current reading element and local progress before old pins are removed, then map it to the new layout. Clear pending restoration when motion is paused.
 
-Rendering refinement: the fixed 750px heart canvas uses a maximum DPR of 1.25 rather than 1.75, reducing its maximum pixel count by about 49%. Phone/tablet refraction uses two samples and a 256px buffer; desktop retains four samples and a 512px buffer. Existing camera breakpoints and apparent heart size remain unchanged.
+Rendering refinement: the fixed 750px heart canvas uses a maximum DPR of 1.25 rather than 1.75, reducing its maximum pixel count by about 49%. After the owner reported another freeze, framebuffer refraction was replaced with native translucent crystal shading. This removes the extra per-frame render, refraction buffers, cloud backdrop texture, and shader recompilation when switching material tiers. Existing geometry, lighting, reflection environment, camera breakpoints, rotation, and apparent heart size remain unchanged. Cloud refraction becomes alpha translucency.
 
 The reported hang was not reproduced in automated Chromium or the installed Brave browser. The high-density regression checks the exact reported portrait size after successive desktop/phone/tablet resizes, complete opening content, the actual canvas pixel budget, and a responsive pause button. Physical-device and interactive Brave GPU verification remain outside these headless browser checks.
 
 Browser validation: 29 Chromium checks and 14 checks using the installed Brave executable passed, including all nine chapters at eight viewport sizes, the reported 1344×1762 portrait size at DPR 2, short landscape animation/interaction, and reading-position preservation in Story, Gallery, and Letter across both orientations. Final diff review found no actionable defects.
 
 Final verification: all 159 frontend unit tests passed with two workers; production build, changed-file ESLint, Prettier, and whitespace checks passed. The existing large Three.js chunk warning remains. No dependencies, backend data, or hosting changes were needed.
+
+Follow-up freeze checks: 21 installed-Brave browser tests passed with the simplified renderer. Added the exact desktop-to-iPhone 440×956 / DPR 3 emulation transition, verified both names and controls remain within the viewport, inspected its screenshot, and measured zero offscreen framebuffer binds during 30 animated frames after initialization. Prior headless results did not establish that the owner's interactive Brave freeze was fixed; that specific live-tab failure remains unconfirmed.

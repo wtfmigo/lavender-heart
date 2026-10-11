@@ -14,8 +14,6 @@ vi.mock('@react-three/fiber', () => ({
 vi.mock('@react-three/drei', () => ({
   Environment: vi.fn(),
   Lightformer: vi.fn(),
-  MeshTransmissionMaterial: vi.fn(),
-  useTexture: vi.fn(),
 }))
 afterEach(() => {
   vi.restoreAllMocks()
@@ -45,11 +43,11 @@ it.each([320, 768, 844, 1023, 1024, 1344])(
     const props = canvas.mock.calls.at(-1)?.[0] as unknown as {
       dpr: number[]
       camera: { fov: number }
-      children: ReactElement<{ mobile: boolean; lightweight: boolean }>[]
+      children: ReactElement[]
     }
     expect(props.dpr).toEqual([1, 1.25])
     expect(props.camera.fov).toBe(width <= 768 ? 42 : 32)
-    expect(props.children[0].props.mobile).toBe(width <= 768)
-    expect(props.children[0].props.lightweight).toBe(width <= 1023)
+    expect(props.children[0].props).not.toHaveProperty('mobile')
+    expect(props.children[0].props).not.toHaveProperty('lightweight')
   },
 )

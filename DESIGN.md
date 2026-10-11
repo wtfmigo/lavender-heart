@@ -312,6 +312,8 @@ Mobile must preserve content order, hierarchy, photographs, messages, and pacing
 
 Short screens retain the staggered opening names and centered heart within the available height. Landscape keepsake spheres scale their radius and photo cards with viewport height; photo viewers allow natural scrolling. Changing orientation should retain the current reading location when cinematic stages switch to vertical flow.
 
+The faceted heart uses translucent crystal shading with its existing lighting and reflections. Expensive framebuffer refraction is removed to keep rendering responsive during viewport changes; the heart's geometry, composition, and rotation are preserved.
+
 ## 25. Accessibility and Reduced Motion
 
 Require sufficient contrast, meaningful hierarchy, semantic headings, readable body sizing, visible keyboard focus, and touch-friendly controls. Pale lavender aesthetics must not compromise readability.

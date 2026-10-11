@@ -124,17 +124,20 @@ Motion is graceful, deliberate, fluid, calm, and responsive. It must never block
 
 | Visual responsibility | Owner |
 | --- | --- |
-| Horizontal Story progression | Native sticky stage and CSS scroll timeline; passive transform fallback where needed |
+| Horizontal Story and staged Love progression | Native sticky stages and CSS scroll timelines; passive transform fallback where needed |
+| Opening, scroll reveals, parallax and chapter heart travel | GSAP + ScrollTrigger |
 | Heart, camera, light, material, WebGL scene | Three.js / React Three Fiber |
 | Menu drawer, lightbox, modals, small React state transitions | Motion |
-| Hover/focus/color, one-time chapter entrances and visible crystal motion | CSS; IntersectionObserver activates entrances |
+| Hover/focus/color | CSS |
 | Scrolling | Native browser scrolling without wheel/touch interception or ScrollTrigger refresh loops |
 
-The owner's latest responsive/performance direction preserves the desktop composition across phone/tablet portrait and landscape: staggered names, side-by-side editorial spreads, crystal artwork and independent photo-sphere rotation. Story moves horizontally as the visitor scrolls down, using a native sticky stage rather than GSAP pins; reduced motion and genuinely oversized content retain accessible vertical reading. Love and the remaining chapters use native vertical flow with restrained one-time entrances. The same cloud/text parallax applies at every viewport using CSS view timelines, with a passive, visible-only fallback in unsupported browsers. Pause/reduced-motion restores static, readable content. The visible hero heart and photo sphere animate independently; chapter/finale crystal SVGs move only while visible. Cloud-only passage screens are removed; clouds beside the Gallery closing message remain. The sphere has a quiet static constellation drawing and soft lavender highlights, without orbital rings.
+The owner's latest responsive/performance direction preserves the desktop composition and original animation choreography across phone/tablet portrait and landscape: staggered names, side-by-side editorial spreads, independently moving cloud layers, cloud drift, text mask exits/entrances, reversible photo curtains, cinematic depth, and the persistent animated heart's chapter/finale return. Story moves horizontally and Love stages statements one at a time as the visitor scrolls down, using native sticky stages rather than GSAP pins; reduced motion and genuinely oversized content retain accessible vertical reading. GSAP owns the reveals and parallax at every viewport; optimization preserves their visual behavior. Pause/reduced-motion restores static, readable content. Cloud-only passage screens remain removed; clouds beside the Gallery closing message remain. The sphere retains its quiet static constellation and soft lavender highlights, without orbital rings.
 
 Do not let multiple systems compete over the same visual property. Detailed coding rules belong in future `AGENTS.md` work.
 
 ### Shared reveal language
+
+The owner's horizontal-heart refinement uses full Y-axis turns tied to scroll, reversing with upward scroll, with a steady X/Z tilt. Photo frames also retain continuous vertical parallax after their entrance; the full personal image and caption move together without inner-image cropping.
 
 - Major headings: editorial mask reveal.
 - Body/captions: soft fade and small rise.

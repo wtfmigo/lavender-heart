@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test('the rendered heart keeps a broad silhouette while resting in its native hero frame', async ({
+test('the rendered heart changes chapter scale and returns with an unclipped silhouette', async ({
   page,
 }) => {
   test.setTimeout(90000)
@@ -9,13 +9,42 @@ test('the rendered heart keeps a broad silhouette while resting in its native he
   await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
   const canvas = page.locator('canvas[data-webgl="ready"]')
   await expect(canvas).toBeVisible({ timeout: 15000 })
+  const heart = page.locator('.persistent-heart')
+  const intro = await page
+    .locator('#intro')
+    .evaluate((element) => element.getBoundingClientRect().top + window.scrollY)
+  const finale = await page
+    .locator('#finale')
+    .evaluate((element) => element.getBoundingClientRect().top + window.scrollY)
+  const buffer = await canvas.evaluate((element: HTMLCanvasElement) => ({
+    width: element.width,
+    height: element.height,
+  }))
   const ratios: number[] = []
-  for (const top of [0, 0]) {
+  const scales: number[] = []
+  for (const top of [0, intro, finale, intro, 0]) {
     await page.evaluate(
       (top) => window.scrollTo({ top, behavior: 'instant' }),
       top,
     )
     await page.waitForTimeout(1100)
+    await expect
+      .poll(() =>
+        heart.evaluate((element) => Number(getComputedStyle(element).opacity)),
+      )
+      .toBeGreaterThan(0.5)
+    scales.push(
+      await heart.evaluate(
+        (element) =>
+          new DOMMatrixReadOnly(getComputedStyle(element).transform).m11,
+      ),
+    )
+    expect(
+      await canvas.evaluate((element: HTMLCanvasElement) => ({
+        width: element.width,
+        height: element.height,
+      })),
+    ).toEqual(buffer)
     const silhouette = await canvas.evaluate(
       (element: HTMLCanvasElement) =>
         new Promise<{ ratio: number; clipped: boolean }>((resolve) =>
@@ -65,7 +94,15 @@ test('the rendered heart keeps a broad silhouette while resting in its native he
     expect(silhouette.clipped).toBe(false)
     ratios.push(silhouette.ratio)
   }
-  expect(ratios[1]).toBeCloseTo(ratios[0], 1)
+  expect(scales[0]).toBeGreaterThan(scales[1] * 2)
+  expect(scales[2]).toBeGreaterThan(scales[1] * 2)
+  expect(scales[3]).toBeCloseTo(scales[1], 2)
+  expect(scales[4]).toBeCloseTo(scales[0], 2)
+  expect(ratios[4]).toBeCloseTo(ratios[0], 1)
+  await expect(page.locator('#finale')).toHaveAttribute(
+    'data-live-heart',
+    'true',
+  )
   await test.info().attach('rendered-heart-silhouettes', {
     body: JSON.stringify(ratios),
     contentType: 'application/json',

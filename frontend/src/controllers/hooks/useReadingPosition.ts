@@ -20,14 +20,15 @@ export function useReadingPosition(root: RefObject<HTMLDivElement | null>) {
         )
       if (!element || !root.current?.contains(element)) return
       const horizontalStage = element.closest<HTMLElement>(
-        '.story-stage[data-story-flow="horizontal"]',
+        '.story-stage[data-story-flow="horizontal"], .love-stage[data-love-flow="staged"]',
       )
       const horizontal = !!horizontalStage
       if (horizontalStage) element = horizontalStage
       const rect = element.getBoundingClientRect()
       const windowHeight =
-        horizontalStage?.querySelector<HTMLElement>('.story-window')
-          ?.offsetHeight ?? innerHeight
+        horizontalStage?.querySelector<HTMLElement>(
+          '.story-window, .love-window',
+        )?.offsetHeight ?? innerHeight
       if (rect.height)
         reading = {
           element,
@@ -65,9 +66,11 @@ export function useReadingPosition(root: RefObject<HTMLDivElement | null>) {
         if (reading?.element.isConnected) {
           const rect = reading.element.getBoundingClientRect()
           const windowHeight =
-            reading.element.dataset.storyFlow === 'horizontal'
-              ? (reading.element.querySelector<HTMLElement>('.story-window')
-                  ?.offsetHeight ?? innerHeight)
+            reading.element.dataset.storyFlow === 'horizontal' ||
+            reading.element.dataset.loveFlow === 'staged'
+              ? (reading.element.querySelector<HTMLElement>(
+                  '.story-window, .love-window',
+                )?.offsetHeight ?? innerHeight)
               : innerHeight
           window.scrollTo({
             top:

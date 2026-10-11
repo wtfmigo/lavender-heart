@@ -12,10 +12,12 @@
 .persistent-heart canvas {
   pointer-events: none !important;
 }
-.experience:is([data-motion='reduced'], [data-scroll='native'])
-  .persistent-heart {
+.experience[data-motion='reduced'] .persistent-heart {
   position: absolute;
   top: 49svh;
+}
+.experience[data-motion='full'] [data-live-heart='true'] .chapter-heart {
+  visibility: hidden;
 }
 .journey-heart-edge {
   width: 180px;

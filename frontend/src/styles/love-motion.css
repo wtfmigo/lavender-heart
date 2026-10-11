@@ -1,0 +1,34 @@
+.love-window {
+  min-height: 100svh;
+}
+.love-stage[data-love-flow='staged'] {
+  height: calc(100svh + var(--love-distance));
+  view-timeline: --love-progress block;
+}
+.love-stage[data-love-flow='staged'] .love-window {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+}
+.love-stage[data-love-flow='staged'] .love-sequence {
+  padding-bottom: 0;
+}
+.love-stage[data-love-flow='staged'] .love-entry {
+  min-height: 100svh;
+}
+@keyframes love-sequence {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-1 * var(--love-distance)));
+  }
+}
+@supports (animation-timeline: --love-progress) {
+  .love-stage[data-love-flow='staged'] .love-sequence {
+    animation: love-sequence 1s linear both;
+    animation-timeline: --love-progress;
+    animation-range: entry 100% entry calc(100% + var(--love-distance));
+  }
+}

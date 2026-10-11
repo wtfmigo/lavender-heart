@@ -99,10 +99,9 @@ for (const width of [1440, 390]) {
           .poll(() => page.evaluate(() => window.scrollY))
           .toBeCloseTo(position, 0)
         const translation = () =>
-          cloud.evaluate((element) =>
-            Number.parseFloat(
-              getComputedStyle(element).translate.split(' ').at(-1)!,
-            ),
+          cloud.evaluate(
+            (element) =>
+              new DOMMatrixReadOnly(getComputedStyle(element).transform).m42,
           )
         let previous = await translation()
         let stableSamples = 0
@@ -125,16 +124,22 @@ for (const width of [1440, 390]) {
       expect(
         Math.abs(after - before),
         `${selector}: top=${top}, before=${before}, after=${after}`,
-      ).toBeGreaterThan(1)
+      ).toBeGreaterThan(10)
       expect(await sample(top - 650)).toBeCloseTo(before, 0)
     }
     await page.getByRole('button', { name: 'Pause motion' }).click()
     const cloud = page.locator('.collection-cloud--opening')
-    await expect(cloud).toHaveCSS('translate', 'none')
+    await expect(page.locator('.experience')).toHaveAttribute(
+      'data-motion',
+      'reduced',
+    )
+    const staticTransform = await cloud.evaluate(
+      (element) => getComputedStyle(element).transform,
+    )
     await page.locator('.collection-opening').scrollIntoViewIfNeeded()
     expect(
-      await cloud.evaluate((element) => getComputedStyle(element).translate),
-    ).toBe('none')
+      await cloud.evaluate((element) => getComputedStyle(element).transform),
+    ).toBe(staticTransform)
   })
 }
 

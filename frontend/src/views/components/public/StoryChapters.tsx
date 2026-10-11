@@ -1,5 +1,7 @@
 import { useRef, useState, type CSSProperties } from 'react'
 import { useHorizontalStory } from '@/controllers/hooks/useHorizontalStory'
+import { useLoveSequence } from '@/controllers/hooks/useLoveSequence'
+import '@/styles/love-motion.css'
 import { ChapterScene } from './ChapterScene'
 import type {
   ExperienceMemory,
@@ -251,10 +253,14 @@ export function FullWidthMemory({
 export function LoveChapter({
   heading,
   items,
+  reducedMotion = false,
 }: {
   heading: string
   items: PublicExperience['loveEntries']
+  reducedMotion?: boolean
 }) {
+  const stage = useRef<HTMLDivElement>(null)
+  useLoveSequence(stage, reducedMotion, items.length)
   return (
     <section id="love" className="love-chapter" aria-labelledby="love-heading">
       <ChapterScene
@@ -263,20 +269,22 @@ export function LoveChapter({
         label="Things I Love"
         variant="love"
       />
-      <div className="love-stage">
-        <ol className="love-sequence journey-content">
-          {items.map((item, index) => (
-            <li className="love-entry" key={item.id}>
-              <span className="love-number" aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <div>
-                <h3>{item.statement}</h3>
-                {item.supportingText && <p>{item.supportingText}</p>}
-              </div>
-            </li>
-          ))}
-        </ol>
+      <div className="love-stage" ref={stage}>
+        <div className="love-window">
+          <ol className="love-sequence journey-content">
+            {items.map((item, index) => (
+              <li className="love-entry" key={item.id}>
+                <span className="love-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <h3>{item.statement}</h3>
+                  {item.supportingText && <p>{item.supportingText}</p>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   )

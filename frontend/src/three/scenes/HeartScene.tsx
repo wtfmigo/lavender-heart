@@ -20,6 +20,7 @@ function Sculpture({
   progress,
 }: Pick<Props, 'reducedMotion' | 'progress'>) {
   const mesh = useRef<Mesh>(null)
+  const wasReduced = useRef(true)
   const invalidate = useThree((state) => state.invalidate)
   const geometry = useMemo(() => createHeartGeometry(), [])
   useEffect(() => () => geometry.dispose(), [geometry])
@@ -29,25 +30,17 @@ function Sculpture({
   useFrame(({ clock }, delta) => {
     if (!mesh.current) return
     const angle = heartYaw(progress.current, clock.elapsedTime, reducedMotion)
-    mesh.current.rotation.y = reducedMotion
-      ? angle
-      : MathUtils.damp(mesh.current.rotation.y, angle, 8, delta)
+    mesh.current.rotation.y =
+      reducedMotion || wasReduced.current
+        ? angle
+        : MathUtils.damp(mesh.current.rotation.y, angle, 8, delta)
+    wasReduced.current = reducedMotion
     mesh.current.rotation.x = reducedMotion
       ? 0.06
-      : MathUtils.damp(
-          mesh.current.rotation.x,
-          0.06 + (angle + 0.24) * 0.12,
-          8,
-          delta,
-        )
+      : MathUtils.damp(mesh.current.rotation.x, 0.06, 8, delta)
     mesh.current.rotation.z = reducedMotion
       ? -0.08
-      : MathUtils.damp(
-          mesh.current.rotation.z,
-          -0.08 + (angle + 0.24) * 0.08,
-          8,
-          delta,
-        )
+      : MathUtils.damp(mesh.current.rotation.z, -0.08, 8, delta)
     mesh.current.position.y = reducedMotion
       ? 0
       : Math.sin(clock.elapsedTime * 0.45) * 0.018

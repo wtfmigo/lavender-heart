@@ -65,10 +65,13 @@ test('native anchors, focus protection and motion pause', async ({ page }) => {
     'data-hidden',
     'true',
   )
-  const travel = await page
-    .locator('.cloud-layer--foreground')
-    .evaluate((element) => getComputedStyle(element).transform)
-  expect(travel).toBe('none')
+  await expect
+    .poll(() =>
+      page
+        .locator('.cloud-layer--foreground')
+        .evaluate((element) => getComputedStyle(element).transform),
+    )
+    .not.toBe('none')
   await page.getByRole('link', { name: 'Intro', exact: true }).focus()
   await expect(page.getByRole('navigation')).toHaveAttribute(
     'data-hidden',
@@ -91,6 +94,10 @@ test('native anchors, focus protection and motion pause', async ({ page }) => {
   await expect(
     page.getByRole('button', { name: 'Resume motion' }),
   ).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('.cloud-layer--foreground')).toHaveCSS(
+    'transform',
+    'none',
+  )
 })
 
 test('reduced motion is immediate and follows changes live', async ({
@@ -160,7 +167,7 @@ test('context loss replaces the canvas with the heart fallback', async ({
   ).toBeVisible()
 })
 
-test('failed crystal backdrop preserves the static heart and supplied name', async ({
+test('the crystal renders without a 2D canvas backdrop and preserves the supplied name', async ({
   page,
 }) => {
   await page.addInitScript(() => {
@@ -176,10 +183,9 @@ test('failed crystal backdrop preserves the static heart and supplied name', asy
   await page.goto('/')
   await expect(page.locator('.experience')).toBeVisible()
   await expect(page.locator('.opening')).toBeHidden({ timeout: 5000 })
-  await expect(
-    page.locator('.persistent-heart').getByTestId('heart-fallback').last(),
-  ).toBeVisible()
-  await expect(page.locator('canvas')).toHaveCount(0)
+  await expect(page.locator('canvas[data-webgl="ready"]')).toBeVisible({
+    timeout: 15000,
+  })
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Jeriann Alexa',
   )

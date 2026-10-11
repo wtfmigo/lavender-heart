@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { readStoryPanel } from './storyPosition.js'
 
-test('story has varied framed scenes and unmasked native reading', async ({
+test('story has varied framed scenes and reversible curtains with native horizontal travel', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -27,10 +27,26 @@ test('story has varied framed scenes and unmasked native reading', async ({
     )
   expect(new Set(grids).size).toBeGreaterThanOrEqual(3)
   const scene = page.locator('.story-spread').nth(2).locator('.story-memory')
+  const start = await page
+    .locator('.story-stage')
+    .evaluate((element) => element.getBoundingClientRect().top + window.scrollY)
+  const sample = async (distance: number) => {
+    await page.evaluate(
+      (top) => window.scrollTo({ top, behavior: 'instant' }),
+      start + distance,
+    )
+    await page.waitForTimeout(400)
+    return scene.evaluate((element) => getComputedStyle(element).clipPath)
+  }
+  const before = await sample(1440 * 1.4)
+  expect(before).not.toMatch(/^inset\(0%(?: 0%){0,3}\)$/)
   await readStoryPanel(page, 2)
-  await expect(scene).toHaveCSS('clip-path', 'none')
+  await expect(scene).toHaveCSS('clip-path', /^inset\(0%(?: 0%){0,3}\)$/)
   await expect(scene.locator('img')).toBeVisible()
   await expect(scene.locator('h3')).toBeVisible()
+  expect(await sample(1440 * 1.4)).toBe(before)
+  await readStoryPanel(page, 2)
+  await expect(scene.locator('img')).toBeInViewport({ ratio: 1 })
 })
 
 for (const width of [390, 320]) {
@@ -55,7 +71,7 @@ for (const width of [390, 320]) {
   })
 }
 
-test('the story exit hands off to the existing memory photo without scroll-driven zoom', async ({
+test('the story exit hands off to the existing memory photo with reversible depth', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -79,7 +95,9 @@ test('the story exit hands off to the existing memory photo without scroll-drive
       ),
     )
   }
-  expect(samples).toEqual([1, 1, 1])
+  expect(samples[0] - samples[1]).toBeGreaterThan(0.015)
   expect(samples[2]).toBeCloseTo(samples[0], 2)
   await expect(photo.locator('img')).toHaveCSS('transform', 'none')
+  await photo.scrollIntoViewIfNeeded()
+  await expect(photo.locator('img')).toBeVisible()
 })

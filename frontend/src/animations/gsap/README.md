@@ -1,8 +1,8 @@
 # gsap
 
-The public experience uses native browser scrolling. Scroll pins, scrubbed masks,
-and layout-refresh loops were removed after live Brave resize and scroll freezes.
-Horizontal Story now uses a native sticky window and scroll timeline. Cloud/text
-parallax also uses browser timelines across desktop, phone and tablet layouts;
-passive fallbacks handle unsupported engines. Chapter entrances, the interactive
-photo sphere and visible 3D heart animate independently.
+GSAP owns the original opening, cloud/text parallax, reversible text/photo masks,
+cinematic depth and persistent chapter/finale heart choreography at every screen
+size. Native scrolling and sticky Story/Love stages preserve uninterrupted input;
+CSS timelines own only stage travel, with passive fallbacks where unsupported.
+The heart scales one stable GPU frame. Layout measurements refresh after fonts
+or meaningful viewport changes, never in response to the animation's own size.

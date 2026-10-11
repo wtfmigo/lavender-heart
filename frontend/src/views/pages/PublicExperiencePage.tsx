@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import type { PublicExperience } from '@/features/public/experience'
 import { sectionKeySchema } from '@/models/schemas/identifiers'
 import { Gallery } from '@/views/components/public/Gallery'
@@ -16,10 +16,9 @@ import { useReducedMotion } from '@/controllers/hooks/useReducedMotion'
 import { Hero } from '@/views/components/public/Hero'
 import { Intro } from '@/views/components/public/Intro'
 import { Navigation } from '@/views/components/public/Navigation'
-import { useChapterEntrances } from '@/controllers/hooks/useChapterEntrances'
 import { useReadingPosition } from '@/controllers/hooks/useReadingPosition'
-import { useScrollParallax } from '@/controllers/hooks/useScrollParallax'
-import '@/styles/chapter-motion.css'
+import { useExperienceAnimation } from '@/animations/gsap/useExperienceAnimation'
+import { useJourneyAnimation } from '@/animations/gsap/useJourneyAnimation'
 
 export function PublicExperiencePage({ data }: { data: PublicExperience }) {
   const root = useRef<HTMLDivElement>(null)
@@ -29,10 +28,12 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
     new URLSearchParams(window.location.search).get('motion'),
   )
   const [paused, setPaused] = useState(previewMotion === 'off')
+  const [canvasEnabled, setCanvasEnabled] = useState(false)
+  const revealCanvas = useCallback(() => setCanvasEnabled(true), [])
   const reducedMotion = prefersReducedMotion || paused
-  useChapterEntrances(root, reducedMotion)
+  useExperienceAnimation(root, progress, reducedMotion, revealCanvas)
+  useJourneyAnimation(root, progress, reducedMotion)
   useReadingPosition(root)
-  useScrollParallax(root, reducedMotion)
   const sections = sectionKeySchema.options.flatMap((key) =>
     data.sections.filter(
       (section) =>
@@ -64,7 +65,9 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
       <PersistentHeart
         reducedMotion={reducedMotion}
         progress={progress}
-        enabled={previewMotion !== 'off' && previewMotion !== 'css'}
+        enabled={
+          canvasEnabled && previewMotion !== 'off' && previewMotion !== 'css'
+        }
       />
       <main id="content" tabIndex={-1}>
         {sections.map((section) => {
@@ -111,6 +114,7 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
               return (
                 <LoveChapter
                   key={section.key}
+                  reducedMotion={reducedMotion}
                   heading={section.content.heading}
                   items={ordered(data.loveEntries)}
                 />
@@ -130,9 +134,11 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
             case 'final_closing':
               return (
                 <div key={section.key} className="finale-wrap">
-                  <div className="finale-static-heart" aria-hidden="true">
-                    <HeartFallback />
-                  </div>
+                  {reducedMotion && (
+                    <div className="finale-static-heart" aria-hidden="true">
+                      <HeartFallback />
+                    </div>
+                  )}
                   <FinaleChapter
                     content={section.content}
                     settings={data.settings}
@@ -142,6 +148,10 @@ export function PublicExperiencePage({ data }: { data: PublicExperience }) {
           }
         })}
       </main>
+      <div className="opening" aria-hidden="true">
+        <p className="opening-label">For {data.settings.recipientName}</p>
+        <span className="opening-line" />
+      </div>
     </div>
   )
 }

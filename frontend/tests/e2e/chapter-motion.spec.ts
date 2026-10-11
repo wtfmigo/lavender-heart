@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 for (const width of [1440, 390]) {
-  test(`photo frames remain visible with their captions while scrolling at ${width}px`, async ({
+  test(`photo frames reveal with their captions and reverse while scrolling at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
@@ -29,13 +29,14 @@ for (const width of [1440, 390]) {
       await sample(1100)
       const first = await sample(1100)
       const second = await sample(150)
-      expect(first).toBe(1)
-      expect(second).toBe(1)
+      expect(second).toBeGreaterThan(first + 0.2)
+      expect(second).toBeGreaterThan(0.99)
       expect(await sample(1100)).toBeCloseTo(first, 1)
       // Personal photographs retain their full image frame; only the captioned figure reveals.
       expect(
         await image.evaluate((element) => getComputedStyle(element).transform),
       ).toBe('none')
+      await sample(150)
       await expect(image).toBeVisible()
     }
   })
@@ -63,7 +64,7 @@ test('reduced motion leaves photos and reading content fully visible and static'
   }
 })
 
-test('statements and letter paragraphs stay readable throughout scrolling', async ({
+test('staged statements and letter paragraphs reveal with scroll and reverse', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -74,9 +75,18 @@ test('statements and letter paragraphs stay readable throughout scrolling', asyn
     '.letter-body > p',
   ]) {
     const target = page.locator(selector).first()
-    const top = await target.evaluate(
-      (element) => element.getBoundingClientRect().top + window.scrollY,
-    )
+    const top = selector.startsWith('.love-entry')
+      ? await page
+          .locator('.love-stage')
+          .evaluate(
+            (element) =>
+              element.getBoundingClientRect().top +
+              window.scrollY +
+              element.querySelector<HTMLElement>('.love-window')!.clientHeight,
+          )
+      : await target.evaluate(
+          (element) => element.getBoundingClientRect().top + window.scrollY,
+        )
     const opacity = async (offset: number) => {
       await page.evaluate(
         (position) => window.scrollTo({ top: position, behavior: 'instant' }),
@@ -88,9 +98,9 @@ test('statements and letter paragraphs stay readable throughout scrolling', asyn
       )
     }
     const before = await opacity(1250)
-    expect(before).toBe(1)
-    expect(await opacity(300)).toBe(1)
+    expect(await opacity(300)).toBeGreaterThan(before + 0.2)
     expect(await opacity(1250)).toBeCloseTo(before, 1)
+    expect(await opacity(300)).toBeGreaterThan(0.99)
   }
   await page.locator('.gallery-photo').first().scrollIntoViewIfNeeded()
   await page.waitForTimeout(1000)

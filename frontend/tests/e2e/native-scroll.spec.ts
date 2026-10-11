@@ -52,7 +52,7 @@ for (const [width, height] of [
   })
 }
 
-test('chapters use native flow while the photo sphere keeps animating', async ({
+test('native chapters retain scroll reveals while the photo sphere keeps animating', async ({
   page,
 }) => {
   await page.goto('/')
@@ -62,13 +62,29 @@ test('chapters use native flow while the photo sphere keeps animating', async ({
     'native',
   )
   await expect(page.locator('.pin-spacer')).toHaveCount(0)
-  for (const passage of await page.locator('.hero-cloud-passage').all()) {
-    await expect(passage).toBeHidden()
-  }
+  await expect(page.locator('#story')).toHaveAttribute(
+    'data-live-heart',
+    'true',
+  )
+  await expect(page.locator('#finale')).toHaveAttribute(
+    'data-live-heart',
+    'true',
+  )
   const photo = page.locator('.gallery-photo').first()
-  expect(
-    await photo.evaluate((element) => getComputedStyle(element).clipPath),
-  ).toBe('none')
+  await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
+  await expect(photo).toHaveCSS('clip-path', /inset\(/)
+  const top = await photo.evaluate(
+    (element) => element.getBoundingClientRect().top + window.scrollY,
+  )
+  await page.evaluate(
+    (top) => window.scrollTo({ top, behavior: 'instant' }),
+    top,
+  )
+  await expect(photo).toHaveCSS('opacity', '1')
+  await expect(photo).toHaveCSS(
+    'clip-path',
+    /^inset\(0(?:%|px)(?: 0(?:%|px)){0,3}\)$/,
+  )
   const rotor = page.locator('.photo-galaxy-rotor')
   await rotor.scrollIntoViewIfNeeded()
   const yaw = await rotor.evaluate((element) =>

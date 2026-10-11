@@ -24,14 +24,28 @@ for (const width of [1440, 390]) {
     await page.goto('/')
     await expect(page.locator('.opening')).toBeHidden({ timeout: 15000 })
     const memory = page.locator('.story-memory--text').first()
+    const heart = page.locator('.persistent-heart')
     await readStoryPanel(page, 6)
     await expect(memory.locator('.story-copy')).toBeInViewport()
-    await expect(page.locator('.persistent-heart')).not.toBeInViewport()
+    await expect
+      .poll(() =>
+        heart.evaluate((element) => Number(getComputedStyle(element).opacity)),
+      )
+      .toBeCloseTo(0.55, 2)
+    await expect
+      .poll(() =>
+        heart.evaluate((element) => element.getBoundingClientRect().width),
+      )
+      .toBeLessThanOrEqual(160)
     await page
       .locator('.timeline-content--text')
       .last()
       .scrollIntoViewIfNeeded()
     await expect(page.locator('.timeline-copy').last()).toBeInViewport()
-    await expect(page.locator('.persistent-heart')).not.toBeInViewport()
+    await expect
+      .poll(() =>
+        heart.evaluate((element) => Number(getComputedStyle(element).opacity)),
+      )
+      .toBeLessThan(0.05)
   })
 }

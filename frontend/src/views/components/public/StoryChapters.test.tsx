@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { expect, test } from 'vitest'
 import {
   RichText,
@@ -6,6 +6,7 @@ import {
   TimelineChapter,
   LetterChapter,
   FinaleChapter,
+  LoveChapter,
 } from './StoryChapters'
 import type { ExperienceMemory } from '@/features/public/experience'
 import { demoExperience } from '@/features/public/demoExperience'
@@ -57,6 +58,50 @@ test('rich text preserves semantic marks and escapes HTML', () => {
   expect(screen.getByText('<script>private words</script>')).toBeVisible()
   expect(container.querySelector('strong em')).not.toBeNull()
   expect(container.querySelector('script')).toBeNull()
+})
+
+test('Love messages stay concealed until independently opened and keep their supplied content', () => {
+  const entries = [
+    {
+      id: 'first',
+      statement: 'Supplied first heading',
+      supportingText: 'Supplied first body',
+      position: 0,
+    },
+    {
+      id: 'second',
+      statement: 'Supplied second heading',
+      supportingText: '',
+      position: 1,
+    },
+  ]
+  const { container, rerender } = render(
+    <LoveChapter heading="Supplied heading" items={entries} reducedMotion />,
+  )
+  expect(container.querySelector('.love-progress')).toBeNull()
+  expect(screen.queryByRole('heading', { level: 3 })).not.toBeInTheDocument()
+  const button = screen.getByRole('button', { name: 'Reveal message 1' })
+  expect(button).toHaveAttribute('aria-expanded', 'false')
+  fireEvent.click(button)
+  const first = screen.getByRole('region', { name: 'Supplied first heading' })
+  expect(first).toHaveFocus()
+  expect(within(first).getByText('Supplied first body')).toBeInTheDocument()
+  expect(
+    screen.queryByRole('heading', { name: 'Supplied second heading' }),
+  ).not.toBeInTheDocument()
+  rerender(
+    <LoveChapter
+      heading="Supplied heading"
+      items={entries}
+      reducedMotion={false}
+    />,
+  )
+  expect(
+    screen.getByRole('heading', { name: 'Supplied first heading' }),
+  ).toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button', { name: 'Reveal message 2' }))
+  expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(2)
+  expect(container.querySelectorAll('.love-copy p')).toHaveLength(1)
 })
 
 test('story preserves supplied owner order and lazy photo metadata', () => {

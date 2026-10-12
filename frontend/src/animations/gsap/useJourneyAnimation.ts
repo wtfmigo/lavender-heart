@@ -250,28 +250,6 @@ export function useJourneyAnimation(
                 ease: 'power2.out',
               },
             )
-            if (!number) {
-              reveal.fromTo(
-                element.querySelectorAll('.love-word'),
-                { yPercent: 115, rotation: direction * 5 },
-                {
-                  yPercent: 0,
-                  rotation: 0,
-                  stagger: 0.06,
-                  duration: 0.6,
-                  ease: 'power3.out',
-                },
-                0,
-              )
-              const supporting = element.querySelector('p')
-              if (supporting)
-                reveal.fromTo(
-                  supporting,
-                  { opacity: 0, y: 22 },
-                  { opacity: 1, y: 0, duration: 0.3, ease: 'none' },
-                  0.35,
-                )
-            }
             return
           }
           gsap.fromTo(
@@ -330,27 +308,6 @@ export function useJourneyAnimation(
               },
             )
         })
-
-      const loveStage = query('.love-stage')
-      const loveFill = query('.love-progress-fill')
-      if (loveStage && loveFill)
-        gsap.fromTo(
-          loveFill,
-          { scaleX: 0 },
-          {
-            scaleX: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: loveStage,
-              start: () => top(loveStage),
-              end: () =>
-                top(loveStage) +
-                Math.max(1, loveStage.offsetHeight - viewportHeight()),
-              scrub: 0.3,
-              invalidateOnRefresh: true,
-            },
-          },
-        )
 
       const visibleChapters = chapters.flatMap((id, index) => {
         const section = query(`#${id}`)

@@ -54,6 +54,8 @@ test('reduced motion leaves photos and reading content fully visible and static'
     '.letter-body p',
   ]) {
     const element = page.locator(selector).first()
+    if (selector.startsWith('.love-entry'))
+      await page.getByRole('button', { name: 'Reveal message 1' }).click()
     await element.scrollIntoViewIfNeeded()
     expect(
       await element.evaluate((target) => getComputedStyle(target).transform),

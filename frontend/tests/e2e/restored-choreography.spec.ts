@@ -119,6 +119,7 @@ for (const [width, height] of [
       }),
     )
     const statement = page.locator('.love-entry').nth(1).locator('h3')
+    await page.getByRole('button', { name: 'Reveal message 2' }).click()
     await expect(statement).toBeInViewport()
     await expect
       .poll(() =>

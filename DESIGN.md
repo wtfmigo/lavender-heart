@@ -8,7 +8,7 @@
 
 Owner-requested photo sizing (2026-10-12): every existing photo slot retains its current frame dimensions and orientation when its image is replaced. Frame geometry is stored separately from image metadata in `frontend/src/features/public/photoFrames.json`. Preserve current responsive grids, spacing, photo fit, and motion; replacement dimensions must not recompose the page.
 
-Owner-requested Love refinement (2026-10-12): the Things I Love opening and statements use oversized solid/outlined numerals, asymmetric editorial text, reversible staggered word reveals and a thin scroll progress rail. Preserve native staging, personal copy, lavender typography, responsive choreography, Pause and reduced-motion/oversized-content reading fallbacks.
+Owner-requested Love refinement (2026-10-12): remove the progress strip. The opening invites discovery; numbered messages stay concealed behind tactile paper seals until tapped or opened with Enter/Space. Envelope, folded-note and parting-heart reveals introduce the supplied text with staggered words. Opened messages stay readable when revisited; Pause/reduced motion opens them immediately. Preserve native staging, personal copy, fixed photo frames, lavender typography and oversized-content reading fallbacks.
 
 Lavender Heart is an intimate, personal birthday experience with premium editorial composition and cinematic pacing. Authentic photographs and personal writing lead the story; a translucent lavender crystal heart provides its principal sculptural motif.
 
@@ -247,10 +247,10 @@ Desktop supports keyboard access; mobile supports touch/swipe navigation while r
 ## 19. Section 6 — Things I Love About You
 
 - **Visual purpose:** foreground personal writing through large numbered editorial statements.
-- **Layout:** large ordinal number, large serif statement, and strong negative space; minimal supporting visual treatment. Numbers label entries, not statistics.
+- **Layout:** large ordinal number, a tappable paper seal, and strong negative space. Opening the seal reveals the large serif statement and supplied supporting text. Numbers label entries, not statistics; the progress strip is removed.
 - **Typography:** Cormorant Garamond statement and large editorial number; Inter supporting details when present. Example phrases are not final personal content.
 - **Photography role:** optional restrained backdrop/support; the words lead.
-- **Motion:** normal desktop, phone, and tablet viewports use a native sticky **one-at-a-time** sequence: 01 reveals, transitions to 02, then 03. Background/photo may shift subtly. This section is never horizontal.
+- **Motion:** normal desktop, phone, and tablet viewports use a native sticky **one-at-a-time** sequence. Tap or use Enter/Space to open the envelope flap, folded note or parting heart seal; words follow the opening with a bounded stagger. Opened messages remain open when revisited. Live Pause/reduced motion finishes an active reveal immediately and never replays it on resume. This section is never horizontal.
 - **Responsive behavior:** preserve one-at-a-time staging on phones and tablets; Pause, reduced motion, or genuinely oversized content uses a readable vertical sequence.
 - **Avoid:** feature cards, icon grids, marketing claims, cramped repeated boxes, or a second horizontal story.
 

@@ -27,12 +27,12 @@ One public page contains the following fixed chapter order:
 | 3     | Horizontal Story        | Photo and message spreads progressing horizontally with vertical scroll  |
 | 4     | Full-width Memory       | Large photograph with parallax and caption                               |
 | 5     | Gallery                 | Editorial photo spreads, interactive photo sphere, and a closing message |
-| 6     | Things I Love About You | Statements staged one at a time during scroll                            |
+| 6     | Things I Love About You | Tap-to-reveal paper surprises, staged one at a time                      |
 | 7     | Timeline                | Alternating photo/caption spreads with paired dates and photo parallax   |
 | 8     | Birthday Letter         | Calm, readable letter and signature                                      |
 | 9     | Final Closing           | Returning heart and closing message                                      |
 
-Hero and Final Closing remain required. Eligible intermediate chapters can be hidden through the content file; hidden chapters must leave no empty space or invalid navigation targets. Entry ordering comes from the saved content, with position fields where applicable. The visitor can read, scroll, drag the sphere, and open photographs; visitors cannot edit content.
+Hero and Final Closing remain required. Eligible intermediate chapters can be hidden through the content file; hidden chapters must leave no empty space or invalid navigation targets. Entry ordering comes from the saved content, with position fields where applicable. The visitor can read, scroll, reveal Love messages, drag the sphere, and open photographs; visitors cannot edit content.
 
 Navigation provides Home, Intro, Photos, Letter, and Pause/Resume motion. It adapts to valid visible chapters and preserves keyboard focus. The photo lightbox supports full photographs, next/previous navigation, keyboard/touch interaction, Escape, and focus return.
 
@@ -50,7 +50,7 @@ Follow `DESIGN.md` for the detailed visual direction, as amended by the owner's 
 
 Native browser scrolling owns wheel, touch, and keyboard input. There is no Lenis scroll interception. Native sticky stages support horizontal Story and staged Love without GSAP pinning.
 
-GSAP/ScrollTrigger owns opening reveals, cloud movement, text masks, photo curtains/parallax, chapter transitions, and heart travel. React Three Fiber/Three.js owns crystal rendering. The heart rotates horizontally around its Y axis with scroll and reverses direction when scrolling back. Motion handles small UI transitions; projected transforms animate the interactive photo sphere.
+GSAP/ScrollTrigger owns opening reveals, cloud movement, text masks, photo curtains/parallax, chapter transitions, and heart travel. React Three Fiber/Three.js owns crystal rendering. The heart rotates horizontally around its Y axis with scroll and reverses direction when scrolling back. Motion handles small UI transitions and tap-triggered Love text reveals; projected transforms animate the interactive photo sphere.
 
 Optimize lifecycle and rendering while preserving the requested animation. Use scoped cleanup and debounced viewport refresh; do not globally reset reader position during resize. Keep the bounded WebGL renderer, visibility-aware rendering, reduced-motion handling, and heart fallback. Do not restore expensive refraction buffers or recreate the renderer during every viewport change.
 

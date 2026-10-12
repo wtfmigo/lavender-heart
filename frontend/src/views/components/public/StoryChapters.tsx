@@ -4,6 +4,7 @@ import { useLoveSequence } from '@/controllers/hooks/useLoveSequence'
 import photoFrames from '@/features/public/photoFrames.json'
 import '@/styles/love-motion.css'
 import { ChapterScene } from './ChapterScene'
+import { LoveSurprise } from './LoveSurprise'
 import type {
   ExperienceMemory,
   ExperiencePhoto,
@@ -271,41 +272,30 @@ export function LoveChapter({
   useLoveSequence(stage, reducedMotion, items.length)
   return (
     <section id="love" className="love-chapter" aria-labelledby="love-heading">
-      <ChapterScene
-        heading={heading}
-        headingId="love-heading"
-        label="Things I Love"
-        variant="love"
-      />
-      <div className="love-stage" ref={stage}>
+      <div className="love-opening">
+        <ChapterScene
+          heading={heading}
+          headingId="love-heading"
+          label="Things I Love"
+          variant="love"
+        />
+        <a className="love-invitation" href="#love-messages">
+          Discover your messages <span aria-hidden="true">↘</span>
+        </a>
+      </div>
+      <div id="love-messages" className="love-stage" ref={stage}>
         <div className="love-window">
-          <div className="love-progress" aria-hidden="true">
-            <span>Things I Love</span>
-            <span className="love-progress-track">
-              <span className="love-progress-fill" />
-            </span>
-            <span>{String(items.length).padStart(2, '0')}</span>
-          </div>
           <ol className="love-sequence journey-content">
             {items.map((item, index) => (
               <li className="love-entry" key={item.id}>
                 <span className="love-number" aria-hidden="true">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <div className="love-copy">
-                  <h3>
-                    {item.statement.split(/(\s+)/).map((word, wordIndex) =>
-                      word.trim() ? (
-                        <span className="love-word-mask" key={wordIndex}>
-                          <span className="love-word">{word}</span>
-                        </span>
-                      ) : (
-                        word
-                      ),
-                    )}
-                  </h3>
-                  {item.supportingText && <p>{item.supportingText}</p>}
-                </div>
+                <LoveSurprise
+                  item={item}
+                  index={index}
+                  reducedMotion={reducedMotion}
+                />
               </li>
             ))}
           </ol>

@@ -47,12 +47,13 @@ Back up the content file before editing. Keep its JSON valid; the website shows 
 
 Save, reload, and check desktop and phone before rebuilding.
 
-## Personal pictures stay local
+## Photos and deployment
 
-- `frontend/public/photos/personal/` is ignored by Git. Restore your private photos there separately after cloning; the saved gift content references files that are not included in the repo.
+- The owner approved publishing the 56 image files referenced by the gift content. They are tracked in `frontend/public/photos/personal/` so Vercel can include them in the build.
+- Additional untracked personal photos remain ignored. To deliberately deploy a new image, add that exact file with `git add -f frontend/public/photos/personal/your-photo.jpg`, update the JSON path, and push. Do not add the whole private folder indiscriminately.
 - Visual-review screenshots under `docs/evidence/` and Playwright reports are ignored because they can show personal pictures.
 - The tracked `photo01`–`photo31` assets are stock development images, documented in [media assets](docs/birthday-media-assets.md).
-- The Git history of both published branches has been rewritten to remove visual captures and personal-photo folders. GitHub may retain old cached commit views until Support purges them.
+- Earlier visual captures were purged from branch history. The subsequently approved website photos are intentionally included; review screenshots remain excluded.
 
 If you cloned the repo before the history cleanup, back up your local photos and changes, then clone it again. Do not merge or push the old history back into the cleaned repository.
 

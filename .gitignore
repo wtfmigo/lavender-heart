@@ -21,7 +21,8 @@
 /.impeccable/cache/
 /.impeccable/critique/
 
-# Personal photo derivatives stay local with their original owner files.
+# New personal photos stay local unless explicitly approved and added with git add -f.
+# The owner-approved website images are already tracked for Vercel builds.
 /frontend/public/photos/personal/
 /.private-content/
 

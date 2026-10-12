@@ -27,6 +27,8 @@ export function PhotoGalaxy({
     y: number
     yaw: number
     pitch: number
+    id: number
+    horizontal: boolean
   } | null>(null)
   const dragged = useRef(false)
   const [paused, setPaused] = useState(false)
@@ -49,9 +51,22 @@ export function PhotoGalaxy({
     )
     if (root.current) observer.observe(root.current)
     const visibility = () => setHidden(document.hidden)
+    // Load every sphere face ahead of arrival, including photos currently facing away.
+    const preload = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        root.current?.querySelectorAll('img').forEach((image) => {
+          image.loading = 'eager'
+        })
+        preload.disconnect()
+      },
+      { rootMargin: '100% 0px' },
+    )
+    if (root.current) preload.observe(root.current)
     document.addEventListener('visibilitychange', visibility)
     return () => {
       observer.disconnect()
+      preload.disconnect()
       document.removeEventListener('visibilitychange', visibility)
     }
   }, [])
@@ -117,6 +132,20 @@ export function PhotoGalaxy({
       <div className="photo-galaxy-controls">
         <button
           type="button"
+          aria-label="Rotate photos left"
+          onClick={() => rotate(angle.current.yaw - 45, angle.current.pitch)}
+        >
+          ←
+        </button>
+        <button
+          type="button"
+          aria-label="Rotate photos right"
+          onClick={() => rotate(angle.current.yaw + 45, angle.current.pitch)}
+        >
+          →
+        </button>
+        <button
+          type="button"
           onClick={() => setPaused(!paused)}
           aria-pressed={paused}
           disabled={reducedMotion}
@@ -134,7 +163,7 @@ export function PhotoGalaxy({
       <p id={instructions} className="photo-galaxy-instructions">
         {list
           ? 'Select a photo to view it.'
-          : 'Drag to explore. Use arrow keys to rotate, or show the photo list.'}
+          : 'Swipe left or right to explore. Tap a photo to open it. Arrow keys also rotate.'}
       </p>
       <div
         className="photo-galaxy-stage"
@@ -176,37 +205,44 @@ export function PhotoGalaxy({
         }}
         onPointerDown={(event) => {
           if (list || event.button !== 0) return
+          if (pointer.current) return
           dragged.current = false
           pointer.current = {
             x: event.clientX,
             y: event.clientY,
             ...angle.current,
+            id: event.pointerId,
+            horizontal: false,
           }
           setInteracting(true)
         }}
         onPointerMove={(event) => {
           const start = pointer.current
-          if (!start) return
+          if (!start || start.id !== event.pointerId) return
           const dx = event.clientX - start.x,
             dy = event.clientY - start.y
           const touch = event.pointerType === 'touch'
-          if (touch && Math.abs(dy) > Math.abs(dx)) return
-          if (Math.hypot(dx, dy) > 6) {
+          if (touch && !start.horizontal && Math.abs(dy) > Math.abs(dx)) return
+          if (Math.hypot(dx, dy) > (touch ? 4 : 6)) {
+            start.horizontal = true
             dragged.current = true
             event.currentTarget.setPointerCapture?.(event.pointerId)
             rotate(
-              start.yaw + dx * 0.35,
+              start.yaw +
+                dx * (touch ? 360 / event.currentTarget.clientWidth : 0.35),
               touch ? start.pitch : start.pitch - dy * 0.35,
             )
           }
         }}
         onPointerUp={(event) => {
+          if (pointer.current?.id !== event.pointerId) return
           pointer.current = null
           if (event.currentTarget.hasPointerCapture?.(event.pointerId))
             event.currentTarget.releasePointerCapture(event.pointerId)
           setInteracting(false)
         }}
-        onPointerCancel={() => {
+        onPointerCancel={(event) => {
+          if (pointer.current?.id !== event.pointerId) return
           pointer.current = null
           dragged.current = false
           setInteracting(false)

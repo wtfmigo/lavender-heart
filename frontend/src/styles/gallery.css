@@ -457,13 +457,51 @@
   background: var(--surface-soft);
 }
 .photo-galaxy-controls button {
+  touch-action: manipulation;
   min-height: 44px;
+  min-width: 44px;
   padding: 0.65rem 0.8rem;
   border: 1px solid currentColor;
   color: var(--text-on-light);
   background: transparent;
   font: inherit;
   cursor: pointer;
+}
+@media (pointer: coarse) {
+  .photo-galaxy-controls,
+  .photo-galaxy-controls:focus-within {
+    position: relative;
+    width: fit-content;
+    height: auto;
+    margin: 0 auto 0.75rem;
+    padding: 0;
+    top: auto;
+    left: auto;
+    transform: none;
+    clip-path: none;
+    overflow: visible;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+  }
+  .photo-galaxy-controls button {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 999px;
+  }
+  .photo-galaxy-instructions {
+    position: relative;
+    width: auto;
+    height: auto;
+    margin: 0 0 1rem;
+    clip-path: none;
+    overflow: visible;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
 }
 .photo-galaxy-controls button:disabled {
   opacity: 0.55;
@@ -506,6 +544,12 @@
   .photo-galaxy[data-view='list'] .photo-galaxy-rotor {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem 1rem;
+  }
+}
+@media (max-width: 1100px) {
+  .photo-galaxy-stage {
+    /* Reserve space for projected cards at the larger touch rotation angles. */
+    height: calc(var(--galaxy-radius) * 3.8);
   }
 }
 @media (prefers-reduced-motion: reduce) {

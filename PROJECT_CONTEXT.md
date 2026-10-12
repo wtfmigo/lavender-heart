@@ -38,13 +38,15 @@ Hero and Final Closing remain required. Eligible intermediate chapters can be hi
 
 Navigation provides Home, Intro, Photos, Letter, and Pause/Resume motion. It adapts to valid visible chapters and preserves keyboard focus. The photo lightbox supports full photographs, next/previous navigation, keyboard/touch interaction, Escape, and focus return.
 
-The photo sphere rotates immediately when visible and motion is enabled. Drag/touch can rotate it, and keyboard controls remain available. Its background uses restrained static constellation details and lavender highlights. Orbital rings and extra cloud-only passage screens remain removed; clouds beside the Gallery closing message remain.
+The photo sphere rotates immediately when visible and motion is enabled. Mouse dragging retains two-axis rotation; a horizontal touch swipe uses stage-relative sensitivity so a quarter-width swipe rotates about 90 degrees. Vertical swipes retain native page scrolling. Touch devices show 44px-minimum left/right rotation, pause and photo-list controls with a short gesture hint. Keyboard controls remain available. Its background uses restrained static constellation details and lavender highlights. Orbital rings and extra cloud-only passage screens remain removed; clouds beside the Gallery closing message remain.
 
 ## 4. Visual and responsive requirements
 
 Retain the lavender editorial identity, Cormorant Garamond and Inter, generous spacing, natural personal photography, and the translucent lavender crystal heart. The current presentation uses Lavender Mist. The content schema recognizes three preset identifiers, but there is no owner-facing theme switcher or implemented editor.
 
 Preserve the desktop composition and animation choreography on phones and tablets in portrait and landscape, with dimensions adjusted to fit. Do not replace the normal mobile/tablet experience with a different static layout. Keep names, captions, text, navigation, and photographs readable and within the viewport. Long names, genuinely oversized content, Pause, and reduced motion retain accessible reading fallbacks.
+
+Preserve fixed photo-frame dimensions while loading. Story and Timeline use existing smaller image variants through responsive source selection; sphere faces begin fetching before readers reach the sphere, and both self-hosted fonts are preloaded. Phone/tablet sphere stages reserve extra empty vertical room for projected photos at larger touch rotation angles; sphere radius and card dimensions remain unchanged. Slow connections can still delay image decoding, but must not collapse photo frames or replace the desktop composition with a stacked layout.
 
 Follow `DESIGN.md` for the detailed visual direction, as amended by the owner's later approved changes. Do not add generic marketing cards, invented romantic copy, random decoration, a new cursor, or unrelated spectacle.
 

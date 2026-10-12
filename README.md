@@ -33,6 +33,8 @@ Open Vite's **Network** URL on the phone. No PHP, database, backend server, or `
 
 Visitors can scroll, explore the photo sphere, open photos, and pause motion. Keyboard access, reduced motion, and a fallback for unavailable WebGL are supported.
 
+On phones and tablets, swipe left/right to rotate the sphere or tap its arrow buttons. Swipe vertically to scroll the page; tap a photo to open it. Images reserve their frames while loading, and sphere thumbnails start loading before you reach them.
+
 ## Change names, messages, and photos
 
 | What to change                                                               | File                                                |

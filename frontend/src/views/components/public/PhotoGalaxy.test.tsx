@@ -13,6 +13,7 @@ const photos = Array.from({ length: 13 }, (_, index) => ({
   focalY: 0.6,
 }))
 let visibility: IntersectionObserverCallback
+let preload: IntersectionObserverCallback
 let frame: FrameRequestCallback
 const originalObserver = window.IntersectionObserver
 beforeEach(() => {
@@ -27,8 +28,12 @@ beforeEach(() => {
     },
   )
   window.IntersectionObserver = class {
-    constructor(callback: IntersectionObserverCallback) {
-      visibility = callback
+    constructor(
+      callback: IntersectionObserverCallback,
+      options?: IntersectionObserverInit,
+    ) {
+      if (options?.rootMargin) preload = callback
+      else visibility = callback
     }
     observe() {}
     disconnect() {}
@@ -75,6 +80,26 @@ function enter() {
     ),
   )
 }
+it('warms sphere images ahead of arrival without starting offscreen rotation', () => {
+  const { container } = mount()
+  const images = [
+    ...container.querySelectorAll<HTMLImageElement>('.photo-galaxy img'),
+  ]
+  expect(images).toHaveLength(3)
+  expect(
+    images.every((image) => image.getAttribute('loading') === 'lazy'),
+  ).toBe(true)
+  act(() =>
+    preload(
+      [{ isIntersecting: true } as IntersectionObserverEntry],
+      {} as IntersectionObserver,
+    ),
+  )
+  expect(images.every((image) => image.loading === 'eager')).toBe(true)
+  expect(window.requestAnimationFrame).not.toHaveBeenCalled()
+  enter()
+  expect(window.requestAnimationFrame).toHaveBeenCalledOnce()
+})
 it('rotates on both keyboard axes and keeps pause and list controls usable', () => {
   const { stage, rotor, container } = mount()
   const original = rotor.style.getPropertyValue('--galaxy-yaw')

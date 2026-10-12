@@ -90,6 +90,12 @@ function MemoryPhoto({
       <div className="photo-window">
         <img
           src={photo.src}
+          srcSet={
+            photo.smallSrc
+              ? `${photo.smallSrc} 600w, ${photo.src} ${photo.width}w`
+              : undefined
+          }
+          sizes="(max-width: 700px) 45vw, 55vw"
           alt={photo.alt}
           width={photo.width}
           height={photo.height}

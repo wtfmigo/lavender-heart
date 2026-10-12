@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 for (const width of [1440, 390, 320]) {
   test(`photo sphere supports rotation, full-size photos and list access at ${width}px`, async ({

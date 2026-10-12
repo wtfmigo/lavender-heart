@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 test('desktop to iPhone emulation keeps complete responsive text and interactive controls', async ({
   page,

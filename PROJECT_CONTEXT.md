@@ -18,6 +18,8 @@ The former Laravel/API foundation was removed at the owner's request because the
 
 ## 3. Visitor experience
 
+The page initially presents a named lavender folder with a visible letter. Visitors click, tap or use Enter/Space to open it; the cover folds away and the letter rises before Home appears. It waits for activation on every load. Reduced motion keeps the folder interaction and enters immediately. Background content and scroll remain inaccessible until entry; focus moves to the main content when Home is revealed.
+
 One public page contains the following fixed chapter order:
 
 | Order | Chapter                 | Current presentation                                                     |
@@ -50,7 +52,7 @@ Follow `DESIGN.md` for the detailed visual direction, as amended by the owner's 
 
 Native browser scrolling owns wheel, touch, and keyboard input. There is no Lenis scroll interception. Native sticky stages support horizontal Story and staged Love without GSAP pinning.
 
-GSAP/ScrollTrigger owns opening reveals, cloud movement, text masks, photo curtains/parallax, chapter transitions, and heart travel. React Three Fiber/Three.js owns crystal rendering. The heart rotates horizontally around its Y axis with scroll and reverses direction when scrolling back. Motion handles small UI transitions and tap-triggered Love text reveals; projected transforms animate the interactive photo sphere.
+GSAP/ScrollTrigger owns Home reveals after folder entry, cloud movement, text masks, photo curtains/parallax, chapter transitions, and heart travel. React Three Fiber/Three.js owns crystal rendering. The heart rotates horizontally around its Y axis with scroll and reverses direction when scrolling back. Motion handles the clicked folder opening, small UI transitions and tap-triggered Love text reveals; projected transforms animate the interactive photo sphere.
 
 Optimize lifecycle and rendering while preserving the requested animation. Use scoped cleanup and debounced viewport refresh; do not globally reset reader position during resize. Keep the bounded WebGL renderer, visibility-aware rendering, reduced-motion handling, and heart fallback. Do not restore expensive refraction buffers or recreate the renderer during every viewport change.
 

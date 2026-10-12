@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 test('gallery native dialog contains focus, supports keyboard and returns to its thumbnail', async ({
   page,

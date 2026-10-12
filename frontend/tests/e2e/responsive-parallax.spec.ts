@@ -1,4 +1,4 @@
-import { expect, test, type Locator } from '@playwright/test'
+import { expect, test, type Locator } from './experienceTest.js'
 
 async function translation(element: Locator) {
   return element.evaluate(

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 test.describe('high density screens', () => {
   test.use({ deviceScaleFactor: 2 })

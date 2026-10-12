@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 import { readStoryPanel } from './storyPosition.js'
 
 test('photo captions keep their reveal range after a same-orientation height resize', async ({

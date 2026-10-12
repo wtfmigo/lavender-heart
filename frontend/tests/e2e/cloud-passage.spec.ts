@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 for (const width of [1440, 390]) {
   test(`native flow avoids empty cloud-only screens at ${width}px`, async ({

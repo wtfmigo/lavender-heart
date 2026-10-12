@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 test('long supplied names remain readable during full-motion mobile scrolling', async ({
   page,

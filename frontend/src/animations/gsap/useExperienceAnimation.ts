@@ -8,42 +8,21 @@ gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 export function useExperienceAnimation(
   container: RefObject<HTMLDivElement | null>,
-  _progressRef: RefObject<number>,
   reducedMotion: boolean,
   onReveal: () => void,
+  entered: boolean,
 ) {
   useGSAP(
     () => {
+      if (!entered) return
       if (reducedMotion) {
-        gsap.set('.opening', { display: 'none' })
         onReveal()
         return
       }
-      let repeatVisit = false
-      try {
-        repeatVisit = sessionStorage.getItem('lavender-heart:opened') === '1'
-      } catch {
-        /* Private browsing may disable session storage; the reveal remains bounded. */
-      }
-      const opening = gsap.timeline({ defaults: { ease: 'power2.out' } })
-      opening
-        .from('.opening-label', {
-          opacity: 0,
-          y: 10,
-          duration: repeatVisit ? 0.15 : 0.7,
-        })
-        .to('.opening', {
-          opacity: 0,
-          duration: repeatVisit ? 0.2 : 0.8,
-          delay: repeatVisit ? 0 : 0.5,
-        })
-        .set('.opening', { display: 'none' })
+      const reveal = gsap.timeline({ defaults: { ease: 'power2.out' } })
+      reveal
         .call(onReveal)
-        .from(
-          '.hero-type-reveal',
-          { opacity: 0, y: 22, duration: 0.9 },
-          '-=0.4',
-        )
+        .from('.hero-type-reveal', { opacity: 0, y: 22, duration: 0.9 })
         .from(
           '.cloud-drift',
           { opacity: 0, y: 35, duration: 1.1, stagger: 0.1 },
@@ -54,18 +33,8 @@ export function useExperienceAnimation(
           { opacity: 0, scale: 0.9, duration: 1.1 },
           '<0.2',
         )
-        .call(() => {
-          try {
-            sessionStorage.setItem('lavender-heart:opened', '1')
-          } catch {
-            /* The reveal also works without storage. */
-          }
-        })
-      // Keep GSAP ticker lag from extending the opening on a busy GPU.
-      const openingLimit = window.setTimeout(
-        () => opening.progress(1),
-        repeatVisit ? 1200 : 3500,
-      )
+      // Finish the Home reveal if the GSAP ticker is delayed.
+      const revealLimit = window.setTimeout(() => reveal.progress(1), 2500)
       const context = gsap.context(() => {
         const travel = gsap.timeline({
           scrollTrigger: {
@@ -154,13 +123,13 @@ export function useExperienceAnimation(
         }
       }, container)
       return () => {
-        window.clearTimeout(openingLimit)
+        window.clearTimeout(revealLimit)
         context.revert()
       }
     },
     {
       scope: container,
-      dependencies: [reducedMotion, onReveal],
+      dependencies: [reducedMotion, onReveal, entered],
       revertOnUpdate: true,
     },
   )

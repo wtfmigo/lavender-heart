@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 test('heart keeps a stable drawing buffer while its chapter frame changes size', async ({
   page,

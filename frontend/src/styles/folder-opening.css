@@ -1,0 +1,184 @@
+.folder-opening {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-opening);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2rem, 6svh, 4rem);
+  padding: 3rem var(--gutter);
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--surface-start);
+  color: var(--color-plum-deep);
+  text-align: center;
+}
+.experience-content[inert] {
+  visibility: hidden;
+}
+.folder-kicker {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+.folder-button {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: min(82vw, 560px);
+  height: clamp(220px, 43vw, 360px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  perspective: 1200px;
+  cursor: pointer;
+  isolation: isolate;
+}
+.folder-button::after {
+  content: '';
+  position: absolute;
+  inset: auto 6% -1.25rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-plum-deep) 14%, transparent);
+  filter: blur(12px);
+  z-index: -1;
+}
+.folder-back {
+  position: absolute;
+  inset: 23% 0 0;
+  border-radius: 8px;
+  background: var(--color-purple-dusty);
+  border: 1px solid color-mix(in srgb, var(--color-plum-deep) 18%, transparent);
+}
+.folder-tab {
+  position: absolute;
+  bottom: 77%;
+  left: 0;
+  width: 52%;
+  min-height: 3rem;
+  padding: 0.65rem 1rem;
+  border-radius: 10px 12px 0 0;
+  background: var(--color-purple-dusty);
+  color: var(--color-plum-night);
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  z-index: 2;
+}
+.folder-letter {
+  position: absolute;
+  left: 8%;
+  bottom: 6%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 84%;
+  height: 89%;
+  padding: clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--color-lavender-pale);
+  background: var(--color-pearl);
+  box-shadow: 0 8px 24px
+    color-mix(in srgb, var(--color-plum-deep) 12%, transparent);
+  text-align: left;
+  z-index: 1;
+}
+.folder-letter-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1;
+  text-align: right;
+}
+.folder-letter-address {
+  font-size: clamp(0.7rem, 1.3vw, 0.9rem);
+  overflow-wrap: anywhere;
+}
+.folder-letter-rule {
+  height: 1px;
+  width: 100%;
+  background: var(--color-lavender-mist);
+}
+.folder-letter-rule:nth-last-of-type(2) {
+  width: 62%;
+}
+.folder-letter-heart {
+  margin-top: auto;
+  font-family: var(--font-display);
+  font-size: 2rem;
+}
+.folder-front {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 72%;
+  padding: 2rem;
+  border: 1px solid color-mix(in srgb, var(--color-pearl) 40%, transparent);
+  border-radius: 8px;
+  background: linear-gradient(
+    150deg,
+    var(--color-lavender-mist),
+    var(--color-lilac)
+  );
+  color: var(--color-plum-deep);
+  transform-origin: bottom;
+  backface-visibility: hidden;
+  z-index: 3;
+}
+.folder-seal {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1;
+}
+.folder-front-label,
+.folder-caption {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+.folder-caption {
+  max-width: 40ch;
+  overflow-wrap: anywhere;
+}
+.folder-button:focus-visible {
+  outline: none;
+}
+.folder-button:focus-visible .folder-front {
+  outline: 2px solid var(--color-plum-deep);
+  outline-offset: 6px;
+}
+.folder-button:disabled {
+  cursor: default;
+}
+.folder-opening[data-opening='true'] .folder-kicker,
+.folder-opening[data-opening='true'] .folder-caption {
+  opacity: 0;
+  transition: opacity 250ms;
+}
+@media (max-height: 500px) {
+  .folder-opening {
+    gap: 1.25rem;
+    padding-block: 1.5rem;
+  }
+  .folder-button {
+    width: min(60vw, 370px);
+    height: 55svh;
+  }
+  .folder-front {
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  .folder-seal {
+    font-size: 2.5rem;
+  }
+  .folder-tab {
+    font-size: 1.1rem;
+    min-height: 2.5rem;
+  }
+}

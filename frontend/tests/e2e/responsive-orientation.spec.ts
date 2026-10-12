@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 import { readStoryPanel } from './storyPosition.js'
 
 for (const [chapter, selector] of [

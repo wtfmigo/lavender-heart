@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 import { readStoryPanel } from './storyPosition.js'
 
 test('horizontal travel stays aligned when the sticky height is smaller than the viewport', async ({

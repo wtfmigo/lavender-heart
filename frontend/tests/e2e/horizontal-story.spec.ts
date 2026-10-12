@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 for (const [width, height] of [
   [1440, 900],
   [440, 956],

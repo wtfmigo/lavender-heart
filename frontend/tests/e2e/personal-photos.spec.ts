@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 for (const width of [1864, 1440, 768, 414, 390, 375, 320]) {
   test(`personal photos fit the restored editorial frames at ${width}px`, async ({

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 import { readStoryPanel } from './storyPosition.js'
 
 test('story has varied framed scenes and reversible curtains with native horizontal travel', async ({

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 test('the rendered heart changes chapter scale and returns with an unclipped silhouette', async ({
   page,

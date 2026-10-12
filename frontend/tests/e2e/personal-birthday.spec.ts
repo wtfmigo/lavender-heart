@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 for (const width of [1440, 1864, 390]) {
   test(`Home name stays clear of the rendered heart at ${width}px`, async ({

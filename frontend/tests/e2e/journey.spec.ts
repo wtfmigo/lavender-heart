@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 import content from '../../public/content/experience.json' with { type: 'json' }
 
 test('hidden chapters and empty collections have no navigation or animation targets', async ({

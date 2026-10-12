@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 import { writeFile } from 'node:fs/promises'
 import content from '../../public/content/experience.json' with { type: 'json' }
 
@@ -57,8 +57,8 @@ for (const [width, height, reduced] of [
         name: 'Show photo list',
         exact: true,
       })
-      await toggle.focus()
-      await toggle.click()
+      // Keep the same scroll position so gallery entry tweens cannot skew frame measurements.
+      await toggle.evaluate((button) => (button as HTMLButtonElement).click())
       const images = page.locator(
         '.story-spread img, .memory-image, .gallery-photo img, .timeline-moment img',
       )

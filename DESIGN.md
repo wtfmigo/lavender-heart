@@ -6,6 +6,8 @@
 
 ## 1. Design Vision
 
+Owner-requested entry (2026-10-12): replace the timed “For [name]” splash with a tactile lavender folder, recipient tab and visible paper letter. A click/tap/Enter/Space opens the cover, raises the paper and reveals the existing Home scene. Activation is required even with reduced motion or on reload; reduced motion enters immediately. Preserve the existing fonts, fixed photo frames and chapter composition.
+
 Owner-requested photo sizing (2026-10-12): every existing photo slot retains its current frame dimensions and orientation when its image is replaced. Frame geometry is stored separately from image metadata in `frontend/src/features/public/photoFrames.json`. Preserve current responsive grids, spacing, photo fit, and motion; replacement dimensions must not recompose the page.
 
 Owner-requested Love refinement (2026-10-12): remove the progress strip. The opening invites discovery; numbered messages stay concealed behind tactile paper seals until tapped or opened with Enter/Space. Envelope, folded-note and parting-heart reveals introduce the supplied text with staggered words. Opened messages stay readable when revisited; Pause/reduced motion opens them immediately. Preserve native staging, personal copy, fixed photo frames, lavender typography and oversized-content reading fallbacks.

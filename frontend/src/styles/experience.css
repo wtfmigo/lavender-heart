@@ -389,29 +389,6 @@ a:hover {
   color: var(--text-secondary);
   font-size: 1rem;
 }
-.opening {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-content: center;
-  text-align: center;
-  z-index: var(--layer-opening);
-  pointer-events: none;
-  background: var(--surface-start);
-}
-.opening-label {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 4rem);
-  margin: 0;
-  padding: var(--space-6);
-  overflow-wrap: anywhere;
-}
-.opening-line {
-  width: 48px;
-  height: 1px;
-  background: var(--color-purple-dusty);
-  margin: var(--space-4) auto;
-}
 .experience-unavailable {
   min-height: 100svh;
   padding: var(--space-24) var(--gutter);
@@ -519,9 +496,6 @@ a:hover {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .opening {
-    display: none;
-  }
   .navigation {
     transition: none;
   }
@@ -545,9 +519,6 @@ a:hover {
 }
 .experience:is([data-motion='reduced'], [data-scroll='native']) .hero-stage {
   position: relative;
-}
-.experience[data-motion='reduced'] .opening {
-  display: none;
 }
 @media (max-height: 600px) {
   .hero {

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 
 for (const width of [1440, 390]) {
   test(`photo frames reveal with their captions and reverse while scrolling at ${width}px`, async ({

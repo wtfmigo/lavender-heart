@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './experienceTest.js'
 import content from '../../public/content/experience.json' with { type: 'json' }
 
 test('an editorial spread reveals its photographs and associated note together', async ({

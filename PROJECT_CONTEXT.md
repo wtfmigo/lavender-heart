@@ -1,6 +1,6 @@
 # Lavender Heart — Project Context
 
-Updated 2026-10-12 to describe the current website and the owner's approved frontend-only cleanup. This replaces the earlier Phase 1 full-stack specification as the current scope. Earlier phase reports remain historical records.
+Updated 2026-10-12 for the clickable folder opening, Love surprises, fixed photo frames, and owner-requested repository photo cleanup. This is the current scope; earlier phase reports are historical records.
 
 ## 1. Identity and purpose
 
@@ -66,7 +66,9 @@ Today the owner edits files, saves explicitly, and reloads/rebuilds the site:
 
 Keep the JSON's top-level compatibility fields synchronized with their corresponding section content. Dates use `YYYY-MM-DD` or `null`. Preserve runtime validation, limited rich-text support, alt text, focal positions, and responsive image descriptors. No arbitrary HTML is accepted.
 
-Personal derivatives in `frontend/public/photos/personal/` are ignored by Git and must be restored separately after cloning. Keep photographs and originals safe during cleanup. Build output is replaceable; source content and personal media are not.
+Photo-frame proportions are saved per Story, Memory, Gallery, and Timeline slot in `frontend/src/features/public/photoFrames.json`. Replacing an image or updating its actual metadata must retain the existing frame and layout at the same viewport. Preserve the current cover/contain behavior and focal positions. Do not recalculate saved frames from replacement image dimensions.
+
+Personal derivatives in `frontend/public/photos/personal/` are ignored by Git and must be restored separately after cloning. Visual-review image/video captures in `docs/evidence/` also stay local because they can contain personal photographs. Tracked captures were removed from the current branch without deleting local copies; older Git history is not purged by that deletion. The tracked `photo01`–`photo31` files are stock development images, not the owner's personal pictures. Keep photographs and originals safe during cleanup. Build output is replaceable; source content and personal media are not.
 
 The optional relationship-days display uses the supplied relationship date and visibility flag. Do not invent a date to enable it. Further editing details are in `docs/birthday-content-editing.md`.
 
@@ -104,7 +106,7 @@ Support keyboard focus, semantic chapters, descriptive photo alternatives, touch
 
 There is no visitor authentication. Anyone with the deployed URL can access it. `noindex` is a discovery preference, not authorization. Do not add analytics, advertising trackers, visitor accounts, forms, comments, reactions, social sharing, background audio/video, or AI-generated personal content.
 
-For frontend changes run relevant unit/browser checks, lint, formatting, typecheck, and production build. Responsive animation work requires desktop, phone, and tablet portrait/landscape verification. Report physical-device and browser coverage honestly; emulation does not prove performance on every device.
+For frontend changes run relevant unit/browser checks, lint, formatting, typecheck, and production build. Responsive animation work requires desktop, phone, and tablet portrait/landscape verification. Folder checks must cover activation, reload, focus, background scroll lock, long names, and live reduced-motion changes; image-replacement checks must preserve frame bounds. Before pushing, inspect tracked and staged media so personal photos or captures are not accidentally included. Report physical-device and browser coverage honestly; emulation does not prove performance on every device.
 
 ## 10. Earlier CMS proposal
 

@@ -25,6 +25,14 @@
 /frontend/public/photos/personal/
 /.private-content/
 
-# Local visual-review captures contain personal photographs.
+# Visual-review captures can contain personal photographs; keep them local.
+/docs/evidence/**/*.png
+/docs/evidence/**/*.jpg
+/docs/evidence/**/*.jpeg
+/docs/evidence/**/*.webp
+/docs/evidence/**/*.avif
+/docs/evidence/**/*.gif
+/docs/evidence/**/*.mp4
+/docs/evidence/**/*.mov
 /docs/evidence/scroll-gallery-repair/
 /docs/evidence/visual-quality/

@@ -6,6 +6,8 @@
 
 ## 1. Design Vision
 
+Owner-requested Love refinement (2026-10-12): the Things I Love opening and statements use oversized solid/outlined numerals, asymmetric editorial text, reversible staggered word reveals and a thin scroll progress rail. Preserve native staging, personal copy, lavender typography, responsive choreography, Pause and reduced-motion/oversized-content reading fallbacks.
+
 Lavender Heart is an intimate, personal birthday experience with premium editorial composition and cinematic pacing. Authentic photographs and personal writing lead the story; a translucent lavender crystal heart provides its principal sculptural motif.
 
 The experience moves from **Lavender Day → Night**: warm ivory and pearl light become richer lavender, then deep plum and night violet. Negative space, image scale, typography, and restrained motion create emotional depth without excessive decoration.

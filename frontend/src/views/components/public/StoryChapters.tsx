@@ -271,14 +271,31 @@ export function LoveChapter({
       />
       <div className="love-stage" ref={stage}>
         <div className="love-window">
+          <div className="love-progress" aria-hidden="true">
+            <span>Things I Love</span>
+            <span className="love-progress-track">
+              <span className="love-progress-fill" />
+            </span>
+            <span>{String(items.length).padStart(2, '0')}</span>
+          </div>
           <ol className="love-sequence journey-content">
             {items.map((item, index) => (
               <li className="love-entry" key={item.id}>
                 <span className="love-number" aria-hidden="true">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <div>
-                  <h3>{item.statement}</h3>
+                <div className="love-copy">
+                  <h3>
+                    {item.statement.split(/(\s+)/).map((word, wordIndex) =>
+                      word.trim() ? (
+                        <span className="love-word-mask" key={wordIndex}>
+                          <span className="love-word">{word}</span>
+                        </span>
+                      ) : (
+                        word
+                      ),
+                    )}
+                  </h3>
                   {item.supportingText && <p>{item.supportingText}</p>}
                 </div>
               </li>

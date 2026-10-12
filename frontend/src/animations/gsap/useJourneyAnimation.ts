@@ -146,6 +146,7 @@ export function useJourneyAnimation(
       const memoryImage = query('.memory-image')
       if (
         memoryImage &&
+        !memoryImage.hasAttribute('data-fixed-photo-frame') &&
         !memory?.classList.contains('full-memory--portrait') &&
         !memoryImage.getAttribute('src')?.startsWith('/photos/personal/')
       ) {
@@ -311,6 +312,7 @@ export function useJourneyAnimation(
           const image = frame ? element.querySelector('img') : null
           if (
             image &&
+            !image.hasAttribute('data-fixed-photo-frame') &&
             !image.getAttribute('src')?.startsWith('/photos/personal/')
           )
             gsap.fromTo(

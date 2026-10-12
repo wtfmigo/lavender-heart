@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, type CSSProperties } from 'react'
 import { motion } from 'motion/react'
 import type { ExperiencePhoto } from '@/features/public/experience'
 import { useReducedMotion } from '@/controllers/hooks/useReducedMotion'
@@ -6,6 +6,7 @@ import '@/styles/gallery.css'
 import { HeartFallback } from '@/three/components/HeartFallback'
 import { collectionContent } from '@/features/public/collectionContent'
 import { PhotoGalaxy } from './PhotoGalaxy'
+import photoFrames from '@/features/public/photoFrames.json'
 
 export function Gallery({
   heading,
@@ -25,6 +26,7 @@ export function Gallery({
   const reduced = prefersReducedMotion || reducedMotion
   if (!photos.length) return null
   const current = photos[selected] ?? photos[0]
+  const currentFrame = photoFrames.gallery[selected] ?? photoFrames.gallery[0]
   function move(offset: number) {
     setSelected((index) => (index + offset + photos.length) % photos.length)
   }
@@ -36,12 +38,13 @@ export function Gallery({
   }
   function photo(index: number, role: string) {
     const item = photos[index]
+    const frame = photoFrames.gallery[index] ?? photoFrames.gallery[0]
     if (!item) return null
     return (
       <figure
         key={item.id}
         className={`gallery-photo collection-photo--${role}`}
-        data-orientation={item.height > item.width ? 'portrait' : 'landscape'}
+        data-orientation={frame.height > frame.width ? 'portrait' : 'landscape'}
       >
         <button
           type="button"
@@ -70,12 +73,13 @@ export function Gallery({
             alt={item.alt}
             loading="lazy"
             decoding="async"
+            data-fixed-photo-frame
             style={{
               objectPosition: `${item.focalX * 100}% ${item.focalY * 100}%`,
               aspectRatio:
                 role === 'keepsake'
                   ? '3 / 4'
-                  : `${item.width} / ${item.height}`,
+                  : `${frame.width} / ${frame.height}`,
             }}
           />
         </button>
@@ -223,6 +227,13 @@ export function Gallery({
               alt={current.alt}
               width={current.width}
               height={current.height}
+              style={
+                {
+                  '--photo-ratio': currentFrame.width / currentFrame.height,
+                  '--photo-width': `${currentFrame.width}px`,
+                  aspectRatio: `${currentFrame.width} / ${currentFrame.height}`,
+                } as CSSProperties
+              }
             />
             {current.caption && <figcaption>{current.caption}</figcaption>}
           </motion.figure>

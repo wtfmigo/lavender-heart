@@ -1,6 +1,7 @@
 import { useRef, useState, type CSSProperties } from 'react'
 import { useHorizontalStory } from '@/controllers/hooks/useHorizontalStory'
 import { useLoveSequence } from '@/controllers/hooks/useLoveSequence'
+import photoFrames from '@/features/public/photoFrames.json'
 import '@/styles/love-motion.css'
 import { ChapterScene } from './ChapterScene'
 import type {
@@ -68,15 +69,22 @@ function DateLabel({
 
 function MemoryPhoto({
   photo,
+  frame,
   className = '',
 }: {
   photo: ExperiencePhoto
+  frame: Pick<ExperiencePhoto, 'width' | 'height'>
   className?: string
 }) {
   return (
     <figure
       className={`chapter-photo ${className}`}
-      style={{ '--photo-ratio': photo.width / photo.height } as CSSProperties}
+      style={
+        {
+          '--photo-ratio': frame.width / frame.height,
+          '--photo-width': `${frame.width}px`,
+        } as CSSProperties
+      }
     >
       <div className="photo-window">
         <img
@@ -86,10 +94,9 @@ function MemoryPhoto({
           height={photo.height}
           loading="lazy"
           decoding="async"
+          data-fixed-photo-frame
           style={{
-            aspectRatio: photo.src.startsWith('/photos/personal/')
-              ? `${photo.width} / ${photo.height}`
-              : undefined,
+            aspectRatio: `${frame.width} / ${frame.height}`,
             objectPosition: `${photo.focalX * 100}% ${photo.focalY * 100}%`,
           }}
         />
@@ -106,6 +113,7 @@ function StoryMemory({
   item: ExperienceMemory
   index: number
 }) {
+  const frame = photoFrames.story[index] ?? photoFrames.story[0]
   return (
     <div className={`story-memory${item.photo ? '' : ' story-memory--text'}`}>
       <div className="story-copy">
@@ -125,10 +133,9 @@ function StoryMemory({
       {item.photo && (
         <MemoryPhoto
           photo={item.photo}
+          frame={frame}
           className={
-            item.photo.height > item.photo.width
-              ? 'photo-portrait'
-              : 'photo-landscape'
+            frame.height > frame.width ? 'photo-portrait' : 'photo-landscape'
           }
         />
       )}
@@ -223,13 +230,14 @@ export function FullWidthMemory({
   return (
     <section
       id="memory"
-      className={`full-memory${photo ? '' : ' full-memory--empty'}${photo && photo.height > photo.width ? ' full-memory--portrait' : ''}`}
+      className={`full-memory${photo ? '' : ' full-memory--empty'}`}
       aria-label={content.caption || 'Memory'}
     >
       {photo && (
         <div className="memory-depth">
           <img
             className="memory-image"
+            data-fixed-photo-frame
             src={photo.src}
             alt={photo.alt}
             width={photo.width}
@@ -327,12 +335,17 @@ export function TimelineChapter({
         variant="timeline"
       />
       <div className="timeline-moments journey-content">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <article className="timeline-moment" key={item.id}>
             <div
               className={`timeline-content${item.photo ? '' : ' timeline-content--text'}`}
             >
-              {item.photo && <MemoryPhoto photo={item.photo} />}
+              {item.photo && (
+                <MemoryPhoto
+                  photo={item.photo}
+                  frame={photoFrames.timeline[index] ?? photoFrames.timeline[0]}
+                />
+              )}
               <div className="timeline-copy">
                 {(item.date || item.dateLabel) && (
                   <div className="timeline-date">

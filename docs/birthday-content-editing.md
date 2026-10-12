@@ -41,4 +41,6 @@ Add more paragraph blocks for a longer letter. Supported marks are `bold` and `i
 
 Put supplied photos in `frontend/public/photos/` and update each descriptor's `src`, `alt`, actual pixel `width` / `height`, `caption`, and focal coordinates (`focalX` / `focalY` between 0 and 1). Set `smallSrc` only when that responsive file exists. Use a local `/photos/...` path or a trusted HTTPS image URL. Give each item a unique `id`. Never place private images in this publicly served directory unless they are intended for visitors.
 
+Replacing a photo keeps its existing slot size and layout, even when the replacement has different proportions or resolution. Keep `width` and `height` accurate for the new file; these describe the image, not the frame. The saved frame dimensions in `frontend/src/features/public/photoFrames.json` are presentation data and should stay unchanged when replacing photos. Story, Timeline and Memory fit the complete image inside the frame; Gallery thumbnails fill their existing frames. Responsive viewport sizing remains unchanged.
+
 For production, rebuild with `npm.cmd run build` after saving. No protected browser admin or upload workflow is provided by this file editing path. It requires access to the project files. There is no backend persistence or future-editor scaffold in the current application.

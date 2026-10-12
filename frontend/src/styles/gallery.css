@@ -318,9 +318,14 @@
   margin: 0;
 }
 .gallery-lightbox figure img {
+  --lightbox-photo-height: calc(100svh - 12rem);
   display: block;
   max-width: 100%;
-  width: auto;
+  width: min(
+    100%,
+    var(--photo-width),
+    calc(var(--lightbox-photo-height) * var(--photo-ratio))
+  );
   height: auto;
   max-height: calc(100svh - 12rem);
   object-fit: contain;
@@ -518,6 +523,7 @@
     flex-shrink: 0;
   }
   .gallery-lightbox figure img {
+    --lightbox-photo-height: 48svh;
     max-height: 48svh;
   }
   .gallery-lightbox figcaption {

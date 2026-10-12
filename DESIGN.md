@@ -6,6 +6,8 @@
 
 ## 1. Design Vision
 
+Owner-requested photo sizing (2026-10-12): every existing photo slot retains its current frame dimensions and orientation when its image is replaced. Frame geometry is stored separately from image metadata in `frontend/src/features/public/photoFrames.json`. Preserve current responsive grids, spacing, photo fit, and motion; replacement dimensions must not recompose the page.
+
 Owner-requested Love refinement (2026-10-12): the Things I Love opening and statements use oversized solid/outlined numerals, asymmetric editorial text, reversible staggered word reveals and a thin scroll progress rail. Preserve native staging, personal copy, lavender typography, responsive choreography, Pause and reduced-motion/oversized-content reading fallbacks.
 
 Lavender Heart is an intimate, personal birthday experience with premium editorial composition and cinematic pacing. Authentic photographs and personal writing lead the story; a translucent lavender crystal heart provides its principal sculptural motif.

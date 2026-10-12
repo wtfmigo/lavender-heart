@@ -52,7 +52,9 @@ Save, reload, and check desktop and phone before rebuilding.
 - `frontend/public/photos/personal/` is ignored by Git. Restore your private photos there separately after cloning; the saved gift content references files that are not included in the repo.
 - Visual-review screenshots under `docs/evidence/` and Playwright reports are ignored because they can show personal pictures.
 - The tracked `photo01`–`photo31` assets are stock development images, documented in [media assets](docs/birthday-media-assets.md).
-- Removing tracked screenshots from the latest branch does not erase copies in older Git commits. A history purge is a separate operation.
+- The Git history of both published branches has been rewritten to remove visual captures and personal-photo folders. GitHub may retain old cached commit views until Support purges them.
+
+If you cloned the repo before the history cleanup, back up your local photos and changes, then clone it again. Do not merge or push the old history back into the cleaned repository.
 
 Keep a separate backup of your originals. A production build copies local photos into `dist`, so a deployed website can expose those photos to anyone with its URL. `noindex` does not make it private.
 
